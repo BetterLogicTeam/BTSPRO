@@ -1,0 +1,56 @@
+.main_create_Page{
+    padding: 60px 0px;
+}
+
+.Create_page_heading{
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+    color: #252525;
+    /* border-bottom: 1px solid #000; */
+}
+
+
+.main_create_Page{
+    /* background-color: pink; */
+}
+
+.Img_meata_mask{
+    display: flex;
+    justify-content: center;
+}
+
+
+.create_heading{
+    text-align: center;
+    color: #252525;
+    font-size: 1.5rem;
+    margin-bottom: 0.5rem;
+    font-family: inherit;
+    font-weight: 500;
+    line-height: 1.2;
+}
+
+
+.Meta_mask_para{
+    text-align: center;
+    color: #252525;
+}
+
+
+.create_page_button
+{
+    border-radius: 10px;
+    -webkit-filter: drop-shadow(0 0 2.5px rgba(19,19,19,.16));
+    filter: drop-shadow(0 0 2.5px rgba(19,19,19,.16));
+    background-image: radial-gradient(circle at center,#1f4169 0,#0f2135 100%);
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin-top: 10px;
+ 
+    cursor: pointer;
+    color: white;
+border: 2px solid rgb(31, 65, 105);;
+}

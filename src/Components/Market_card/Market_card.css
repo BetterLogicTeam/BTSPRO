@@ -1,0 +1,148 @@
+.M-card{
+    width: 20rem;
+background-color: rgb(46, 46, 67);
+height: 100%!important;
+
+}
+.M-border{
+    border-radius:2pc;
+    
+
+}
+.M-card-border{
+    border-radius:2pc;
+    
+}
+
+.card-img-top{
+    border: none!important;
+    object-fit: contain;
+    width: auto;
+    height: auto;
+    border-radius: 9px;
+    max-width: 100%;
+}
+.circles{
+    border-radius: 50%;
+    border: 1px solid;
+}
+.img-circle {
+    position: absolute;
+    left: 16pc;
+    top: 24px;
+}
+.plus{
+    
+    position: absolute;
+    right: 24px;
+    top: -10px;
+}
+.content-1{
+    font-weight: 700 !important;
+    word-break: break-word;
+    cursor: pointer;
+    font-size: 107%;
+   
+}
+.C-1{
+    color: #29deda; 
+}
+.content-2{
+    position: relative;
+    top: -17px;
+}
+.C-2{
+    font-weight: 700;
+
+}
+.C-2-heart{
+    background-image: linear-gradient(19deg,#9cd6e1,#d2b4da);
+    padding: 11px 11px 5px;
+    border-radius: 50%;
+    width: 16%;
+    height: 3pc;
+    position: relative;
+    top: -9px;
+}
+.content-3{
+    position: relative;
+    top: -27px;
+    text-align: start;
+    font-weight: 700;
+}
+.Card-btn{
+    background-image: linear-gradient(90deg,#18e9d9 0,#4fa4e1 51%,#875fea);
+    border: none;
+    border-radius: 50pc;
+    width: 20%;
+    height: 2pc;
+}
+.card-flex{
+   display: grid;
+   grid-template-columns: 1fr 1fr 1fr;
+}
+.heading-brower{
+    font-size: 5pc;
+}
+@media only screen and (max-width: 373px) {
+    .card-flex{
+        display: grid;
+        grid-template-columns: 1fr  ;
+   
+     }
+     .heading-brower{
+        font-size: 2pc;
+    }
+     .M-border{
+       width: 17rem;
+       left: 14px;
+    
+    }
+    .img-circle {
+        
+        left: 14pc;
+        top: 24px;
+    }
+    .border-card {
+        
+        width: 100% !important;
+    }
+    
+    
+}
+@media only screen and (min-width: 374px) and (max-width: 600px){
+
+    /* .wwww{
+        padding-right: 12px;
+    
+    } */
+    .card-flex{
+        display: grid;
+        grid-template-columns: 1fr  ;
+   
+     }
+     .heading-brower{
+        font-size: 3pc;
+    }
+     .border-card {
+        
+        width: 100% !important;
+    }
+    .M-border{
+        
+        left: 14px;
+     
+     }
+}
+@media only screen and (min-width: 600px) and (max-width: 1080px){
+
+    .card-flex{
+        display: grid;
+        grid-template-columns: 1fr 1fr  ;
+   
+     }
+     .border-card {
+        
+        width: 100% !important;
+    }
+}

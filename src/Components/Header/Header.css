@@ -1,0 +1,118 @@
+.nav-widget-form .search-form {
+    position: relative;
+    margin: 0 auto;
+    border-radius: 0;
+    border: none;
+    width: 250px;
+    border-radius: 15px;
+}
+
+.nav_main{
+    background-color: rgb(10,24,49);
+    /* position: fixed; */
+}
+.asa{
+    text-decoration: none !important;
+}
+
+.nav-widget-form .search-form .form-control {
+    background-color: #14233d;
+    border-radius: 5px;
+    height: 50px;
+    line-height: 50px;
+    font-size: 15px;
+    margin: 0;
+    border: none;
+    padding: 0 15px;
+    color: var(--whiteColor);
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    font-weight: 400;
+    background-clip: padding-box;
+    appearance: none;
+    transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out,-webkit-box-shadow .15s ease-in-out;
+}
+
+[type=search] {
+    outline-offset: -2px;
+}
+
+.nav-widget-form .search-form button {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border: 0;
+    border-radius: 0;
+    background-color: transparent;
+    color: var(--whiteColor);
+    height: 50px;
+    line-height: 50px;
+    font-size: 20px;
+    padding: 0 15px;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    border-radius: 0 5px 5px 0;
+}
+
+[type=submit], button {
+    color: white !important;
+}
+
+[type=submit]:not(:disabled), button:not(:disabled) {
+    cursor: pointer;
+}
+
+.pink:hover{
+    background-color: #f14d5d !important;
+}
+
+.creat_btn{
+    font-size: 15px;
+    color: white !important;
+    padding: 4px 9px 4px;
+    background-color: #14233d;
+    border-radius: 15px;
+    border: none;
+}
+
+.creat_btn:hover{
+    font-size: 15px;
+    color: white !important;
+    padding: 4px 9px 4px;
+    background-color: #14233d;
+    border-radius: 15px;
+    border: none;
+}
+
+.connect_btn{
+    font-size: 15px;
+    color: white !important;
+    padding: 4px 9px 4px;
+    background-color: #f14d5d;
+    border: none;
+    border-radius: 15px;
+}
+
+.connect_btn:hover{
+    font-size: 15px;
+    color: white !important;
+    padding: 4px 9px 4px;
+    background-color: #f14d5d;
+    border: none;
+    border-radius: 15px;
+}
+
+.nev{
+    margin: 0px 18px;
+    text-decoration: none !important;
+}
+
+@media screen and (max-width:800px) {
+    
+    .creat_btn{
+        margin-bottom: 20px !important;
+    }
+}

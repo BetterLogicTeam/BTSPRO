@@ -1,0 +1,280 @@
+.banner-area {
+    background-color: #0a1831;
+    padding: 99px 0 70px;
+    /* position: relative; */
+    z-index: 1;
+    overflow: hidden;
+}
+
+.banner-content span {
+    font-size: 18px;
+    color: #f14d5d;
+    display: block;
+    margin-bottom: 10px;
+}
+
+.banner-content h1 {
+    font-size: 56px;
+    margin-bottom: 20px;
+    line-height: 1.2;
+    color: white;
+    font-weight: 600;
+}
+
+.banner-content p {
+    margin-bottom: 30px;
+    max-width: 700px;
+    color: white;
+}
+
+.default-btn {
+    padding: 12px 25px 10px;
+    text-align: center;
+    color: white!important;
+    font-size: var(--fontSize);
+    font-weight: 600;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    display: inline-block;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 8px;
+    z-index: 0;
+    background: #f14d5d;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 0;
+}
+
+.banner-content .banner-btn .two {
+    margin-left: 20px;
+}
+
+.default-btn.two {
+    background: rgb(141,153,255);
+}
+
+.default-btn:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 550px;
+    height: 550px;
+    margin: auto;
+    background: rgb(141,153,255);
+    border-radius: 8px;
+    z-index: -1;
+    -webkit-transform-origin: top center;
+    transform-origin: top center;
+    -webkit-transform: translateX(-50%) translateY(-5%) scale(.4);
+    transform: translateX(-50%) translateY(-5%) scale(.4);
+    -webkit-transition: -webkit-transform .9s;
+    transition: -webkit-transform .9s;
+    transition: transform .9s;
+    transition: transform .9s,-webkit-transform .9s;
+}
+
+.banner-card {
+    margin-bottom: 30px;
+    border-radius: 5px;
+}
+
+.banner-card .banner-card-img {
+    position: relative;
+}
+
+.banner-card .banner-card-img .banner-card-content {
+    position: absolute;
+    padding: 15px;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    z-index: 1;
+    background-color: transparent;
+    display: -moz-box;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+}
+
+img {
+    max-width: 100%;
+}
+
+.banner-card .banner-card-img .banner-card-content:before {
+    content: "";
+    position: absolute;
+    z-index: -1;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-color: hsla(0,0%,98%,.35);
+    backdrop-filter: blur(25px);
+    border-radius: 5px !important;
+    border: 1px solid hsla(0,0%,98%,.5);
+}
+
+.banner-card .banner-card-img .banner-card-content .card-left span {
+    font-size: 15px;
+    color: white;
+    margin-bottom: 7px;
+    display: block;
+    font-weight: 400;
+}
+
+.banner-card .banner-card-img .banner-card-content .card-left h3 {
+    font-size: 20px;
+    color: white;
+    margin-bottom: 0;
+}
+
+.banner-card .banner-card-img .banner-card-content .card-right h3 {
+    font-size: 16px;
+    color: black;
+    margin-bottom: 0;
+}
+
+.banner-card .banner-card-img .banner-card-content .card-right .timer-text {
+    font-size: 18px;
+    padding-left: 8px;
+    color: white;
+    font-weight: 600;
+}
+
+.banner-card .content {
+    padding: 15px 10px;
+    background-color: white;
+    display: -moz-box;
+    display: flex;
+    -moz-box-align: center;
+    align-items: center;
+    -moz-box-pack: justify;
+    justify-content: space-between;
+    border-radius: 0 0 5px 5px;
+    position: relative;
+}
+
+.banner-card .content .banner-user-list {
+    position: relative;
+    padding-left: 70px;
+}
+
+.banner-card .content .banner-user-list .banner-user-list-img {
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+    left: 0;
+}
+
+.banner-card .content .banner-user-list .banner-user-list-img img {
+    border-radius: 50%;
+}
+
+.banner-card .content .banner-user-list .banner-user-list-img i {
+    position: absolute;
+    bottom: 5px;
+    right: -10px;
+    text-align: center;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    font-size: 14px;
+    border-radius: 50px;
+    background-color: lightblue;
+    color: white;
+}
+
+.banner-card .content .banner-user-list h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.banner-card .content .banner-user-list h3 {
+    font-size: 18px;
+    margin-bottom: 3px;
+}
+
+.banner-card .content .banner-user-list span {
+    font-size: 14px;
+    color: var(--bodyColor);
+}
+
+.banner-card .content .banner-user-list span a {
+    color: var(--bodyColor);
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.banner-card .content .banner-user-btn {
+    width: 32px;
+    height: 32px;
+    line-height: 32px;
+    font-size: 18px;
+    border-radius: 50px;
+    background-color: #f14d5d;
+    color: white;
+    text-align: center;
+    display: inline-block;
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.banner-card .content .default-btn {
+    top: 50%;
+    opacity: 0;
+    right: 10px;
+    visibility: hidden;
+    position: absolute;
+    -webkit-transform: translateY(-50%);
+    transform: translateY(-50%);
+    -webkit-transition: var(--transition);
+    transition: var(--transition);
+}
+
+.default-btn:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    width: 550px;
+    height: 550px;
+    margin: auto;
+    background: rgb(141,153,255);
+    border-radius: 8px;
+    z-index: -1;
+    -webkit-transform-origin: top center;
+    transform-origin: top center;
+    -webkit-transform: translateX(-50%) translateY(-5%) scale(.4);
+    transform: translateX(-50%) translateY(-5%) scale(.4);
+    -webkit-transition: -webkit-transform .9s;
+    transition: -webkit-transform .9s;
+    transition: transform .9s;
+    transition: transform .9s,-webkit-transform .9s;
+}
+
+.banner-card.banner-card-mt {
+    margin-top: 50px;
+    margin-bottom: 0;
+}
+
+
+
+@media only screen and (max-width:600px){
+    .banner-content h1 {
+font-size: 34px !important;
+    }
+}
+

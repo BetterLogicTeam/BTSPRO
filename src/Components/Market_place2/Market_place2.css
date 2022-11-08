@@ -1,0 +1,82 @@
+.imge-border-radius,.imge-border{
+    border-radius: 21px;
+    width: 100%;
+    
+}
+.dropss{
+    background: radial-gradient(#204169,#102135)!important;
+    color: white;
+    padding: 19px;
+    border-radius: 22px!important;
+}
+.padding_toppp_market_place{
+    padding: 70px 20px;
+}
+
+th, td{
+border: 1px solid white;
+
+}
+.table-border {
+font-size: 19px;
+}
+.agian-circle{
+    border-radius: 50%;
+    width: 16%;
+    
+}
+.icon-grid{
+    border-radius: 50%;
+    background-image: linear-gradient(90deg,#29deda 0,#45aef1 51%,#8562ea)!important;
+    border: none;
+    width: 13%;
+    height: 74%;
+    color: white;
+}
+.icon-grid-b{
+    background-image: linear-gradient(90deg,#29deda 0,#45aef1 51%,#8562ea)!important;
+    width: 32%;  
+    height: 42px; 
+    border: none;
+    border-radius: 50pc;
+    
+}
+.current-price-m{
+    background: radial-gradient(#204169,#102135)!important;
+    border-radius: 19px;
+}
+.w-25-m{
+    width: 7%;
+}
+@media only screen and (max-width: 375px) {
+    .overflow {
+   overflow-x: scroll;
+    }
+    .agian-circle{
+       
+        width: 18%;
+        
+    }
+    .icon-grid{
+        width: 11%;
+        height: auto;
+        
+       
+    }
+}
+@media only screen and (min-width: 376px) and (max-width: 600px){
+    .agian-circle{
+       
+        width: 16%;
+        
+    }
+    .icon-grid{
+        width: 9%;
+        height: auto;
+        
+       
+    }
+    .overflow {
+        overflow-x: scroll;
+         }
+}

@@ -1,0 +1,129 @@
+.main_footer_bg{
+    padding-top: 80px ;
+    padding-bottom: 30px;
+    background-color: #e1e1e1 !important;
+}
+
+.footer_para{
+    margin-bottom: 20px;
+    color:  #666;
+    margin-top: 10px;
+    line-height: 1.6;
+    font-weight: 400;
+    font-size: 16px;
+}
+
+.footer_input_here{
+    background:white !important;
+    height: 50px;
+    line-height: 50px;
+    margin: 0;
+    border-radius: 5px;
+    padding: 0 15px;
+    font-size: 1rem;
+    font-weight: 400;
+    border: none !important;
+    outline: none;
+}
+
+.footer_input_here:focus{
+    border: 2px solid var(--pink) !important;
+}
+.copyright_para{
+    color: #666;
+    line-height: 1.6;
+    font-weight: 400;
+}
+
+.company_name{
+    color: var(--pink);
+    font-weight: 600;
+    text-decoration: none;
+}
+.lower_footer_ul{
+    margin: 0px;
+    padding:0px ;
+    list-style-type: none !important;
+    display: flex;
+}
+
+.lower_footer_links{
+    color: #666;
+}
+
+
+.lower_footer_links:hover{
+    color: var(--pink);
+}
+.company_name:hover{
+    color: var(--pink);
+}
+
+
+.footer_btn_here{
+    height: 50px;
+    border-radius: 5px;
+    padding: 12px 20px 9px;
+    font-size: 16px;
+    background-color: var(--pink) !important;
+    border: none;
+    outline: none;
+}
+
+.footer_links_here{
+    margin-bottom: 30px;
+}
+.footer_link_heading{
+    margin-top: 0;
+    font-size: 24px;
+    margin-bottom: 25px;
+    color:#000;
+    line-height: 1.2;
+    position: relative;
+    z-index: 1;
+    padding-bottom: 10px;
+    font-weight: 700;
+}
+
+.social_links_ico{
+    color: var(--pink);
+    margin-left: 10px;
+    font-size: 18px;
+}
+
+
+.social_links_ico:hover{
+    background-color: var(--pink);
+    color: white !important;
+    /* padding: 20px; */
+    border-radius: 50%;
+}
+
+
+.footer_link_heading::before{
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 35px;
+    height: 3px;
+    background-color:#8d99ff;
+}
+
+
+.footer_links_link{
+   text-decoration: none;
+   color: #666;
+   text-align: left;
+   font-size: 19px;
+   font-weight: 530;
+}
+
+.footer_links_link:hover{
+    color: var(--pink);
+}
+
+.footer_list{
+    list-style: none !important;
+    text-align: left;
+}

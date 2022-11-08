@@ -1,0 +1,13 @@
+.swiper-pagination-bullet{
+    background-color: rgb(241,77,93) !important;
+}
+
+.swiper-pagination-bullet-active{
+    background-color: rgb(241,77,93) !important;
+}
+
+@media screen and (max-width: 800px) {
+    .owl-item{
+        width: auto !important;
+    }
+}

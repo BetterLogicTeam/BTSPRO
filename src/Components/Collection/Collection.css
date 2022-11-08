@@ -1,0 +1,29 @@
+.card-flex-c{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
+}
+.heading-brower-1{
+    font-size: 5pc;
+}
+@media only screen and (max-width: 400px){
+
+    .card-flex-c{
+        display: grid;
+        grid-template-columns: 1fr ;
+    
+    }
+    .heading-brower-1{
+        font-size: 2pc;
+    }
+}
+@media only screen and (min-width: 400px) and (max-width: 900px){
+    .card-flex-c{
+        display: grid;
+        grid-template-columns: 1fr 1fr ;
+    
+    }
+    .heading-brower-1{
+        font-size: 3pc;
+    }
+}

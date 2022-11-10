@@ -6,6 +6,10 @@
 .overflow-hidden{
     border-radius: 22px;
 }
+
+.collection_card_heading{
+    font-size: 18px !important;
+}
 @media only screen  and (max-width: 450px){
 .card-2-coll{
     width: 18rem;

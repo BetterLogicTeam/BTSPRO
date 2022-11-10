@@ -15,6 +15,7 @@ import { BrowserRouter,Route,Router, Routes } from 'react-router-dom';
 import Market_main from "./Components/Maeket_main/Market_main"
 import Market_place2 from "./Components/Market_place2/Market_place2"
 import Collection from "./Components/Collection/Collection"
+import Create_pro from './Components/Create_pro/Create_pro';
 
 
 function App() {
@@ -28,6 +29,7 @@ function App() {
        <Route path='/create' element={<Create_page/>}/>
        <Route path='/collection' element={<Collection/>}/>
        <Route path='/Market_place2' element={<Market_place2/>}/>
+       <Route path='/Create_pro' element={<Create_pro/>}/>
       
       
     </Routes>

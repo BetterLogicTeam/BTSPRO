@@ -16,7 +16,7 @@ function M_side2() {
     <div>
        <div className="card mt-5  ">
         <div className="">
-            <h3 className='head-1 pt-2 ps-4 text-start' ><b>Collections</b> </h3><hr className='w-100 hr'/>
+            <h3 className='head-1 py-2 mb-0 ps-4 text-start' ><b className='py-3 m-0 my-4'>Collections</b> </h3><hr className='w-100 hr m-0'/>
         </div>
 
         <div className="market-check collection border-card-3">

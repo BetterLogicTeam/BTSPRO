@@ -1,0 +1,61 @@
+.c{
+  width: 100%;
+}
+
+.card:hover .card-title{
+color: #f14d5d;
+}
+.author-user img {
+    border-radius: 5px;
+    border: 3px solid #f14d5d;
+    max-width: 54px;
+}
+.author-user .icon {
+    color: #8d99ff;
+}
+.btn{
+    background: #f14d5d;
+}
+.btn:hover{
+    background: #8d99ff;
+}
+.author-user{
+    margin-top: -30px;
+    margin-left:15px;
+}
+.card-body{
+    padding:15px 25px;
+}
+.dropup {
+    position: relative;
+    display: inline-block;
+  }
+  .icoo-color{
+    color: #8d99ff;
+  }
+  
+  .dropup-content {
+    display: none;
+    position: absolute;
+    /* background-color: #f1f1f1; */
+    min-width: 160px;
+    bottom: 14px;
+    z-index: 1;
+  }
+  
+  /* .dropup-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+  } */
+  
+  /* .dropup-content a:hover {background-color: #ccc} */
+  
+  .dropup:hover .dropup-content {
+    display: block;
+  }
+  
+  .dropup:hover .dropbtn {
+    background-color: #2980B9;
+  }

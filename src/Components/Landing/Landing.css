@@ -276,5 +276,25 @@ img {
     .banner-content h1 {
 font-size: 34px !important;
     }
+
+
+    .responsive_dir{
+        display: flex !important;
+        flex-direction: column !important;
+    }
+
+    .responsive_btttn{
+        width: 100% !important;
+    }
+
+    .res_mar{
+        margin-left: 0px !important;
+        margin-top: 10px !important;
+        margin-bottom: 10px !important;
+    }
+
+    .responsive_content{
+        padding-top: 20px !important;
+    }
 }
 

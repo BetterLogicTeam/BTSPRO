@@ -6,8 +6,9 @@
     font-size: 2rem;
     margin-bottom: 0.5rem;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 700;
     line-height: 1.2;
+    
     color: #252525;
     /* border-bottom: 1px solid #000; */
 }
@@ -29,8 +30,12 @@
     font-size: 1.5rem;
     margin-bottom: 0.5rem;
     font-family: inherit;
-    font-weight: 500;
+    font-weight: 650;
     line-height: 1.2;
+}
+
+.btnn_headinggggg{
+    font-weight: 650 !important;
 }
 
 

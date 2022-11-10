@@ -19,12 +19,12 @@ function Landing() {
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-6">
-<div className="banner-content">
+<div className="banner-content responsive_content">
     <span>Buying &amp; Selling NFT World</span><h1>Discover, Collect, and Sell Extraordinary NFTs</h1>
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam etiam rhoncus aenean a iaculis aliquet rhoncus sed. Accumsan sit consequat, sodales consectetur. Egestas scelerisque ut dui sed nulla morbi quam eget luctus. In a vel morbi sed nisi.</p>
-    <div className="banner-btn">
-        <a className="default-btn border-radius-5" href="/about">Explore More</a>
-        <a className="default-btn two border-radius-5" href="/add-wallet">Connect NFT</a>
+    <div className="banner-btn responsive_dir">
+        <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a>
+        <a className="default-btn two border-radius-5 responsive_btttn res_mar " href="/add-wallet">Connect NFT</a>
                                     </div>
                                 </div>
                             </div>

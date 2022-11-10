@@ -14,6 +14,9 @@
 .asa{
     text-decoration: none !important;
 }
+.header_logo{
+    width: 50% !important;
+}
 
 .nav-widget-form .search-form .form-control {
     background-color: #14233d;
@@ -106,7 +109,7 @@
 }
 
 .nev{
-    margin: 0px 18px;
+    margin: 0px 16px !important;
     text-decoration: none !important;
 }
 

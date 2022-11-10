@@ -8,13 +8,13 @@ import "./Create_sell.css"
 
 function Create_sell() {
   return (
-    <div className='py-5'>
+    <div className='creaaaaate_seeeel'>
         <div className="create-area pt-100 pb-70">
-            <div className="container">
+            <div className="container mt-3">
                 <div className="section-title text-center">
                     <h2>Create And Sell Your NFTs</h2>
                     </div>
-                    <div className="row align-items-center pt-45">
+                    <div className="row mt-5 align-items-center pt-45">
                         <div className="col-lg-6">
                             <div className="create-img">
                                 <img src={create_img} alt="Images"/>

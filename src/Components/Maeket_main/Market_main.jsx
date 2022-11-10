@@ -6,16 +6,16 @@ import "./Market_main.css"
 
 function Market_main() {
   return (
-    <div className='padding_top_market'>
+    <div className='paadddddddd'>
       <div className='container-fluid'>
         <div className="heading-brower text-start ">
           <h1 className='heading-brower'>Browse By Category</h1>
         </div>
-<div className="row py-5   ">
+<div className="row  ">
   <div className="col-lg-3 col-md-5 col-sm-12">
 <Market_side/>
   </div>
-  <div className="col-lg-9 col-md-7 col-sm-12 ">
+  <div className="col-lg-9 col-md-7 col-sm-12  ">
   <Market_pip/>
     <div className="card-flex ">
     <Market_card img="img_1.gif" img2="img_1-1.gif"/>

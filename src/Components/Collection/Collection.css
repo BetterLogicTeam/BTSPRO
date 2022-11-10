@@ -6,6 +6,11 @@
 .heading-brower-1{
     font-size: 5pc;
 }
+
+
+.colecction_paddddding{
+    padding: 100px 0px;
+}
 @media only screen and (max-width: 400px){
 
     .card-flex-c{

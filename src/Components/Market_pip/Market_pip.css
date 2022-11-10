@@ -3,6 +3,7 @@
     background: #071b36!important;
     color: white;
     border-radius: 8px;
+    padding: 10px !important;
 }
 .dropdown-menu{
     background: #071b36!important;
@@ -15,4 +16,11 @@
 }
 .bbb1{
     border-bottom: 1px solid white;
+}
+
+
+@media only screen and (max-width:600px){
+    .res_fss{
+        font-size: 14px !important;
+    }
 }

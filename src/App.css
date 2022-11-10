@@ -1,7 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans&display=swap');
+
+
+
 .App {
   text-align: center;
 }
 
+body{
+  font-family: "Josefin Sans",sans-serif !important;
+}
 .App-logo {
   height: 40vmin;
   pointer-events: none;

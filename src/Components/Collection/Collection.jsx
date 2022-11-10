@@ -5,10 +5,10 @@ import Market_pip from '../Market_pip/Market_pip'
 import M_side2 from '../M_side2/M_side2'
 function Collection() {
   return (
-    <div>
+    <div className='colecction_paddddding'>
        <div className='container-fluid'>
         <div className="heading-brower text-start ">
-          <h1 className='heading-brower-1 '>Browse By Collections</h1>
+          <h1 className='heading-brower-1 mt-3 '>Browse By Collections</h1>
         </div>
 <div className="row  ">
   <div className="col-lg-3 col-md-4 col-sm-12">

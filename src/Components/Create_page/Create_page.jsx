@@ -25,7 +25,7 @@ function Create_page() {
                 <div className="col-md-3">
                       <div className='d-flex create_page_button'>
                         <img src={download} style={{height:'25px' ,marginLeft:'15px'}} alt="" />
-                        <span className='mx-auto'>
+                        <span className='mx-auto btnn_headinggggg'>
                         Metamask
                         </span>
                       </div>
@@ -35,7 +35,7 @@ function Create_page() {
                 <div className="col-md-3">
                       <div className='d-flex create_page_button'>
                         <img src={trust} style={{height:'25px' ,marginLeft:'15px'}} alt="" />
-                        <span className='mx-auto'>
+                        <span className='mx-auto btnn_headinggggg'>
                         Trust Wallet
                         </span>
                       </div>
@@ -45,7 +45,7 @@ function Create_page() {
                 <div className="col-md-3">
                       <div className='d-flex create_page_button'>
                         <img src={wallet} style={{height:'25px' ,marginLeft:'15px'}} alt="" />
-                        <span className='mx-auto'>
+                        <span className='mx-auto btnn_headinggggg'>
                         WalletConnect
                         </span>
                       </div>
@@ -55,7 +55,7 @@ function Create_page() {
                 <div className="col-md-3">
                       <div className='d-flex create_page_button'>
                         <img src={pha} style={{height:'25px' ,marginLeft:'15px'}} alt="" />
-                        <span className='mx-auto'>
+                        <span className='mx-auto btnn_headinggggg'>
                         Phantom
                         </span>
                       </div>

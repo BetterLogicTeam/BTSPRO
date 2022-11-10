@@ -18,7 +18,7 @@ function Market_card(props) {
                 </span>
             </div>
         </div>
-    <div className='border  M-border  pb-3 pt-3 px-4'>
+    <div className='border essssss  M-border  pb-3 pt-3 px-4'>
   <img src={props.img}className="card-img-top M-border px-1" alt="..."/></div></Link>
 <div className="content-1 pt-3 text-start ms-4">
     <p className='C-1'>Kool Ape Social Club</p>
@@ -32,7 +32,8 @@ function Market_card(props) {
     <span className='fs-6 text-white '> Asking Price :</span><span className='fs-6 text-info'> 0.04 <img src="bnc.png" alt="" /></span>
     <button className='Card-btn float-end fs-6 me-3 text-white '><b>Buy</b> </button>
 </div>
-</div></div> 
+</div>
+</div> 
 
   )
 }

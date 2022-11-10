@@ -12,6 +12,7 @@ import "./Footer.css"
 
 function Footer() {
   return (
+    <>
     <div className=" main_footer_bg">
 
       {/* <footer class="footer-area pt-100 pb-70">
@@ -191,7 +192,7 @@ function Footer() {
       </div>
       <p className="footer_para">Subscribe to our newsletter</p>
 
-      <div>
+      <div className="foooter_main_respo">
         <input type="text" className="footer_input_here" placeholder="Enter Your Email" name="" id="" />
         <button className="footer_btn_here"> Subscribe Now</button>
       </div>
@@ -255,7 +256,11 @@ function Footer() {
    </div>
 </div>
 
-<div className="container mt-3">
+
+
+    </div>
+<div className="looooowerfoooter bg-white py-2">
+<div className="container mt-3 bg-white">
      <div className="row justify-content-between">
       <div className="col-lg-4">
         <p className="copyright_para">© 2021 Gible. All Rights Reserved by <a href="#" className="company_name">BTSPRO</a></p>
@@ -266,7 +271,7 @@ function Footer() {
           <li className=" lower_footer_links">Privacy Policy</li>
         </ul>
       </div>
-      <div className="col-lg-4">
+      <div className="col-lg-4 ">
         <div className="social_ico">
           <FaFacebookF  className='social_links_ico'></FaFacebookF>
           <AiFillInstagram  className='social_links_ico'></AiFillInstagram>
@@ -277,8 +282,8 @@ function Footer() {
      </div>
 
 </div>
-
-    </div>
+</div>
+</>
   );
 }
 

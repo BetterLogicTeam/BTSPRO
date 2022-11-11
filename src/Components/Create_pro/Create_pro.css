@@ -59,13 +59,13 @@
 .Create_input
   {  /* background: 0 0; */
     border: none;
-    caret-color: #fff;
+    color: #fff !important;
     height: 40px;
     padding-left: 10px;
     font-size: 17px;
     letter-spacing: 0;
     line-height: 33px;
-    color: #fff;
+
     font-family: mulish;
     width: 100% !important;
     /* width: inherit; */
@@ -93,6 +93,17 @@
     color: #fff;
     font-family: mulish;
     width: 100% !important;
+    }
+
+    .create_btn_s{
+        filter: drop-shadow(1.338px 1.486px 0.5px rgba(19,19,19,.17));
+        background-image: linear-gradient(90deg,#17e9d9,#4fa3e1 50%,#875fe9);
+        border: none;
+        color: #fff;
+        display: inline-block;
+        padding: 10px 20px;
+        border-radius: 25px;
+        font-weight: 600;
     }
 
 

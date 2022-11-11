@@ -25,7 +25,7 @@
     <div className="col-md-6">
         <label className='input_lebals' htmlFor="name">Name</label>
         <br />
-        <input type="text" className='Create_input' placeholder='Name of your NFT' name="" id="name" />
+        <input type="text" className='Create_input text-white' placeholder='Name of your NFT' name="" id="name" />
     </div>
     <div className="col-md-6">
         <label className='input_lebals' htmlFor="name">Category</label>
@@ -46,7 +46,17 @@
         <div>
          <label htmlFor="mint" className='input_lebals'>Select Collection to mint from</label> 
          <br />
-         <input type="text" className='Create_input' placeholder='Undefined ETH' id='mint'  />    
+         {/* <input type="text" className='Create_input' placeholder='Undefined ETH' id='mint'  />     */}
+         <div class="dropdown">
+  <button className="Create_input dropdown-toggle text-start" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  Undefined ETH
+  </button>
+  <ul className="dropdown-menu Create_input" aria-labelledby="dropdownMenuButton1">
+    <li><a className="dropdown-item text-white" href="#">Action</a></li>
+    {/* <li><a class="dropdown-item" href="#">Another action</a></li>
+    <li><a class="dropdown-item" href="#">Something else here</a></li> */}
+  </ul>
+</div>
         </div>
     </div>
 
@@ -62,6 +72,28 @@
     </div>
 
 </div>
+  <div className="row">
+    <h3 className='input_lebals mt-3'>
+    Properties
+    </h3>
+        <div className="col-md-3">
+        <button className='create_btn_s'>
+    Add New Property
+    </button>
+        </div>
+
+  </div>
+  <div className="row">
+    <h3 className='input_lebals mt-3'>
+    You can select payment tokens while minting NFTs
+    </h3>
+        <div className="col-md-3">
+        <button className='create_btn_s'>
+        Create
+    </button>
+        </div>
+
+  </div>
                           
             
             </div>

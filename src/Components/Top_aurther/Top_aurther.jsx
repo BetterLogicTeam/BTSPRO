@@ -4,7 +4,7 @@ import "./Top_aurther.css"
 function Top_aurther() {
   return (
     <div className='top-back pt-3 pb-5'>
-      <div className="container-fluid">
+      <div className="container">
       <div className="live  mt-5">
         <div className="row">
           <div className="col-lg-6 col-sm-12  ">   <p className='text-start text-white live-fs'><b>Top Author</b> </p></div>

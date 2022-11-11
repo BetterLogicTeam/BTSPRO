@@ -5,7 +5,7 @@ import "./Featured_main.css"
 function Featured_main() {
   return (
     <div>
-      <div className="container-fluid mt-5 ">
+      <div className="container mt-5 ">
       <div className="row  px-3">
           <div className="col-lg-6 col-sm-12  ">   <p className='text-start live-fs'><b>Featured Assets</b> </p></div>
           <div className="col-lg-6 col-sm-12  text-start  text-md-end"> 

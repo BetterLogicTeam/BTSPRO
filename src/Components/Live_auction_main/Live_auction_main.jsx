@@ -13,7 +13,7 @@ import Live_oction from '../Live_oction/Live_oction';
 function Live_auction_main() {
   return (
     <div className='live-back pt-3 pb-5'> 
-      <div className="live  container-fluid mt-5">
+      <div className="live  container mt-5">
         <div className="row px-3">
           <div className="col-lg-6 col-sm-12  ">   <p className='text-start live-fs'><b>Live Auctions</b> </p></div>
           <div className="col-lg-6 col-sm-12  text-start text-md-end">  <button className='btn text-white '>Explore More</button></div>
@@ -22,6 +22,7 @@ function Live_auction_main() {
       
       </div>
         <div className='d-none d-lg-block' >
+          
       <>
       <Swiper
         slidesPerView={3}
@@ -29,6 +30,7 @@ function Live_auction_main() {
         pagination={{
           clickable: true,
         }}
+        loop={true}
         modules={[Pagination]}
         className="mySwiper"
       >

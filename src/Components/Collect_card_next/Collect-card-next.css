@@ -1,5 +1,5 @@
 .M-card{
-    width: 17rem;
+    /* width: 20rem; */
 background-color: rgb(46, 46, 67);
 height: 100%!important;
 
@@ -11,7 +11,6 @@ height: 100%!important;
 }
 .M-card-border{
     border-radius:2pc;
-    padding: 10px !important;
     
 }
 
@@ -29,8 +28,7 @@ height: 100%!important;
 }
 .img-circle {
     position: absolute;
-    /* left: 30px; */
-    right: -30px;
+    left: 14pc;
     top: 24px;
 }
 .plus{
@@ -61,7 +59,7 @@ height: 100%!important;
     background-image: linear-gradient(19deg,#9cd6e1,#d2b4da);
     padding: 11px 11px 5px;
     border-radius: 50%;
-    width: 21%;
+    width: 16%;
     height: 3pc;
     position: relative;
     top: -9px;
@@ -82,7 +80,6 @@ height: 100%!important;
 .card-flex{
    display: grid;
    grid-template-columns: 1fr 1fr 1fr;
-   padding-left: 8px;
 }
 .heading-brower{
     font-size: 5pc;
@@ -97,13 +94,13 @@ height: 100%!important;
         font-size: 2pc;
     }
      .M-border{
-        width: 17rem;
-    
+       width: 17rem;
+       left: 14px;
     
     }
     .img-circle {
         
-        left: 1pc;
+        left: 13pc;
         top: 24px;
     }
     .border-card {
@@ -148,12 +145,23 @@ height: 100%!important;
         
         width: 100% !important;
     }
+    
 }
+
 
 
 
 @media only screen and (max-width:600px){
-.essssss{
-    border: none !important;
-}
+    .card-img-top{
+        margin: 0px -9px !important;
+    }
+
+
+    .sssssss{
+        border: none !important;
+    }
+
+    .C-2-heart{
+        padding: 14px 8px 5px !important;
+    }
 }

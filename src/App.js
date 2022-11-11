@@ -15,8 +15,9 @@ import { BrowserRouter,Route,Router, Routes } from 'react-router-dom';
 import Market_main from "./Components/Maeket_main/Market_main"
 import Market_place2 from "./Components/Market_place2/Market_place2"
 import Collection from "./Components/Collection/Collection"
-import Create_pro from './Components/Create_pro/Create_pro';
 
+import Create_pro from './Components/Create_pro/Create_pro';
+import Collection_next from './Components/Collection_next/Collection_next';
 
 function App() {
   return (
@@ -27,9 +28,11 @@ function App() {
        <Route path='/' element={<Main_landing_page/>}/>
        <Route path='/market_place' element={<Market_main/>}/>
        <Route path='/create' element={<Create_page/>}/>
+       {/* <Route path='/creat' element={<Create_page/>}/> */}
        <Route path='/collection' element={<Collection/>}/>
        <Route path='/Market_place2' element={<Market_place2/>}/>
        <Route path='/Create_pro' element={<Create_pro/>}/>
+       <Route path='/Collection_next' element={<Collection_next/>}/>
       
       
     </Routes>

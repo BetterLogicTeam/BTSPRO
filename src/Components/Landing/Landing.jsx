@@ -4,17 +4,20 @@ import home_1 from "../../Assets/home_1.jpg";
 import home_2 from "../../Assets/home_2.jpg";
 import author_1 from "../../Assets/author_1.jpg";
 import author_2 from "../../Assets/author_2.jpg";
-import circle_1 from "../../Assets/circle_1.png";
-import circle_2 from "../../Assets/circle_2.png";
-import bg_shape from "../../Assets/bg_shape.png";
+// import circle_1 from "../../Assets/circle_1.png";
+// import circle_2 from "../../Assets/circle_2.png";
+// import bg_shape from "../../Assets/bg_shape.png";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
+import {Link} from "react-router-dom"
 
 
 function Landing() {
+
+   
     return (
         <div>
-            <div className="landing_main">
+            <div className="landing_main">  
                 <div className="banner-area">
                     <div className="container">
                         <div className="row align-items-center">
@@ -24,7 +27,7 @@ function Landing() {
     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam etiam rhoncus aenean a iaculis aliquet rhoncus sed. Accumsan sit consequat, sodales consectetur. Egestas scelerisque ut dui sed nulla morbi quam eget luctus. In a vel morbi sed nisi.</p>
     <div className="banner-btn responsive_dir">
         <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a>
-        <a className="default-btn two border-radius-5 responsive_btttn res_mar " href="/add-wallet">Connect NFT</a>
+        <Link to='create' className='text-white text-decoration-none' >  <a className="default-btn two border-radius-5 responsive_btttn res_mar "  href="/add-wallet">Create NFT </a></Link> 
                                     </div>
                                 </div>
                             </div>

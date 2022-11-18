@@ -1,93 +1,83 @@
-import React from 'react'
-import { Swiper, SwiperSlide } from "swiper/react";
+import React, { useEffect, useState } from 'react'
+// import { Swiper, SwiperSlide } from "swiper/react";
 
 // Import Swiper styles
-import "swiper/css";
-import "swiper/css/pagination";
+// import "swiper/css";
+// import "swiper/css/pagination";
 
 import "./Live_auction_main.css";
 
 // import required modules
 import { Pagination } from "swiper";
 import Live_oction from '../Live_oction/Live_oction';
+import axios from 'axios';
+import Market_card from '../Market_card/Market_card';
 function Live_auction_main() {
-  return (
-    <div className='live-back pt-3 pb-5'> 
-      <div className="live  container mt-5">
-        <div className="row px-3">
-          <div className="col-lg-6 col-sm-12  ">   <p className='text-start live-fs'><b>Live Auctions</b> </p></div>
-          <div className="col-lg-6 col-sm-12  text-start text-md-end">  <button className='btn text-white '>Explore More</button></div>
-        </div>
-     
-      
-      </div>
-        <div className='d-none d-lg-block' >
-          
-      <>
-      <Swiper
-        slidesPerView={3}
-        spaceBetween={0}
-        pagination={{
-          clickable: true,
-        }}
-        loop={true}
-        modules={[Pagination]}
-        className="mySwiper"
-      >
-        <SwiperSlide><Live_oction image1="auctions-img.jpg" image="auctions-user3.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img2.jpg" image="auctions-user2.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img3.jpg" image="auctions-user1.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img4.jpg" image="auctions-user4.jpg"/></SwiperSlide>
-       
-        
-      </Swiper>
-    </>
-    
-    </div>
-    <div className='d-none d-md-block d-lg-none' >
-      <>
-      <Swiper
-        slidesPerView={2}
-        spaceBetween={0}
-        pagination={{
-          clickable: true,
-        }}
-        modules={[Pagination]}
-        className="mySwiper"
-      >
-        <SwiperSlide><Live_oction image1="auctions-img.jpg" image="auctions-user3.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img2.jpg" image="auctions-user2.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img3.jpg" image="auctions-user1.jpg"/></SwiperSlide>
-        <SwiperSlide><Live_oction image1="auctions-img4.jpg" image="auctions-user4.jpg"/></SwiperSlide>
-       
-        
-      </Swiper>
-    </>
-    
-    </div>
-    {/* <div className="container-fluid d-block d-md-none">
-        <div className="row">
-            <div className="col-lg-3 col-md-6 col-sm-12">
-            <Live_oction image1="auctions-img.jpg" image="auctions-user3.jpg"/>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-12">
-            <Live_oction image1="auctions-img2.jpg" image="auctions-user2.jpg"/>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-12">
-            <Live_oction image1="auctions-img3.jpg" image="auctions-user1.jpg"/>
-            </div>
-            <div className="col-lg-3 col-md-6 col-sm-12">
-            <Live_oction image1="auctions-img4.jpg" image="auctions-user4.jpg"/>
-            </div>
-        </div></div> */}
+  const [Auction_Array, setAuction_Array] = useState()
 
-    <div className="d-block d-md-none">
-    <Live_oction image1="auctions-img.jpg" image="auctions-user3.jpg"/>
-    <Live_oction image1="auctions-img2.jpg" image="auctions-user2.jpg"/>
-    <Live_oction image1="auctions-img3.jpg" image="auctions-user1.jpg"/>
-    <Live_oction image1="auctions-img4.jpg" image="auctions-user4.jpg"/>
+
+  const Auction_Api = async () => {
+    try {
+
+      let res = await axios.get('https://server.nftapi.online/OnAuction_marketplace_history?category=All')
+      res = res?.data?.data
+   
+      setAuction_Array(res)
+
+    } catch (e) {
+      console.log("Error In Auction API", e);
+    }
+  }
+
+
+  useEffect(() => {
+    Auction_Api()
+  }, [])
+
+
+  return (<>
+    <div class="auctions-area ">
+      <div class="container">
+        <div class="row align-items-center">
+          <div class="col-lg-8 col-md-8">
+            <div class="section-title">
+              <h2>Live Auctions</h2>
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4">
+            <div class="auction-btn text-end">
+              <a class="default-btn border-radius-5" >Explore More</a>
+            </div>
+          </div>
+        </div>
+        <div className="row mt-4">
+          {
+            Auction_Array?.slice(0,4)?.map((items, index) => {
+              return (
+                <>
+                  <div class="col-lg-3 col-md-6" >
+
+                    <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
+                      status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
+                      isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history` : `/Market_place2/${index}/1/OnAuction_marketplace_history`}
+
+
+                    />
+
+                  </div>
+
+                </>
+              )
+            })
+          }
+        </div>
+
+
+      </div>
     </div>
-    </div>
+
+  
+  </>
   )
 }
 

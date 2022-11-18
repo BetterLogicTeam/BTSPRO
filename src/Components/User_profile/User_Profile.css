@@ -1,0 +1,17 @@
+
+.inner-bg5 {
+    background-image: url("https://gible-nft.hibootstrap.com/_next/static/media/inner-banner5.e457bf27bf24f593812ba2e5dcb8f50e.jpg");
+}
+.user-all-form .contact-form {
+    max-width: 1100px !important;
+    background-color: var(--whiteColor);
+    border: none;
+    box-shadow: 0 0 15px rgb(0 0 0 / 6%);
+}
+
+.Avatra_profile{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

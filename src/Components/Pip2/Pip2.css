@@ -1,16 +1,16 @@
 .pip{
     box-shadow: inset 0 0 20px #133f75;
-    background: #071b36!important;
+    /* background: #071b36!important; */
     color: white;
     border-radius: 8px;
 }
 .dropdown-menu{
-    background: #071b36!important;
+    /* background: #071b36!important; */
     border: 1px solid white;
    border-radius: 16px;
 }
 .dropdown-menu a:hover{
-    background: #071b36!important;
+    /* background: #071b36!important; */
    
 }
 .bbb1{

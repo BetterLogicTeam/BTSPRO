@@ -9,7 +9,8 @@
 
 
 .collection_main_bg_py{
-    padding: 100px 0px 50px 0px;
+    /* padding: 100px 0px 50px 0px; */
+    padding: 20px;
 }
 @media only screen and (max-width: 400px){
 
@@ -31,4 +32,18 @@
     .heading-brower-1{
         font-size: 3pc;
     }
+}
+
+
+.inner-bg11 {
+    background-image: url('https://gible-nft.hibootstrap.com/_next/static/media/inner-banner11.888da99fe521b8cd8e0526fd95f9656d.jpg');
+}
+
+.inner-banner {
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+.ri-arrow-right-line:before {
+    content: "\ea6c";
 }

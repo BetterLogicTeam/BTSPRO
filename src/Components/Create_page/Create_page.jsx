@@ -5,6 +5,8 @@ import wallet from "../../Assets/wallet.png"
 import trust from "../../Assets/trust.svg"
 import pha from "../../Assets/pha.png"
 
+
+
 function Create_page() {
   return (
     <div className='main_create_Page'>

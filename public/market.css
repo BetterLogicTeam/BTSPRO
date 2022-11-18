@@ -25975,9 +25975,9 @@ img {
     width: 94%;
     margin: 0 auto;
   }
-  .collapse:not(.show) {
+  /* .collapse:not(.show) {
     display: block !important;
-  }
+  } */
   .navbar-area .navbar .navbar-nav .nav-item .dropdown-menu {
     position: unset;
     opacity: 1;

@@ -9,111 +9,111 @@ import author_2 from "../../Assets/author_2.jpg";
 // import bg_shape from "../../Assets/bg_shape.png";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom"
 
 
 function Landing() {
 
-   
+
     return (
         <div>
-            <div className="landing_main">  
+            <div className="landing_main">
                 <div className="banner-area">
                     <div className="container">
                         <div className="row align-items-center">
                             <div className="col-lg-6">
-<div className="banner-content responsive_content">
-    <span>Buying &amp; Selling NFT World</span><h1>Discover, Collect, and Sell Extraordinary NFTs</h1>
-    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam etiam rhoncus aenean a iaculis aliquet rhoncus sed. Accumsan sit consequat, sodales consectetur. Egestas scelerisque ut dui sed nulla morbi quam eget luctus. In a vel morbi sed nisi.</p>
-    <div className="banner-btn responsive_dir">
-        <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a>
-        <Link to='create' className='text-white text-decoration-none' >  <a className="default-btn two border-radius-5 responsive_btttn res_mar "  href="/add-wallet">Create NFT </a></Link> 
+                                <div className="banner-content responsive_content">
+                                    <span>Buying &amp; Selling NFT World</span><h1>Discover, Collect, and Sell Extraordinary NFTs</h1>
+                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam etiam rhoncus aenean a iaculis aliquet rhoncus sed. Accumsan sit consequat, sodales consectetur. Egestas scelerisque ut dui sed nulla morbi quam eget luctus. In a vel morbi sed nisi.</p>
+                                    <div className="banner-btn responsive_dir">
+                                    <Link to='/market_place' className='text-white text-decoration-none' >  <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a></Link>
+                                        <Link to='/Create_pro' className='text-white text-decoration-none' >  <a className="default-btn two border-radius-5 responsive_btttn res_mar " href="/add-wallet">Create NFT </a></Link>
                                     </div>
                                 </div>
                             </div>
-    <div className="col-lg-6">
-        <div className="banner-card-area">
-            <div className="row">
-                <div className="col-lg-6 col-sm-6">
-                    <div className="banner-card">
-<div className="banner-card-img">
-        <img src={home_1} alt="Images" />
-        <div className="banner-card-content">
-        <div className="card-left">
-            <span>Start Bid</span>
-                <h3>15,00 ETH</h3>
-            </div>
-            <div className="card-right">
-            <h3>Remaining Time</h3>
-            <div className="timer-text" id="time1" data-countdown="2021/10/10">
-        </div>
-        </div>
-        </div>
-        </div>
-        <div className="content">
-<div className="banner-user-list">
-    <div className="banner-user-list-img">
-        <a href="/author-profile">
-    <img src={author_1} alt="Images"/>
-    </a>
-    <i className="ri-check-line"><TiTick /></i>
-    </div>
-    <h3><a href="/author-profile">Flowers in Concrete</a></h3>
-    <span>Created by<a href="/author-profile">@Evelyn</a></span>
-    </div>
-    <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
-    <button type="button" className="default-btn border-radius-5">Place Bid</button>
-    </div>
-        </div>
-        </div>
-        <div className="col-lg-6 col-sm-6">
-            <div className="banner-card banner-card-mt">
-                <div className="banner-card-img">
-                     <img src={home_2} alt="Images"/>
-                    <div className="banner-card-content">
-                        <div className="card-left">
-    <span>Start Bid</span>
-    <h3>11,00 ETH</h3>
-    </div>
-    <div className="card-right">
-        <h3>Remaining Time</h3>
-        <div className="timer-text" id="time2" data-countdown="2021/09/09"></div>
-        </div>
-        </div>
-        </div>
-        <div className="content">
-            <div className="banner-user-list">
-    <div className="banner-user-list-img">
-        <a href="/author-profile">
-            <img src={author_2} alt="Images"/>
-            </a>
-            <i className="ri-check-line"><TiTick /></i>
-            </div>
-            <h3><a href="/author-profile">Walking on Air</a></h3>
-            <span>Created by<a href="/author-profile">@Adison</a></span>
-            </div>
-            <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
-            <button type="button" className="default-btn border-radius-5">Place Bid</button>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            </div>
-            <div className="banner-shape">
-                {/* <div className="shape-circle1">
+                            <div className="col-lg-6">
+                                <div className="banner-card-area">
+                                    <div className="row">
+                                        <div className="col-lg-6 col-sm-6">
+                                            <div className="banner-card">
+                                                <div className="banner-card-img">
+                                                    <img src={home_1} alt="Images" />
+                                                    <div className="banner-card-content">
+                                                        <div className="card-left">
+                                                            <span>Start Bid</span>
+                                                            <h3>15,00 ETH</h3>
+                                                        </div>
+                                                        <div className="card-right">
+                                                            <h3>Remaining Time</h3>
+                                                            <div className="timer-text" id="time1" data-countdown="2021/10/10">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="content">
+                                                    <div className="banner-user-list">
+                                                        <div className="banner-user-list-img">
+                                                            <a href="/author-profile">
+                                                                <img src={author_1} alt="Images" />
+                                                            </a>
+                                                            <i className="ri-check-line"><TiTick /></i>
+                                                        </div>
+                                                        <h3><a href="/author-profile">Flowers in Concrete</a></h3>
+                                                        <span>Created by<a href="/author-profile">@Evelyn</a></span>
+                                                    </div>
+                                                    <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
+                                                    <button type="button" className="default-btn border-radius-5">Place Bid</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="col-lg-6 col-sm-6">
+                                            <div className="banner-card banner-card-mt">
+                                                <div className="banner-card-img">
+                                                    <img src={home_2} alt="Images" />
+                                                    <div className="banner-card-content">
+                                                        <div className="card-left">
+                                                            <span>Start Bid</span>
+                                                            <h3>11,00 ETH</h3>
+                                                        </div>
+                                                        <div className="card-right">
+                                                            <h3>Remaining Time</h3>
+                                                            <div className="timer-text" id="time2" data-countdown="2021/09/09"></div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="content">
+                                                    <div className="banner-user-list">
+                                                        <div className="banner-user-list-img">
+                                                            <a href="/author-profile">
+                                                                <img src={author_2} alt="Images" />
+                                                            </a>
+                                                            <i className="ri-check-line"><TiTick /></i>
+                                                        </div>
+                                                        <h3><a href="/author-profile">Walking on Air</a></h3>
+                                                        <span>Created by<a href="/author-profile">@Adison</a></span>
+                                                    </div>
+                                                    <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
+                                                    <button type="button" className="default-btn border-radius-5">Place Bid</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="banner-shape">
+                        {/* <div className="shape-circle1">
                     <img src={circle_1} alt="Images"/>
                     </div> */}
-                    {/* <div className="shape-circle2">
+                        {/* <div className="shape-circle2">
                         <img src={circle_2} alt="Images"/>
                         </div> */}
                         {/* <div className="shape-bg">
                             <img src={bg_shape} alt="Images"/>
                             </div> */}
-                            </div>
-                            </div>
+                    </div>
+                </div>
             </div>
         </div>
     )

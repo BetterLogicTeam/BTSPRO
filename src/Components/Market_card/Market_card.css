@@ -157,3 +157,13 @@ height: 100%!important;
     border: none !important;
 }
 }
+
+
+.price_card{
+    display: flex;
+    justify-content: space-between !important;
+}
+
+.last_text{
+    color: #f14d5d;
+}

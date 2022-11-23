@@ -8,7 +8,7 @@ function Market_pip(props) {
           <div className="col-7 text-start pt-2 inner-title">
             <h5 className=''>{props?.length} Collectables Found</h5>
           </div>
-          <div className="col-5">
+          {/* <div className="col-5">
             <div class="dropdown">
 
               <a class="  float-end dropdown-toggle pt-3 pt-md-1 p-2 text-dark nav-link active" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false" >
@@ -21,7 +21,7 @@ function Market_pip(props) {
               </ul>
 
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>

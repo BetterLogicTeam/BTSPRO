@@ -26,7 +26,7 @@ function Landing() {
                                     <span>Buying &amp; Selling NFT World</span><h1>Discover, Collect, and Sell Extraordinary NFTs</h1>
                                     <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed aliquam etiam rhoncus aenean a iaculis aliquet rhoncus sed. Accumsan sit consequat, sodales consectetur. Egestas scelerisque ut dui sed nulla morbi quam eget luctus. In a vel morbi sed nisi.</p>
                                     <div className="banner-btn responsive_dir">
-                                    <Link to='/market_place' className='text-white text-decoration-none' >  <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a></Link>
+                                        <Link to='/market_place' className='text-white text-decoration-none' >  <a className="default-btn border-radius-5 responsive_btttn " href="/about">Explore More</a></Link>
                                         <Link to='/Create_pro' className='text-white text-decoration-none' >  <a className="default-btn two border-radius-5 responsive_btttn res_mar " href="/add-wallet">Create NFT </a></Link>
                                     </div>
                                 </div>
@@ -102,16 +102,16 @@ function Landing() {
                             </div>
                         </div>
                     </div>
-                    <div className="banner-shape">
-                        {/* <div className="shape-circle1">
-                    <img src={circle_1} alt="Images"/>
-                    </div> */}
-                        {/* <div className="shape-circle2">
-                        <img src={circle_2} alt="Images"/>
-                        </div> */}
-                        {/* <div className="shape-bg">
-                            <img src={bg_shape} alt="Images"/>
-                            </div> */}
+                    <div class="banner-shape">
+                        <div class="shape-circle1">\
+                            <img src="https://gible-nft.hibootstrap.com/images/home-one/circle1.png" alt="Images" />
+                        </div>
+                        <div class="shape-circle2">
+                            <img src="https://gible-nft.hibootstrap.com/images/home-one/circle2.png" alt="Images" />
+                        </div>
+                        <div class="shape-bg">
+                            <img src="https://gible-nft.hibootstrap.com/images/home-one/bg-shape.png" alt="Images" />
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,6 +12,7 @@ import { Pagination } from "swiper";
 import Live_oction from '../Live_oction/Live_oction';
 import axios from 'axios';
 import Market_card from '../Market_card/Market_card';
+import { Link } from 'react-router-dom';
 function Live_auction_main() {
   const [Auction_Array, setAuction_Array] = useState()
 
@@ -46,7 +47,10 @@ function Live_auction_main() {
           </div>
           <div class="col-lg-4 col-md-4">
             <div class="auction-btn text-end">
+              <Link to="/market_place">
+
               <a class="default-btn border-radius-5" >Explore More</a>
+              </Link>
             </div>
           </div>
         </div>
@@ -59,7 +63,7 @@ function Live_auction_main() {
 
                     <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
                       status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
-                      isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history` : `/Market_place2/${index}/1/OnAuction_marketplace_history`}
+                      isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history/address` : `/Market_place2/${index}/1/OnAuction_marketplace_history/address`}
 
 
                     />

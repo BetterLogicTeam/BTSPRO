@@ -8,12 +8,13 @@ function Market_card(props) {
 
   let navigation=useNavigate()
 
-  const [startTime2, setstartTime2] = useState(Date.now()) 
+  const [startTime2, setstartTime2] = useState() 
 
 
 
   const Completionist = () => <div class="featured-card-clock" data-countdown="2021/10/10">Time Ended</div>;
   const renderer = ({ days, hours, minutes, seconds, completed }) => {
+    setstartTime2(completed)
     if (completed) {
       // Render a completed state
       return <Completionist />;
@@ -63,14 +64,14 @@ function Market_card(props) {
             <div class="featured-card-left">
               <h4>Status : </h4>
             </div>
-            <a class="last_text" >{props.status} </a>
+            <a class="last_text" >{ props.isOnAuction == 1 &&  startTime2==true ?  "Sell Ended": props.status} </a>
 
 
           </div>
 
 
           <div class="item-details-btn mt-4" onClick={()=>navigation(props.history)} >
-            <a class="default-btn border-radius-50"  > {props.btn}</a>
+            <a class="default-btn border-radius-50"  > {props.isOnAuction == 1 &&  startTime2==true ?  "Claim Now": props.btn}</a>
           </div>
 
         </div>

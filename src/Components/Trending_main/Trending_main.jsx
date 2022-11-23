@@ -1,39 +1,27 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
 import { loadWeb3 } from '../../Api/api';
+import Market_card from '../Market_card/Market_card';
 import Trending from '../Trending/Trending'
+import Moralis from 'moralis';
+import { EvmChain } from '@moralisweb3/evm-utils'
+import { useWeb3Transfer } from "react-moralis";
 
 function Trending_main() {
 
 
-  const [topSeller_data, settopSeller_data] = useState([])
+  const [Tranding_NFTs, setTranding_NFTs] = useState([])
 
   const fetchData = async () => {
     let acc = await loadWeb3()
-    // acc = acc.toUpperCase()
-    let Array_data = []
+    let getUserAddress = await axios.get('http://localhost:3344/get_trending_NFTs');
+    console.log(getUserAddress)
+    if (getUserAddress.data.data == null) {
 
+    } else {
 
-    let getUserAddress = await axios.get(' https://server.nftapi.online/trending_address_marketplace');
-    // console.log("Api_Data121", getUserAddress.data.data);
-    getUserAddress = getUserAddress?.data?.data
-    let get_Length = getUserAddress?.length;
-    // console.log("get_Length", get_Length);
-    for (let i = 0; i < get_Length; i++) {
-      let { User_Address } = getUserAddress[i]
-      let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${User_Address}`)
-  
-      res=res.data.data
-      // console.log("res_user", res);
-
-      // "address": getUserAddress[i]?.useraddress,
-      Array_data = [...Array_data, { useraddress: res.useraddress, itemId: res?.itemId, nftContract: res?.nftContract,tokenId:res.tokenId,owner:res.owner,price:res.price,sold:res.sold,isOnAuction:res.isOnAuction,bidEndTime:res.bidEndTime,name:res.name,url:res.url,txn:res.txn,category:res.category }]
-
-      // console.log("res_user", Array_data);
-      // settopSeller_data(Array_data)
+      setTranding_NFTs(getUserAddress.data.data)
     }
-
-
 
   };
 
@@ -42,29 +30,44 @@ function Trending_main() {
 
 
   useEffect(() => {
+ 
     fetchData()
     // SecondArray()
   }, [])
 
   return (
-    <div className='container-fluid mb-5 mt-5'>
-      <div className="row px-3">
-        <div className="col-lg-6 col-sm-12  ">   <p className='text-start live-fs'><b>Trending Artwork</b> </p></div>
-        <div className="col-lg-6 col-sm-12  text-start text-md-end">  <button className='btn text-white '>Explore More</button></div>
+    <div className='container mb-5 mt-5'>
+      <div className='d-flex justify-content-between'>
+        <h2 className='Top_seller_main_heading'>
+          Trending Artwork
+        </h2>
+
+
+        <button className='explore_btn'>Explore More</button>
       </div>
+
+      <div>
+     
+    </div>
       <div className="row">
-        <div className="col-lg-3 col-md-6 col-sm-12">
-          <Trending photes1="trending-img1.jpg" photes2="trending-user1.jpg" photes3="" />
-        </div>
-        <div className="col-lg-3 col-md-6 col-sm-12">
-          <Trending photes1="trending-img2.jpg" photes2="trending-user2.jpg" photes3="" />
-        </div>
-        <div className="col-lg-3 col-md-6 col-sm-12">
-          <Trending photes1="trending-img3.jpg" photes2="trending-user3.jpg" photes3="" />
-        </div>
-        <div className="col-lg-3 col-md-6 col-sm-12">
-          <Trending photes1="trending-img4.jpg" photes2="trending-user4.jpg" photes3="" />
-        </div>
+        {
+          Tranding_NFTs.map((items, index) => {
+            return (
+              <>
+                <div className="col-lg-3 col-md-6 col-sm-12">
+                  <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
+                    status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
+                    isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history` : `/Market_place2/${index}/1/OnAuction_marketplace_history`}
+
+
+                  />
+                </div>
+
+              </>
+            )
+          })
+        }
+       
       </div>
     </div>
   )

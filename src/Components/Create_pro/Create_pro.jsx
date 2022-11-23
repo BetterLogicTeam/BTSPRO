@@ -5,16 +5,24 @@ import Moralis from 'moralis';
 import axios from 'axios'
 import { CreateNFT, CreateNFT_ABI } from '../Utils/Contract';
 import { loadWeb3 } from '../../Api/api';
+import Loading from '../Loading/Loading';
+import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+
 
 
 
 function Create_pro() {
+    let history=useNavigate()
     const [formInput, updateFormInput] = useState({ price: '0', name: 'NFT Name', description: '', Category: '' })
     const [nftImage, setNftImage] = useState("featured-img1.jpg")
     const [Address, setAddress] = useState("")
+const [IsSpinner, setIsSpinner] = useState(false)
+
 
 
     const create_NFT = async (e) => {
+        setIsSpinner(true)
         // e.preventDefault()
         // console.log("nftImage", nftImage.name)
         // console.log("formInput", formInput);
@@ -41,13 +49,17 @@ function Create_pro() {
         ];
 
         const response = await Moralis.EvmApi.ipfs.uploadFolder({ abi });
-        let url = 'https://gible-nft.hibootstrap.com/images/home-one/home-one-img2.jpg'
+        let url = 'https://gible-nft.hibootstrap.com/images/trending/trending-img3.jpg'
         create_USer_NFT(url)
         console.log(response.toJSON());
+        // setIsSpinner(false)
+
     }
 
 
     const create_USer_NFT = async (url) => {
+        setIsSpinner(true)
+
         let acc = await loadWeb3();
         const web3 = window.web3;
         try {
@@ -56,11 +68,16 @@ function Create_pro() {
                 from: acc,
 
             });
+            toast.success("NFT Create Successfully")
+            history("/collection")
 
+            setIsSpinner(false)
 
 
         } catch (e) {
             console.log("Errore While calling fuction Create NFT", e);
+            setIsSpinner(false)
+
         }
 
     }
@@ -83,36 +100,40 @@ function Create_pro() {
             </div>
             <div class="collection-widget-area pt-100 pb-70">
                 <div class="container">
+                    {
+                        IsSpinner ? <Loading /> : <></>
+
+                    }
                     <div class="row">
                         <div class="col-lg-3">
                             {/* <div class="author-profile-sidebar mr-20"> */}
-                                <div class="featured-card box-shadow" >
-                                    <div class="featured-card-img">
-                                        <a >
-                                            <img src={nftImage =="featured-img1.jpg" ?   "featured-img1.jpg" : URL?.createObjectURL(nftImage) } alt="Images" style={{ height: "20rem", width: "100%" }} />
-                                        </a>
-                                        <p>
-                                            <i class="fa-regular fa-heart"></i> 122
-                                        </p>
-                                        {/* <button type="button" class="default-btn border-radius-5">Place Bid</button> */}
-                                    </div>
-                                    <div class="content">
-                                        <h3>
-                                            <a >{formInput.name}</a>
-                                        </h3>
-                                        <div class="content-in">
-                                            <div class="featured-card-left">
-                                                <span>{formInput.price} BNB </span>
-
-                                            </div>
-                                            <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
-                                        </div>
-                                        <a class="featured-user-option" >
-                                            {/* <img src={items.token_uri == null || items.token_uri.endsWith(".json") ? "profile_placeholder_image.629dab34.jpg" : items.token_uri} alt="Images" /> */}
-                                            {/* <span>Created by {items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span> */}
-                                        </a>
-                                    </div>
+                            <div class="featured-card box-shadow" >
+                                <div class="featured-card-img">
+                                    <a >
+                                        <img src={nftImage == "featured-img1.jpg" ? "featured-img1.jpg" : URL?.createObjectURL(nftImage)} alt="Images" style={{ height: "20rem", width: "100%" }} />
+                                    </a>
+                                    <p>
+                                        <i class="fa-regular fa-heart"></i> 122
+                                    </p>
+                                    {/* <button type="button" class="default-btn border-radius-5">Place Bid</button> */}
                                 </div>
+                                <div class="content">
+                                    <h3>
+                                        <a >{formInput.name}</a>
+                                    </h3>
+                                    <div class="content-in">
+                                        <div class="featured-card-left">
+                                            <span>{formInput.price} BNB </span>
+
+                                        </div>
+                                        <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
+                                    </div>
+                                    <a class="featured-user-option" >
+                                        {/* <img src={items.token_uri == null || items.token_uri.endsWith(".json") ? "profile_placeholder_image.629dab34.jpg" : items.token_uri} alt="Images" /> */}
+                                        {/* <span>Created by {items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span> */}
+                                    </a>
+                                </div>
+                            </div>
                             {/* </div> */}
                         </div>
                         <div class="col-lg-9">

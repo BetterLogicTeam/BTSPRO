@@ -17,8 +17,9 @@ import { nftMarketContractAddress, nftMarketContractAddress_Abi, nftMarketTokenA
 import { loadWeb3 } from '../../Api/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
+import Loading from '../Loading/Loading';
 function Market_place2() {
-  let { id, index,text } = useParams()
+  let { id, index,text,useradd } = useParams()
   let history = useNavigate()
   const [All_NFT, setAll_NFT] = useState([])
   const [Timer, setTimer] = useState(Date.now())
@@ -39,7 +40,26 @@ function Market_place2() {
   const get_All_NFT = async () => {
 
     try {
+      if(text=="sell_and_auction_history_address"){
+        setIsSpinner(true)
+        console.log("Dattaa",useradd);
+
+        let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${useradd}`)
+        let data = id;
+        setAll_NFT(res.data.data[id])
+        setSendAddress(res?.data?.data[id]?.useraddress)
+        setnftcontactadd(res?.data?.data[id]?.nftContract)
+        settokenId(res?.data?.data[id]?.tokenId)
+        setbase_price(res?.data?.data[id]?.price)
+        setitemId(res?.data?.data[id]?.itemId)
+        setTimer(res?.data?.data[id].bidEndTime)
+        hightbider(res?.data?.data[id].itemId)
+        setIsSpinner(false)
+
+
+      }else
       if(text=="sell_and_auction_history"){
+        setIsSpinner(true)
 
         let res = await axios.get(' https://server.nftapi.online/sell_and_auction_history?category=All')
 
@@ -53,10 +73,12 @@ function Market_place2() {
         setTimer(res?.data?.data[id].bidEndTime)
         hightbider(res?.data?.data[id].itemId)
 
+        setIsSpinner(false)
 
       }else
 
       if (index == 0) {
+        setIsSpinner(true)
 
         let res = await axios.get(' https://server.nftapi.online/sell_marketplace_history?category=All')
 
@@ -68,10 +90,13 @@ function Market_place2() {
         settokenId(res?.data?.data[id]?.tokenId)
         setbase_price(res?.data?.data[id]?.price)
         setitemId(res?.data?.data[id]?.itemId)
+        setIsSpinner(false)
 
         // setIsSatart(false)
 
       } else if (index == 1) {
+        setIsSpinner(true)
+
         let res = await axios.get(' https://server.nftapi.online/OnAuction_marketplace_history?category=All')
         console.log("Res",res);
         setAll_NFT(res?.data?.data[id])
@@ -83,6 +108,7 @@ function Market_place2() {
         setitemId(res?.data?.data[id].itemId)
         setnftcontactadd(res?.data?.data[id].nftContract)
         settokenId(res?.data?.data[id].tokenId)
+        setIsSpinner(false)
 
         hightbider(res?.data?.data[id].itemId)
         // setTimeout(() => {
@@ -101,6 +127,8 @@ function Market_place2() {
 
     } catch (e) {
       console.log("Error While getAll_NFT", e);
+      setIsSpinner(false)
+
     }
   }
 
@@ -190,13 +218,10 @@ function Market_place2() {
 
           })
           toast.success("Biding Successful")
+          setIsSpinner(false)
 
-          let res = await axios.post('https://server.nftapi.online/trending_NFTs', {
-            "useraddress": acc,
-            "tokenId": tokenId,
-            "nftContract":nftcontactadd
 
-          })
+          let res = await axios.get('https://server.nftapi.online/Check_Tranding_NFTs')
 
           setIsSpinner(false)
 
@@ -249,16 +274,22 @@ function Market_place2() {
           "tokenid": tokenId,
 
         })
+        
+        let udate_Tranding = await axios.post('https://server.nftapi.online/update_Tranding', {
+
+          "tokenid": tokenId,
+
+        })
         console.log("postapiPushdata", postapiPushdata);
 
         setIsSpinner(false)
         toast.success("Transion Compelete")
-        let res = await axios.post('https://server.nftapi.online/trending_NFTs', {
-          "useraddress": acc,
-          "tokenId": tokenId,
-          "nftContract":nftcontactadd
+        // let res = await axios.post('https://server.nftapi.online/trending_NFTs', {
+        //   "useraddress": acc,
+        //   "tokenId": tokenId,
+        //   "nftContract":nftcontactadd
 
-        })
+        // })
         history("/market_place");
 
 
@@ -323,12 +354,14 @@ function Market_place2() {
             "tokenid": tokenId,
 
           })
-          let res = await axios.post('https://server.nftapi.online/trending_NFTs', {
-            "useraddress": acc,
-            "tokenId": tokenId,
-            "nftContract":nftcontactadd
-  
+
+          let udate_Tranding = await axios.post('https://server.nftapi.online/update_Tranding', {
+
+            "tokenid": tokenId,
+
           })
+
+          let res = await axios.get('https://server.nftapi.online/Check_Tranding_NFTs')
           console.log("postapiPushdata", postapiPushdata);
           toast.success("Transion Compelete")
           setIsSpinner(false)
@@ -365,6 +398,10 @@ function Market_place2() {
         </div>
       </div>
       <div className="container-fluid mt-3">
+      {
+            IsSpinner ? <Loading /> : <></>
+
+          }
         <div className="row padding_toppp_market_place">
           <div className="col-lg-5 col-sm-12 ">
             <div className="imge-border border p-3 ">

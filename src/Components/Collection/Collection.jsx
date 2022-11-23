@@ -10,6 +10,7 @@ import { EvmChain } from '@moralisweb3/evm-utils'
 import Trending from '../Trending/Trending'
 import { Link, useNavigate } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
+import profile_placeholder_image from '../../Assets/profile_placeholder_image.629dab34.jpg'
 
 import {myCollection,runApp} from '../../Redux/counterSlice'
 import { loadWeb3 } from '../../Api/api'
@@ -33,6 +34,7 @@ function Collection() {
 // console.log("count",count.AllNFT[1]?.payload);
 
   const runApp = async () => {
+    let imageArray = [];
     let acc = await loadWeb3()
     await Moralis.start({
       apiKey: "6sSTRl3GXEZ9CZ3rZChKksJuBZS1hVkXalATDiIa8dczkYm7UbFsldAeJUbAwL02",
@@ -44,13 +46,86 @@ function Collection() {
     const chain = EvmChain.BSC_TESTNET;
     // console.log("Chain",chain);
 
-    const response = await Moralis.EvmApi.nft.getWalletNFTs({
+    let res = await Moralis.EvmApi.nft.getWalletNFTs({
       address,
       chain,
     });
-    dispatch(myCollection(response.data.result))
-    // setCollectionArray(response.data.result)
-    console.log(response.data.result);
+
+    res = res.data.result
+
+    let loopLength = res.length;
+    // console.log("Length",res.length);
+
+    for (let i = 0; i < loopLength; i++) {
+      // console.log("Url", res[i].token_uri);
+      let jsonUsrl = res[i].token_uri;
+      if (jsonUsrl == null) {
+        jsonUsrl = profile_placeholder_image
+        // console.log("Image_is_null");
+      }
+      else if (jsonUsrl.endsWith(".json")) {
+        jsonUsrl = profile_placeholder_image
+        // console.log("jsonUsrl",jsonUsrl);
+      } else if (jsonUsrl.endsWith(".jpg")) {
+        jsonUsrl = jsonUsrl;
+        // console.log("jsonUsrl",jsonUsrl);
+      }
+      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/") && jsonUsrl.endsWith(".jpg") || jsonUsrl.endsWith(".png")) {
+
+        jsonUsrl = jsonUsrl
+
+      }
+      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/")) {
+        jsonUsrl = profile_placeholder_image
+        // let Response= await axios.get(jsonUsrl);
+        // Response = Response?.data?.properties?.image?.description
+        // jsonUsrl = `https://ipfs.moralis.io:2053/${Response}`
+
+        // console.log("Url",jsonUsrl);
+
+        // let Api = await axios.get(jsonUsrl)
+        // console.log("Api", Api.data.properties.image.description);
+        // Api = Api.data.properties.image.description
+        // jsonUsrl = `https://ipfs.moralis.io:2053/${Api}`
+
+      }
+      else {
+        jsonUsrl = profile_placeholder_image
+      }
+
+
+
+
+      // console.log("img_url",jsonUsrl);
+
+      let name = res[i].name;
+      let owner_of = res[i].owner_of;
+      let token_address = res[i].token_address;
+      let amount = res[i].amount;
+      let symbol = res[i].symbol;
+      let token_id = res[i].token_id;
+
+
+      let finalUrl;
+      // =await axios.get(jsonUsrl);
+      // finalUrl = finalUrl.data.image;
+      imageArray = [
+        ...imageArray,
+        {
+          url: finalUrl,
+          name: name,
+          owner_of: owner_of,
+          token_address: token_address,
+          amount: amount,
+          symbol: symbol,
+          token_id: token_id,
+          jsonUsrl: jsonUsrl
+        },
+      ];
+
+    }
+    dispatch(myCollection(imageArray))
+    // setCollectionArray(res.data.result)
   }
 
   useEffect(() => {
@@ -149,7 +224,7 @@ useEffect(() => {
                           <div class="featured-card box-shadow" onClick={()=>history('/Collection_next/' + index )}>
                             <div class="featured-card-img">
                               <a >
-                                <img src={items.token_uri == null || items.token_uri.endsWith(".json") ?  "profile_placeholder_image.629dab34.jpg" : items.token_uri} alt="Images" style={{height:"20rem",width:"100%"}} />
+                                <img src={ items.jsonUsrl} alt="Images" style={{height:"20rem",width:"100%"}} />
                               </a>
                               <p>
                                 <i class="fa-regular fa-heart"></i> 122
@@ -168,7 +243,7 @@ useEffect(() => {
                                 <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
                               </div>
                               <a class="featured-user-option" >
-                                <img src={items.token_uri == null || items.token_uri.endsWith(".json") ?  "profile_placeholder_image.629dab34.jpg" : items.token_uri} alt="Images" />
+                                <img src={items.jsonUsrl} alt="Images" />
                                 <span>Created by {  items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span>
                               </a>
                             </div>

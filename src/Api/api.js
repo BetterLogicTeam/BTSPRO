@@ -1,5 +1,7 @@
 import Web3 from "web3";
 let isItConnected = false;
+
+
 const networks = {
   bsc: {
     chainId: `0x${Number(97).toString(16)}`,
@@ -31,14 +33,22 @@ const changeNetwork = async ({ networkName }) => {
   try {
     if (!window.ethereum) throw new Error("No crypto wallet found");
     await window.ethereum.request({
-      method: "wallet_addEthereumChain",
+      method: "wallet_switchEthereumChain",
       params: [
         {
-          ...networks[networkName],
+          chainId:'0x61'
         },
       ],
     });
   } catch (err) {
+    await window.ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          ...networks[networkName]
+        },
+      ],
+    });
     console.log("not found");
   }
 };
@@ -75,7 +85,7 @@ export const loadWeb3 = async () => {
             isItConnected = true;
             break;
           default:
-            handleNetworkSwitch("bsc");
+            handleNetworkSwitch("eth");
             isItConnected = false;
         }
       });
@@ -83,7 +93,7 @@ export const loadWeb3 = async () => {
         let accounts = await getAccounts();
         return accounts[0];
       } else {
-        let res = "Wrong Network";
+        let res = "Wrong Network"; 
         return res;
       }
     } else {

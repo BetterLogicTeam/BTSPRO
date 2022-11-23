@@ -169,7 +169,7 @@ const Header = (props) => {
                           {
                             !address ? (
 
-                              <li><a class="active" onClick={() => connectMetaMask()}><span className="text-white">Connect Wallet</span> </a></li>
+                              <li style={{cursor:"pointer"}}><a class="active"  onClick={() => connectMetaMask()}><span className="text-white">Connect Wallet</span> </a></li>
                             )
                               :
 
@@ -179,7 +179,7 @@ const Header = (props) => {
                                 <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
                                   <ul class="dropdown-menu">
                                     <li class="nav-item"><a class="nav-link active " > <Link to="/User_Profile"> User Profile</Link></a></li>
-                                    <li class="nav-item"><a class="nav-link" ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
+                                    <li class="nav-item"><a class="nav-link"  ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
 
                                   </ul>
                                 </li>
@@ -224,7 +224,7 @@ const Header = (props) => {
                     {
                       !address ? (
 
-                        <li><a class="active" onClick={() => connectMetaMask()}>Connect Wallet</a></li>
+                        <li style={{cursor:"pointer"}}><a class="active" onClick={() => connectMetaMask()}>Connect Wallet</a></li>
                       )
                         :
 

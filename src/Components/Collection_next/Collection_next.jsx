@@ -12,6 +12,7 @@ import { nftMarketContractAddress, nftMarketContractAddress_Abi, nftMarketToken_
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import profile_placeholder_image from '../../Assets/profile_placeholder_image.629dab34.jpg'
+import Loading from '../Loading/Loading';
 
 
 
@@ -35,6 +36,8 @@ function Collection_next() {
 
   const runApp = async () => {
     let acc = await loadWeb3()
+    setIsSpinner(true)
+
     await Moralis.start({
       apiKey: "6sSTRl3GXEZ9CZ3rZChKksJuBZS1hVkXalATDiIa8dczkYm7UbFsldAeJUbAwL02",
       // ...and any other configuration
@@ -55,6 +58,7 @@ function Collection_next() {
     setownadd(response.data.result[id].token_address)
     setNftName(response.data.result[id].name)
     setNFTurl(response.data.result[id].token_uri)
+    setIsSpinner(false)
 
 
 
@@ -111,7 +115,7 @@ function Collection_next() {
             value_price = web3.utils.toWei(value_price)
             let curreny_time = Math.floor(new Date().getTime() / 1000.0)
 
-          
+
 
 
             let nftContractOftoken = new web3.eth.Contract(nftMarketToken_Abi, ownadd);
@@ -177,23 +181,25 @@ function Collection_next() {
               "name": NftName,
               "url": NFTurl,
               "txn": hash,
-              "category": selecthere
+              "category": selecthere,
+              "edate": new Date(),
 
             })
 
             console.log("postapiPushdata", postapiPushdata);
-            let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
-              "useraddress": acc,
-                 "tokenId": tokenId,
-                 "nftContract":nftContract
-                
-            })
+            // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
+            //   "useraddress": acc,
+            //      "tokenId": tokenId,
+            //      "nftContract":nftContract
+
+            // })
 
 
             // toast.success("Success")
-            setIsSpinner(false)
             toast.success("Transion Compelete")
             history("/market_place");
+            setIsSpinner(false)
+
             window.location.reload();
 
 
@@ -287,7 +293,7 @@ function Collection_next() {
             });
             hash = hash.transactionHash
             // console.log("hash", hash);
-            setIsSpinner(false)
+            // setIsSpinner(false)
             let getItemId = await nftContractOf.methods.tokenIdToItemId(ownadd, tokenid).call();
             let MarketItemId = await nftContractOf.methods.idToMarketItem(getItemId).call();
             // console.log("MarketItemId", MarketItemId)
@@ -315,17 +321,18 @@ function Collection_next() {
               "name": NftName,
               "url": NFTurl,
               "txn": hash,
-              "category": Categories_value
+              "category": Categories_value,
+              "edate": new Date(),
 
             })
 
             console.log("postapiPushdata", postapiPushdata);
-            let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
-              "useraddress": acc,
-                 "tokenId": tokenId,
-                 "nftContract":nftContract
-                
-            })
+            // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
+            //   "useraddress": acc,
+            //      "tokenId": tokenId,
+            //      "nftContract":nftContract
+
+            // })
             toast.success("Transion Compelete")
             history("/market_place");
             window.location.reload();
@@ -366,11 +373,15 @@ function Collection_next() {
       </div>
       <div class="item-details-area pt-100 pb-70">
         <div class="container">
+          {
+            IsSpinner ? <Loading /> : <></>
+
+          }
           <div class="row">
             <div class="col-lg-6">
-            <div className="imge-border border p-3 ">
-              <img src={CollectionArray.token_uri == null || CollectionArray.token_uri.endsWith(".json") ? profile_placeholder_image : CollectionArray.token_uri} className='imge-border-radius' alt="" />
-            </div>
+              <div className="imge-border border p-3 ">
+                <img src={CollectionArray.token_uri == null || CollectionArray.token_uri.endsWith(".json") ? profile_placeholder_image : CollectionArray.token_uri} className='imge-border-radius' alt="" />
+              </div>
               {/* <div class="item-details-left-side pr-20">
                 <div class="item-details-img">
                   <img src={CollectionArray.token_uri == null || CollectionArray.token_uri.endsWith(".json") ? profile_placeholder_image : CollectionArray.token_uri} alt="Images" />

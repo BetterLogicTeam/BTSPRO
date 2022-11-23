@@ -22273,7 +22273,8 @@ img {
     background: var(--pinkColor);
     overflow: hidden;
     white-space: nowrap;
-    border: 0
+    border: 0;
+    cursor: pointer !important ;
 }
 
 .default-btn:before {
@@ -22295,11 +22296,13 @@ img {
     -webkit-transition: -webkit-transform .9s;
     transition: -webkit-transform .9s;
     transition: transform .9s;
-    transition: transform .9s, -webkit-transform .9s
+    transition: transform .9s, -webkit-transform .9s;
+    cursor: pointer !important ;
 }
 
 .default-btn:hover {
-    color: var(--whiteColor) !important
+    color: var(--whiteColor) !important;
+    cursor: pointer !important ;
 }
 
 .default-btn:hover:before {
@@ -22310,15 +22313,18 @@ img {
     -webkit-transform: translateX(-45%) translateY(0) scale(1);
     transform: translateX(-45%) translateY(0) scale(1);
     -webkit-transform-origin: bottom center;
-    transform-origin: bottom center
+    transform-origin: bottom center;
+    cursor: pointer !important ;
 }
 
 .default-btn.two {
-    background: var(--lightblueColor)
+    background: var(--lightblueColor);
+    cursor: pointer !important ;
 }
 
 .default-btn.two:before {
-    background-color: var(--pinkColor)
+    background-color: var(--pinkColor);
+    cursor: pointer !important ;
 }
 
 .section-title span {
@@ -23312,7 +23318,8 @@ img {
     -webkit-transform: translateY(-50%);
     transform: translateY(-50%);
     -webkit-transition: var(--transition);
-    transition: var(--transition)
+    transition: var(--transition);
+    cursor: pointer !important ;
 }
 
 .banner-card .content:hover .banner-user-list h3 a {
@@ -23327,7 +23334,8 @@ img {
 .banner-card .content:hover .default-btn,
 .banner-card:hover .content .default-btn {
     opacity: 1;
-    visibility: visible
+    visibility: visible;
+    cursor: pointer !important ;
 }
 
 .banner-shape .shape-circle1 {
@@ -24068,7 +24076,8 @@ img {
     -webkit-transition: var(--transition);
     transition: var(--transition);
     -webkit-transform: translateY(-50%) translateX(-50%);
-    transform: translateY(-50%) translateX(-50%)
+    transform: translateY(-50%) translateX(-50%);
+    cursor: pointer !important ;
 }
 
 .trending-item .trending-img .trending-user {
@@ -24187,7 +24196,8 @@ img {
 .trending-item:hover .trending-img .default-btn {
     opacity: 1;
     margin-top: 0;
-    visibility: visible
+    visibility: visible;
+    cursor: pointer !important ;
 }
 
 .trending-card {

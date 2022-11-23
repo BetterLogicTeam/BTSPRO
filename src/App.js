@@ -24,6 +24,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import User_Profile from './Components/User_profile/User_Profile';
 import Edit_Profile from './Components/Edit_Profile/Edit_Profile';
 import Create_User_profile from './Components/Create_User_Profile/Create_User_profile';
+import Seller_Details from './Components/Top_seller/Seller_Details';
 
 function App() {
   return (
@@ -37,13 +38,15 @@ function App() {
        <Route path='/create' element={<Create_page/>}/>
        {/* <Route path='/creat' element={<Create_page/>}/> */}
        <Route path='/collection' element={<Collection/>}/>
-       <Route path='/Market_place2/:id/:index/:text' element={<Market_place2/>}/>
+       <Route path='/Market_place2/:id/:index/:text/:useradd' element={<Market_place2/>}/>
        <Route path='/Create_pro' element={<Create_pro/>}/>
        <Route path='/Collection_next/:id' element={<Collection_next/>}/>
        <Route path='/Sell_NFt/:id' element={<Sell_NFt/>}/>
        <Route path='/User_Profile' element={<User_Profile/>}/>
        <Route path='/Edit_Profile' element={<Edit_Profile/>}/>
        <Route path='/Create_User_profile' element={<Create_User_profile/>}/>
+       <Route path='/Seller_Details/:id' element={<Seller_Details/>}/>
+
 
 
 

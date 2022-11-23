@@ -15,11 +15,13 @@ import { TiTick } from "react-icons/ti";
 import "./Top_seller.css"
 import axios from 'axios';
 import { loadWeb3 } from '../../Api/api';
+import { useNavigate } from 'react-router-dom';
 
 
 
 
 function Top_seller() {
+    const history=useNavigate()
     const [topSeller_data, settopSeller_data] = useState([])
 
     const fetchData = async () => {
@@ -72,7 +74,7 @@ function Top_seller() {
                         </h2>
 
 
-                        <button className='explore_btn'>Explore More</button>
+                        {/* <button className='explore_btn'>Explore More</button> */}
                     </div>
 
                 </div>
@@ -81,14 +83,14 @@ function Top_seller() {
                         topSeller_data.map((items, index) => {
                             return (
                                 <>
-                                    <div className="col-lg-3 col-md-4">
+                                    <div className="col-lg-3 col-md-4" onClick={() => history("/Seller_Details/" + index)} style={{cursor:"pointer"}}>
                                         <div className="top_seller_items">
                                             <div className="numberr">{index+1}.</div>
                                             <div>
                                                 <img src={`https://server.nftapi.online/uploads/${items.image}`} className='top_seller_seller_img' alt="" />
                                             </div>
                                             <div className="top_seller_content">
-                                                <h3 className='top_seller_name'><a href="/" className='top_seller_name_link'>{items?.name}</a></h3>
+                                                <h3 className='top_seller_name'><a href="/" className='top_seller_name_link' onClick={() => history("/Seller_Details/" + index)}>{items?.name}</a></h3>
                                                 <span className='top_seller_span'>{items.address?.substring(0, 4) + "..." + items.address?.substring(items.address?.length - 4)}</span>
 
 

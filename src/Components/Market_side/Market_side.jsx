@@ -124,7 +124,15 @@ function Market_side(props) {
         <div className="market-check ">
           <div className=" text-start ps-4 ">
             <div class="form-check mt-3 ">
-              <input class="form-check-input bg-dark " type="checkbox" value="" id="flexCheckDefault" />
+              <input class="form-check-input bg-dark " type="checkbox" value="" id="flexCheckDefault"
+              onChange={(e) =>
+                e.target.checked == true ?
+                  props.setnewNFTS(true)
+                  :
+                  props.setnewNFTS(false)
+
+              }
+              />
               <label class="form-check-label  " for="flexCheckDefault">
                 <b>New </b>
 

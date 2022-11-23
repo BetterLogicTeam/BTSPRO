@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import Loading from '../Loading/Loading'
 import Market_card from '../Market_card/Market_card'
 import Market_pip from '../Market_pip/Market_pip'
 import Market_side from '../Market_side/Market_side'
@@ -12,50 +13,81 @@ function Market_main() {
   const [isSubscribed, setisSubscribed] = useState(false);
   const [Marketplace, setMarketplace] = useState("");
   const [category, setcategory] = useState("All")
+  const [newNFTS, setnewNFTS] = useState(false)
+  const [IsSpinner, setIsSpinner] = useState(false)
 
 
   const get_All_NFT = async () => {
     try {
       // alert(isSubscribed)
-      if(isSubscribed  &&  onSale  == true ){
-       let Array=["Virtual Worlds","Domains"]
+
+      if (isSubscribed && onSale == true) {
+        setIsSpinner(true)
+        let Array = ["Virtual Worlds", "Domains"]
         let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history?category=${category}`)
         setMarketplace("sell_and_auction_history")
-        
         setAll_NFT(res?.data?.data)
-        // setIsSatart(false)
-      }else
-      if (onSale == true) {
-
-        let res = await axios.get(`https://server.nftapi.online/sell_marketplace_history?category=${category}`)
-        setAll_NFT(res?.data?.data)
-        setMarketplace("sell_marketplace_history")
+        setIsSpinner(false)
 
         // setIsSatart(false)
-
-      } else if(isSubscribed==true) {
-        let res = await axios.get(`https://server.nftapi.online/OnAuction_marketplace_history?category=${category}`)
-        setAll_NFT(res?.data?.data)
-        setMarketplace("OnAuction_marketplace_history")
-
-        // setIsSatart(false)
-
-      }else {
-        let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history?category=${category}`)
-        setAll_NFT(res?.data?.data)
-        setMarketplace("sell_and_auction_history")
+      } else
+        if (newNFTS == true) {
+          setIsSpinner(true)
 
 
-      }
+          let res = await axios.get(`http://localhost:3344/Get_New_NFTs?category=${category}`)
+          setMarketplace("sell_and_auction_history")
+
+          setAll_NFT(res?.data?.data)
+          // setIsSatart(false)
+          setIsSpinner(false)
+
+        } else
+          if (onSale == true) {
+            setIsSpinner(true)
+
+
+            let res = await axios.get(`https://server.nftapi.online/sell_marketplace_history?category=${category}`)
+            setAll_NFT(res?.data?.data)
+            setMarketplace("sell_marketplace_history")
+            setIsSpinner(false)
+
+            // setIsSatart(false)
+
+          } else if (isSubscribed == true) {
+            setIsSpinner(true)
+
+
+
+            let res = await axios.get(`https://server.nftapi.online/OnAuction_marketplace_history?category=${category}`)
+
+            setAll_NFT(res?.data?.data)
+            setMarketplace("OnAuction_marketplace_history")
+            setIsSpinner(false)
+
+            // setIsSatart(false)
+
+          } else {
+            setIsSpinner(true)
+
+            let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history?category=${category}`)
+            setAll_NFT(res?.data?.data)
+            setMarketplace("sell_and_auction_history")
+            setIsSpinner(false)
+
+
+          }
 
     } catch (e) {
       console.log("Error While getAll_NFT", e);
+      setIsSpinner(false)
+
     }
   }
 
   useEffect(() => {
     get_All_NFT()
-  }, [onSale,isSubscribed,category])
+  }, [onSale, isSubscribed, category, newNFTS])
 
 
 
@@ -78,10 +110,13 @@ function Market_main() {
 
       <div className=''>
         <div className='container-fluid'>
+          {
+            IsSpinner ? <Loading /> : <></>
 
+          }
           <div className="row  ">
             <div className="col-lg-3 col-md-5 col-sm-12">
-              <Market_side  setisSubscribed={setisSubscribed}  setonSale={setonSale} setcategory={setcategory} />
+              <Market_side setisSubscribed={setisSubscribed} setnewNFTS={setnewNFTS} setonSale={setonSale} setcategory={setcategory} />
             </div>
             <div className="col-lg-9 col-md-7 col-sm-12  ">
               <Market_pip length={All_NFT.length} />
@@ -94,7 +129,7 @@ function Market_main() {
 
                           <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
                             status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
-                            isOnAuction={items.isOnAuction } bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}` : `/Market_place2/${index}/1/${Marketplace}`}
+                            isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/adddress` : `/Market_place2/${index}/1/${Marketplace}/address`}
 
 
                           />

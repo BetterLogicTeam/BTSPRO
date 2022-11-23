@@ -29,6 +29,7 @@
     "react-fs": "^0.0.0",
     "react-icons": "^4.6.0",
     "react-moment": "^1.1.2",
+    "react-moralis": "^1.4.2",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.4.3",
     "react-scripts": "^4.0.2",

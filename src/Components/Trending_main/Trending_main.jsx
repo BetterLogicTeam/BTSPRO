@@ -14,8 +14,8 @@ function Trending_main() {
 
   const fetchData = async () => {
     let acc = await loadWeb3()
-    let getUserAddress = await axios.get('http://localhost:3344/get_trending_NFTs');
-    console.log(getUserAddress)
+    let getUserAddress = await axios.get('https://server.nftapi.online/get_trending_NFTs');
+    console.log(getUserAddress.data.data)
     if (getUserAddress.data.data == null) {
 
     } else {
@@ -43,13 +43,13 @@ function Trending_main() {
         </h2>
 
 
-        <button className='explore_btn'>Explore More</button>
+        {/* <button className='explore_btn'>Explore More</button> */}
       </div>
 
       <div>
      
     </div>
-      <div className="row">
+      <div className="row mt-5">
         {
           Tranding_NFTs.map((items, index) => {
             return (
@@ -57,7 +57,7 @@ function Trending_main() {
                 <div className="col-lg-3 col-md-6 col-sm-12">
                   <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
                     status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
-                    isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history` : `/Market_place2/${index}/1/OnAuction_marketplace_history`}
+                    isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history/tranding` : `/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`}
 
 
                   />

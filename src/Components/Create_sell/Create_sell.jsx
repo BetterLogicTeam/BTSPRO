@@ -26,7 +26,7 @@ function Create_sell() {
                                     <div className="col-lg-6 col-6">
                                         <div className="create-card">
                                             <img src={create_icon1} alt="Images" />
-                                            <h3 className='mt-2'> <a href="/add-wallet" className='create_sell_title'>Set Up Your Wallet</a></h3>
+                                            <h3 className='mt-2'> <a  className='create_sell_title'>Set Up Your Wallet</a></h3>
                                             <p>connect wallet by clicking the wallet icon in the top right corner. Learn about the wallets we support.</p>
                                         </div>
                                     </div>
@@ -34,7 +34,7 @@ function Create_sell() {
                                         <div className="create-card">
                                             <img src={create_icon2} alt="Images" />
                                             <h3 className='mt-2'>
-                                                <a href="/create-collection" className='create_sell_title'>Create Your Collection</a>
+                                                <a  className='create_sell_title'>Create Your Collection</a>
                                             </h3>
                                             <p>Click Create and Add social links, a description, profile &amp; banner images, and set a secondary sales fee.</p>
                                         </div>
@@ -43,7 +43,7 @@ function Create_sell() {
                                         <div className="create-card">
                                             <img src={create_icon3} alt="Images" />
                                             <h3 className='mt-2'>
-                                                <a href="/help-center" className='create_sell_title'> Add Your NFTs</a>
+                                                <a  className='create_sell_title'> Add Your NFTs</a>
                                             </h3>
                                             <p>Upload your work (image, video, audio, or 3D art), add a title and description, and customize your NFTs</p>
                                         </div>
@@ -52,7 +52,7 @@ function Create_sell() {
                                         <div className="create-card">
                                             <img src={create_icon4} alt="Images" />
                                             <h3 className='mt-2'>
-                                                <a href="/activity" className='create_sell_title'>List Them For Sale</a>
+                                                <a  className='create_sell_title'>List Them For Sale</a>
                                             </h3>
                                             <p>Choose between auctions, fixed-price listings, and declining-price listings. You choose how you want to sell your NFTs</p>
                                         </div>

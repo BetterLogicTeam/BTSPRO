@@ -22,11 +22,12 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 
 let acc;
-const Header = (props) => {
+const Header = ({ setUserAddress }) => {
   const [address, setAddress] = useState(null);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   const [userData, setUserData] = useState(null);
+  const [IsUserprofile, setIsUserprofile] = useState(true)
 
   const history = useNavigate();
 
@@ -46,7 +47,9 @@ const Header = (props) => {
       const account = accounts[0];
       alert(`You Are Connected Now ${account}`);
       setAddress(account);
+      setUserAddress(account)
       storeAddress(account.toUpperCase());
+      // window.location.reload();
     } else {
       alert(
         "Please Install MetaMask: 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'"
@@ -61,7 +64,7 @@ const Header = (props) => {
     if (address) {
       console.log(address);
       let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${address}`)
-   
+
 
       if (res?.data.success == false) {
 
@@ -77,17 +80,20 @@ const Header = (props) => {
   };
 
   const storeAddress = async (address) => {
- 
+
     if (address) {
       let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${address}`)
-  
+
 
       if (res?.data.success == false) {
+        setIsUserprofile(false)
         history("/Create_User_profile");
+        window.location.reload();
 
       } else {
-
         setUserData(res?.data?.data?.image)
+        window.location.reload();
+
       }
 
     }
@@ -169,15 +175,22 @@ const Header = (props) => {
                           {
                             !address ? (
 
-                              <li style={{cursor:"pointer"}}><a class="active"  onClick={() => connectMetaMask()}><span className="text-white">Connect Wallet</span> </a></li>
+                              <li style={{ cursor: "pointer" }}><a class="active" onClick={() => connectMetaMask()}><span className="text-white">Connect Wallet</span> </a></li>
                             )
                               :
 
-                              
+
 
                               <ul class="">
                                 <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
                                   <ul class="dropdown-menu">
+                                  
+                                    {
+                                      !userData ?
+                                        <li class="nav-item"><a class="nav-link active " > <Link to="/Create_User_profile"> Create Profile</Link></a></li>
+                                        :
+                                        null
+                                    }
                                     <li class="nav-item"><a class="nav-link active " > <Link to="/User_Profile"> User Profile</Link></a></li>
                                     <li class="nav-item"><a class="nav-link"  ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
 
@@ -215,7 +228,10 @@ const Header = (props) => {
 
                   <li class="nav-item"><a class="nav-link" ><Link to="/">Home</Link></a></li>
                   <li class="nav-item"><a class="nav-link" > <Link to="market_place">MarketPlace</Link></a></li>
-                  <li class="nav-item"><a class="nav-link" ><Link to="/collection">Collection</Link></a></li>
+                  {
+                  
+                  !address ? null : <li class="nav-item"><a class="nav-link" ><Link to="/collection">Collection</Link></a></li>
+                  }
                 </ul>
                 <div class="others-options">
                   <ul class="optional-item-list">
@@ -224,13 +240,21 @@ const Header = (props) => {
                     {
                       !address ? (
 
-                        <li style={{cursor:"pointer"}}><a class="active" onClick={() => connectMetaMask()}>Connect Wallet</a></li>
+                        <li style={{ cursor: "pointer" }}><a class="active" onClick={() => connectMetaMask()}>Connect Wallet</a></li>
                       )
                         :
 
                         <ul class="navbar-nav m-auto">
                           <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
                             <ul class="dropdown-menu">
+                            
+                              {
+                              !userData ?
+                                  <li class="nav-item"><a class="nav-link  " > <Link to="/Create_User_profile"> Create Profile</Link></a></li>
+                                  :
+                                  null
+                              }
+
                               <li class="nav-item"><a class="nav-link  " > <Link to="/User_Profile"> User Profile</Link></a></li>
                               <li class="nav-item"><a class="nav-link" ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
 

@@ -25,11 +25,15 @@ import User_Profile from './Components/User_profile/User_Profile';
 import Edit_Profile from './Components/Edit_Profile/Edit_Profile';
 import Create_User_profile from './Components/Create_User_Profile/Create_User_profile';
 import Seller_Details from './Components/Top_seller/Seller_Details';
+import { useState } from 'react';
 
 function App() {
+  const [UserAddress, setUserAddress] = useState(null)
+
+  console.log("Herader",UserAddress);
   return (
     <div className="">
-      <Header />
+      <Header setUserAddress={setUserAddress} />
 
       <ToastContainer/>
        <Routes>
@@ -37,7 +41,7 @@ function App() {
        <Route path='/market_place' element={<Market_main/>}/>
        <Route path='/create' element={<Create_page/>}/>
        {/* <Route path='/creat' element={<Create_page/>}/> */}
-       <Route path='/collection' element={<Collection/>}/>
+       <Route path='/collection' element={<Collection UserAddress={UserAddress} />}/>
        <Route path='/Market_place2/:id/:index/:text/:useradd' element={<Market_place2/>}/>
        <Route path='/Create_pro' element={<Create_pro/>}/>
        <Route path='/Collection_next/:id' element={<Collection_next/>}/>

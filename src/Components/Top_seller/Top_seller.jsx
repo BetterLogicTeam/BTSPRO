@@ -80,7 +80,7 @@ function Top_seller() {
                 </div>
                 <div className="row mt-5    ">
                     {
-                        topSeller_data.map((items, index) => {
+                        topSeller_data.slice(0,4).map((items, index) => {
                             return (
                                 <>
                                     <div className="col-lg-3 col-md-4" onClick={() => history("/Seller_Details/" + index)} style={{cursor:"pointer"}}>
@@ -90,7 +90,7 @@ function Top_seller() {
                                                 <img src={`https://server.nftapi.online/uploads/${items.image}`} className='top_seller_seller_img' alt="" />
                                             </div>
                                             <div className="top_seller_content">
-                                                <h3 className='top_seller_name'><a href="/" className='top_seller_name_link' onClick={() => history("/Seller_Details/" + index)}>{items?.name}</a></h3>
+                                                <h3 className='top_seller_name'><a  className='top_seller_name_link' onClick={() => history("/Seller_Details/" + index)}>{items?.name}</a></h3>
                                                 <span className='top_seller_span'>{items.address?.substring(0, 4) + "..." + items.address?.substring(items.address?.length - 4)}</span>
 
 

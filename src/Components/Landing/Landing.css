@@ -298,3 +298,7 @@ font-size: 34px !important;
     }
 }
 
+.Timer_position{
+    display: flex;
+    justify-content: center !important;
+}

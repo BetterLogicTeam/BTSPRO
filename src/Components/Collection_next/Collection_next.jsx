@@ -22,8 +22,8 @@ function Collection_next() {
   const { id } = useParams();
   const [CollectionArray, setCollectionArray] = useState([])
   const [TabView, setTabView] = useState(false)
-  const [formInput, updateFormInput] = useState({ price: '0', Category: '' })
-  const [biding_Data, updatebiding_Data] = useState({ price: '0', Category: '', bidtime: "" })
+  const [formInput, updateFormInput] = useState({ price: '0', Category: 'null', Royalties:"null" })
+  const [biding_Data, updatebiding_Data] = useState({ price: 0, Category: 'null', bidtime: "null",Royalties:"null" })
 
   let [tokenid, settoken_id] = useState();
   let [ownadd, setownadd] = useState();
@@ -80,7 +80,7 @@ function Collection_next() {
   };
   const addOrder = async () => {
     let acc = await loadWeb3();
-    console.log("ACC=", acc)
+  
     if (acc == "No Wallet") {
       toast.error("No Wallet Connected")
     }
@@ -88,7 +88,16 @@ function Collection_next() {
       toast.error("Wrong Newtwork please connect to test net")
     } else {
 
+      let metaAddress = sessionStorage.getItem("meta-address");
+      if (metaAddress) {
+        metaAddress=JSON.parse(metaAddress);
+     
+      }
+      if(metaAddress==null){
+        toast.error("Please Connect Metamask First")
+        setIsSpinner(false)
 
+      }else{
       try {
         setIsSpinner(true)
         const web3 = window.web3;
@@ -111,96 +120,108 @@ function Collection_next() {
           }
           else {
             setIsSpinner(true)
-
-            value_price = web3.utils.toWei(value_price)
-            let curreny_time = Math.floor(new Date().getTime() / 1000.0)
-
-
-
-
-            let nftContractOftoken = new web3.eth.Contract(nftMarketToken_Abi, ownadd);
-            let getodernumberhere = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-
-
-
-            // console.log("getorderhere", getItemId)
-            console.log("Own_token_Address", tokenid)
-            console.log("ownadd", ownadd)
-            console.log("curreny_time", curreny_time)
-            console.log("value_price", value_price)
-
-            let selecthere = formInput.Category;
-
-
-            let getListingPrice = await getodernumberhere.methods.getListingPrice().call();
-
-            console.log("getListingPrice", getListingPrice);
-
-            await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
-              from: acc,
-            })
+            if(formInput.Category == "null"){
+            toast.error("Please Select Category ") 
             setIsSpinner(false)
 
-            toast.success("Approved Successfuly")
-            setIsSpinner(true)
+            }else{
+              if(formInput.Royalties=="null"){
+                toast.error("Please Select Royalties fee ")
+                setIsSpinner(false)
+              }else{
+                value_price = web3.utils.toWei(value_price)
+                let curreny_time = Math.floor(new Date().getTime() / 1000.0)
+    
+    
+    
+    
+                let nftContractOftoken = new web3.eth.Contract(nftMarketToken_Abi, ownadd);
+                let getodernumberhere = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+    
+    
+    
+    
+                // console.log("getorderhere", getItemId)
+             
+    
+                let selecthere = formInput.Category;
+    
+    
+                let getListingPrice = await getodernumberhere.methods.getListingPrice().call();
+    
+                console.log("getListingPrice", getListingPrice);
+    
+                await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
+                  from: acc,
+                })
+                setIsSpinner(false)
+    
+                toast.success("Approved Successfuly")
+                setIsSpinner(true)
+    
+                let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+                let hash = await nftContractOf.methods.createMarketItem(tokenid, value_price, formInput.Royalties, false, curreny_time, ownadd).send({
+                  from: acc,
+                  value: getListingPrice,
+                  feelimit: 10000000000
+                })
+                hash = hash.transactionHash
+                console.log("hash", hash);
+                let getItemId = await getodernumberhere.methods.tokenIdToItemId(ownadd, tokenid).call();
+                let MarketItemId = await getodernumberhere.methods.idToMarketItem(getItemId).call();
+                console.log("MarketItemId", MarketItemId)
+                let bidEndTime = MarketItemId.bidEndTime;
+                let isOnAuction = MarketItemId.isOnAuction;
+                let itemId = MarketItemId.itemId;
+                let nftContract = MarketItemId.nftContract;
+                let owner = MarketItemId.owner;
+                let price = MarketItemId.price;
+                let seller = MarketItemId.seller;
+                let sold = MarketItemId.sold;
+                let tokenId = MarketItemId.tokenId;
+    
+    
+                price = web3.utils.fromWei(price)
+                let postapiPushdata = await axios.post('https://server.nftapi.online/open_marketplace', {
+                  "useraddress": acc,
+                  "itemId": itemId,
+                  "nftContract": nftContract,
+                  "tokenId": tokenId,
+                  "owner": owner,
+                  "price": price,
+                  "sold": sold,
+                  "isOnAuction": 0,
+                  "bidEndTime": bidEndTime,
+                  "name": NftName,
+                  "url": NFTurl,
+                  "txn": hash,
+                  "category": selecthere,
+                  "edate": new Date(),
+    
+                })
+    
+                console.log("postapiPushdata", postapiPushdata);
+                // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
+                //   "useraddress": acc,
+                //      "tokenId": tokenId,
+                //      "nftContract":nftContract
+    
+                // })
+    
+    
+                // toast.success("Success")
+                toast.success("Transion Compelete")
+                history("/market_place");
+                setIsSpinner(false)
+    
+                window.location.reload();
+  
+              }
+  
+              }
 
-            let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-            let hash = await nftContractOf.methods.createMarketItem(tokenid, value_price, 1, false, curreny_time, ownadd).send({
-              from: acc,
-              value: getListingPrice,
-              feelimit: 10000000000
-            })
-            hash = hash.transactionHash
-            console.log("hash", hash);
-            let getItemId = await getodernumberhere.methods.tokenIdToItemId(ownadd, tokenid).call();
-            let MarketItemId = await getodernumberhere.methods.idToMarketItem(getItemId).call();
-            console.log("MarketItemId", MarketItemId)
-            let bidEndTime = MarketItemId.bidEndTime;
-            let isOnAuction = MarketItemId.isOnAuction;
-            let itemId = MarketItemId.itemId;
-            let nftContract = MarketItemId.nftContract;
-            let owner = MarketItemId.owner;
-            let price = MarketItemId.price;
-            let seller = MarketItemId.seller;
-            let sold = MarketItemId.sold;
-            let tokenId = MarketItemId.tokenId;
-
-
-            price = web3.utils.fromWei(price)
-            let postapiPushdata = await axios.post('https://server.nftapi.online/open_marketplace', {
-              "useraddress": acc,
-              "itemId": itemId,
-              "nftContract": nftContract,
-              "tokenId": tokenId,
-              "owner": owner,
-              "price": price,
-              "sold": sold,
-              "isOnAuction": 0,
-              "bidEndTime": bidEndTime,
-              "name": NftName,
-              "url": NFTurl,
-              "txn": hash,
-              "category": selecthere,
-              "edate": new Date(),
-
-            })
-
-            console.log("postapiPushdata", postapiPushdata);
-            // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
-            //   "useraddress": acc,
-            //      "tokenId": tokenId,
-            //      "nftContract":nftContract
-
-            // })
-
-
-            // toast.success("Success")
-            toast.success("Transion Compelete")
-            history("/market_place");
-            setIsSpinner(false)
-
-            window.location.reload();
+              
+           
 
 
 
@@ -216,12 +237,23 @@ function Collection_next() {
 
       }
     }
+    }
   }
 
 
   const auction = async () => {
     let acc = await loadWeb3();
-    // console.log("ACC=",acc)
+    let metaAddress = sessionStorage.getItem("meta-address");
+    if (metaAddress) {
+      metaAddress=JSON.parse(metaAddress);
+   
+    }
+    if(metaAddress==null){
+      toast.error("Please Connect Metamask First")
+      setIsSpinner(false)
+
+    }else{
+       // console.log("ACC=",acc)
     setIsSpinner(true)
     if (acc == "No Wallet") {
       toast.error("No Wallet Connected");
@@ -243,8 +275,8 @@ function Collection_next() {
 
         console.log("ownaddress", value_price, "selecthere", selecthere, "Categories_value", Categories_value);
 
-        if (value_price == " ") {
-          toast.error("Please enter the value")
+        if (value_price == "") {
+          toast.error("Please Enter the Price")
           setIsSpinner(false)
 
         } else {
@@ -254,90 +286,125 @@ function Collection_next() {
           setIsSpinner(true)
 
 
-          if (selecthere <= 0) {
+          if (selecthere =="null") {
             toast.error("Please Select the Days")
             setIsSpinner(false)
 
           } else {
+
             setIsSpinner(true)
+            if(Categories_value=="null"){
+              toast.error("Please Select the Category")
+              setIsSpinner(false)
+
+
+            }else{
+              if(biding_Data.Royalties=="null"){
+                toast.error("Please Select the Royalties")
+                setIsSpinner(false)
+              }else{
+                alert(value_price)
+                value_price = web3.utils.toWei(value_price);
+                let curreny_time = Math.floor(new Date().getTime() / 1000.0);
+                let current_time_and_days = 60 * selecthere;
+                current_time_and_days = current_time_and_days + curreny_time;
+
+             
+
+                let nftContractOftoken = new web3.eth.Contract(nftMarketToken_Abi, ownadd);
+                let nftContractInstance = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+                // const getItemId = await nftContractInstance.methods.tokenIdToItemId(ownadd, tokenid).call();
+    
+                // console.log("tokenIdToItemId", getItemId);
+    
+                let getListingPrice = await nftContractInstance.methods.getListingPrice().call();
+    
+                await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
+                  from: acc,
+                })
+    
+                toast.success("Approve SuccessFul")
+    
+          
+    
+                let hash = await nftContractInstance.methods.createMarketItem(tokenid, value_price, biding_Data.Royalties, true, current_time_and_days, ownadd).send({
+                  from: acc,
+                  value: getListingPrice,
+                });
+                hash = hash.transactionHash
+                // console.log("hash", hash);
+                // setIsSpinner(false)
+                let getItemId = await nftContractInstance.methods.tokenIdToItemId(ownadd, tokenid).call();
+                let MarketItemId = await nftContractInstance.methods.idToMarketItem(getItemId).call();
+                // console.log("MarketItemId", MarketItemId)
+                let bidEndTime = MarketItemId.bidEndTime;
+                let isOnAuction = MarketItemId.isOnAuction;
+                let itemId = MarketItemId.itemId;
+                let nftContract = MarketItemId.nftContract;
+                let owner = MarketItemId.owner;
+                let price = MarketItemId.price;
+                let seller = MarketItemId.seller;
+                let sold = MarketItemId.sold;
+                let tokenId = MarketItemId.tokenId;
+    
+                price = web3.utils.fromWei(price)
+                let postapiPushdata = await axios.post('https://server.nftapi.online/open_marketplace', {
+                  "useraddress": acc,
+                  "itemId": itemId,
+                  "nftContract": nftContract,
+                  "tokenId": tokenId,
+                  "owner": owner,
+                  "price": price,
+                  "sold": sold,
+                  "isOnAuction": 1,
+                  "bidEndTime": bidEndTime,
+                  "name": NftName,
+                  "url": NFTurl,
+                  "txn": hash,
+                  "category": Categories_value,
+                  "edate": new Date(),
+    
+                })
+    
+                let postapi = await axios.post('https://server.nftapi.online/trending_NFTs', {
+                  "useraddress": acc,
+                  "itemId": itemId,
+                  "nftContract": nftContract,
+                  "tokenId": tokenId,
+                  "owner": owner,
+                  "price": price,
+                  "sold": sold,
+                  "isOnAuction": 1,
+                  "bidEndTime": bidEndTime,
+                  "name": NftName,
+                  "url": NFTurl,
+                  "txn": hash,
+                  "category": Categories_value,
+                  "edate": new Date(),
+                  "count":0
+    
+                })
+    
+                console.log("postapiPushdata", postapiPushdata);
+                // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
+                //   "useraddress": acc,
+                //      "tokenId": tokenId,
+                //      "nftContract":nftContract
+    
+                // })
+                toast.success("Transion Compelete")
+                history("/market_place");
+                window.location.reload();
+    
+                setIsSpinner(false)
+
+              }
+
+            }
 
 
 
-            value_price = web3.utils.toWei(value_price);
-            let curreny_time = Math.floor(new Date().getTime() / 1000.0);
-            let current_time_and_days = 60 * selecthere;
-            current_time_and_days = current_time_and_days + curreny_time;
-
-            // console.log("selecthere", current_time_and_days);
-            // console.log("current_time_and_days", current_time_and_days);
-            // console.log("curreny_time", curreny_time);
-            let nftContractOftoken = new web3.eth.Contract(nftMarketToken_Abi, ownadd);
-            let nftContractInstance = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-            // const getItemId = await nftContractInstance.methods.tokenIdToItemId(ownadd, tokenid).call();
-
-            // console.log("tokenIdToItemId", getItemId);
-
-            let getListingPrice = await nftContractInstance.methods.getListingPrice().call();
-
-            await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
-              from: acc,
-            })
-
-            toast.success("Approve SuccessFul")
-
-            let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-            let hash = await nftContractOf.methods.createMarketItem(tokenid, value_price, 1, true, current_time_and_days, ownadd).send({
-              from: acc,
-              value: getListingPrice,
-            });
-            hash = hash.transactionHash
-            // console.log("hash", hash);
-            // setIsSpinner(false)
-            let getItemId = await nftContractOf.methods.tokenIdToItemId(ownadd, tokenid).call();
-            let MarketItemId = await nftContractOf.methods.idToMarketItem(getItemId).call();
-            // console.log("MarketItemId", MarketItemId)
-            let bidEndTime = MarketItemId.bidEndTime;
-            let isOnAuction = MarketItemId.isOnAuction;
-            let itemId = MarketItemId.itemId;
-            let nftContract = MarketItemId.nftContract;
-            let owner = MarketItemId.owner;
-            let price = MarketItemId.price;
-            let seller = MarketItemId.seller;
-            let sold = MarketItemId.sold;
-            let tokenId = MarketItemId.tokenId;
-
-            price = web3.utils.fromWei(price)
-            let postapiPushdata = await axios.post('https://server.nftapi.online/open_marketplace', {
-              "useraddress": acc,
-              "itemId": itemId,
-              "nftContract": nftContract,
-              "tokenId": tokenId,
-              "owner": owner,
-              "price": price,
-              "sold": sold,
-              "isOnAuction": 1,
-              "bidEndTime": bidEndTime,
-              "name": NftName,
-              "url": NFTurl,
-              "txn": hash,
-              "category": Categories_value,
-              "edate": new Date(),
-
-            })
-
-            console.log("postapiPushdata", postapiPushdata);
-            // let res= await axios.post('https://server.nftapi.online/trending_NFTs',{
-            //   "useraddress": acc,
-            //      "tokenId": tokenId,
-            //      "nftContract":nftContract
-
-            // })
-            toast.success("Transion Compelete")
-            history("/market_place");
-            window.location.reload();
-
-            setIsSpinner(false)
+           
 
           }
         }
@@ -348,6 +415,8 @@ function Collection_next() {
 
       }
     }
+    }
+   
   };
 
 
@@ -404,12 +473,15 @@ function Collection_next() {
                       style={{
                         backgroundColor: isActive ? '#14233d' : '#f14d5d',
                         color: isActive ? '#8d99ff' : '',
+                        cursor:"pointer"
                       }}>Fixed Price</a>
                   </div>
                   <div class="item-details-btn2" onClick={() => (setTabView(true), handleClick())}>
                     <a class="default-btn3" style={{
                       backgroundColor: isActive ? '#f14d5d' : '#14233d',
                       color: isActive ? '#8d99ff' : '',
+                      cursor:"pointer"
+
                     }} >Timed Auction</a>
                   </div>
 
@@ -459,9 +531,31 @@ function Collection_next() {
 
                       </div>
                       <div class="collection-category">
+                        <h3>Royalties</h3>
+                        <select class="form-select" aria-label="Default select example" onChange={e => updateFormInput({ ...formInput, Royalties: e.target.value })} >
+                     
+                          <option selected >Choose Royalties</option>
+                          <option value="0">0%</option>
+                          <option value="1">1%</option>
+                          <option value="2">2%</option>
+                          <option value="3">3%</option>
+                          <option value="4">4%</option>
+                          <option value="5">5%</option>
+                          <option value="6">6%</option>
+                          <option value="7">7%</option>
+                          <option value="8">8%</option>
+                          <option value="9">9%</option>
+                          <option value="10">10%</option>
+
+                         
+
+                        </select>
+
+                      </div>
+                      <div class="collection-category">
                         <h3>Choose Item Category</h3>
                         <select class="form-select" aria-label="Default select example" onChange={e => updateFormInput({ ...formInput, Category: e.target.value })} >
-                          <option selected>Choose Item Category</option>
+                         
                           <option selected>Choose Item Category</option>
                           <option value="Sports">Sports</option>
                           <option value="3D">3D</option>
@@ -479,7 +573,8 @@ function Collection_next() {
 
                       </div>
 
-                      <div class="item-details-btn mt-4">
+                        
+                      <div class="item-details-btn mt-4" style={{cursor:"pointer"}}>
                         <a class="default-btn border-radius-50" onClick={() => addOrder()} >{
 
                           IsSpinner == true ?
@@ -538,6 +633,28 @@ function Collection_next() {
                         <input type="text" name="name" id="name" class="form-control" placeholder="e. g. “0.003 BNB”" onChange={e => updatebiding_Data({ ...biding_Data, price: e.target.value })} />
 
                       </div>
+                      <div class="collection-category">
+                        <h3>Royalties</h3>
+                        <select class="form-select" aria-label="Default select example" onChange={e => updatebiding_Data({ ...biding_Data, Royalties: e.target.value })} >
+                     
+                          <option selected >Choose Royalties</option>
+                          <option value="0">0%</option>
+                          <option value="1">1%</option>
+                          <option value="2">2%</option>
+                          <option value="3">3%</option>
+                          <option value="4">4%</option>
+                          <option value="5">5%</option>
+                          <option value="6">6%</option>
+                          <option value="7">7%</option>
+                          <option value="8">8%</option>
+                          <option value="9">9%</option>
+                          <option value="10">10%</option>
+
+                         
+
+                        </select>
+
+                      </div>
 
                       <div class="collection-category">
                         <h3>Choose Bid Time</h3>
@@ -577,7 +694,7 @@ function Collection_next() {
 
                       </div>
 
-                      <div class="item-details-btn mt-4">
+                      <div class="item-details-btn mt-4" style={{cursor:"pointer"}}>
                         <a class="default-btn border-radius-50" onClick={() => auction()} > {
 
                           IsSpinner == true ?

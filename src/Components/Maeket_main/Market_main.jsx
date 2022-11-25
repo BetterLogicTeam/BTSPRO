@@ -35,7 +35,7 @@ function Market_main() {
           setIsSpinner(true)
 
 
-          let res = await axios.get(`http://localhost:3344/Get_New_NFTs?category=${category}`)
+          let res = await axios.get(`https://server.nftapi.online/Get_New_NFTs?category=${category}`)
           setMarketplace("sell_and_auction_history")
 
           setAll_NFT(res?.data?.data)

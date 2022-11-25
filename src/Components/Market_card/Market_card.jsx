@@ -37,9 +37,9 @@ function Market_card(props) {
           <a >
             <img src={props.img} alt="Images" style={{ height: "17rem", width: "100%" }} />
           </a>
-          <p>
+          {/* <p>
             <i class="fa-regular fa-heart"></i> 122
-          </p>
+          </p> */}
           {
             props.isOnAuction == 1 ? <Countdown date={Date.now() + (((parseInt(props.bidEndTime) * 1000)) - Date.now())} renderer={renderer} /> : null
           }
@@ -70,7 +70,7 @@ function Market_card(props) {
           </div>
 
 
-          <div class="item-details-btn mt-4" onClick={()=>navigation(props.history)} >
+          <div class="item-details-btn mt-4" onClick={()=>navigation(props.history)}  style={{cursor:"pointer"}}>
             <a class="default-btn border-radius-50"  > {props.isOnAuction == 1 &&  startTime2==true ?  "Claim Now": props.btn}</a>
           </div>
 

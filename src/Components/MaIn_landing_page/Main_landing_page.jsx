@@ -16,7 +16,7 @@ function Main_landing_page() {
     <div>
 
         <Landing/>
-      {/* <Trending_main/> */}
+      <Trending_main/>
       <Top_seller/>
       <Live_auction_main/>
       {/* <Featured_main/> */}

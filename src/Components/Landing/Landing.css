@@ -1,9 +1,10 @@
 .banner-area {
     background-color: #0a1831;
-    /* padding: 100px 0 70px; */
+    padding: 200px 0 0px 0;
     /* position: relative; */
     z-index: 1;
     overflow: hidden;
+    /* height: 100vh; */
 }
 
 .banner-content span {
@@ -277,7 +278,11 @@ img {
 font-size: 34px !important;
     }
 
+.banner-area{
+    height: auto;
+    padding: 50px 0 0px 0;
 
+}
     .responsive_dir{
         display: flex !important;
         flex-direction: column !important;
@@ -302,3 +307,4 @@ font-size: 34px !important;
     display: flex;
     justify-content: center !important;
 }
+.landing_main{}

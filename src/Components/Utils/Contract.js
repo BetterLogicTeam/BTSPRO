@@ -1,5 +1,5 @@
 export const nftMarketContractAddress =
-  "0x036e5ccCf97dA17147c73dD3a0f6e3acC6934B7B";
+  "0x0265206a229ba4D8eF7DB20E8246dB86a552E1C2";
 export const nftMarketContractAddress_Abi = [{
   "inputs": [],
   "stateMutability": "nonpayable",
@@ -44,6 +44,16 @@ export const nftMarketContractAddress_Abi = [{
   }],
   "name": "MarketItemCreated",
   "type": "event"
+}, {
+  "inputs": [],
+  "name": "Marketfee",
+  "outputs": [{
+    "internalType": "uint256",
+    "name": "",
+    "type": "uint256"
+  }],
+  "stateMutability": "view",
+  "type": "function"
 }, {
   "inputs": [],
   "name": "TOTAL_PERC",
@@ -127,6 +137,16 @@ export const nftMarketContractAddress_Abi = [{
 }, {
   "inputs": [{
     "internalType": "uint256",
+    "name": "_fee",
+    "type": "uint256"
+  }],
+  "name": "changeMarketfee",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "inputs": [{
+    "internalType": "uint256",
     "name": "itemId",
     "type": "uint256"
   }, {
@@ -136,7 +156,7 @@ export const nftMarketContractAddress_Abi = [{
   }],
   "name": "claimBidItem",
   "outputs": [],
-  "stateMutability": "nonpayable",
+  "stateMutability": "payable",
   "type": "function"
 }, {
   "inputs": [{
@@ -207,6 +227,16 @@ export const nftMarketContractAddress_Abi = [{
   "stateMutability": "view",
   "type": "function"
 }, {
+  "inputs": [],
+  "name": "divisor",
+  "outputs": [{
+    "internalType": "uint256",
+    "name": "",
+    "type": "uint256"
+  }],
+  "stateMutability": "view",
+  "type": "function"
+}, {
   "inputs": [{
     "internalType": "address",
     "name": "add",
@@ -250,6 +280,10 @@ export const nftMarketContractAddress_Abi = [{
       "internalType": "uint256",
       "name": "bidEndTime",
       "type": "uint256"
+    }, {
+      "internalType": "bool",
+      "name": "isactive",
+      "type": "bool"
     }],
     "internalType": "struct NFTMarket.MarketItem[]",
     "name": "",
@@ -297,6 +331,10 @@ export const nftMarketContractAddress_Abi = [{
       "internalType": "uint256",
       "name": "bidEndTime",
       "type": "uint256"
+    }, {
+      "internalType": "bool",
+      "name": "isactive",
+      "type": "bool"
     }],
     "internalType": "struct NFTMarket.MarketItem[]",
     "name": "",
@@ -348,6 +386,10 @@ export const nftMarketContractAddress_Abi = [{
       "internalType": "uint256",
       "name": "bidEndTime",
       "type": "uint256"
+    }, {
+      "internalType": "bool",
+      "name": "isactive",
+      "type": "bool"
     }],
     "internalType": "struct NFTMarket.MarketItem[]",
     "name": "",
@@ -372,16 +414,6 @@ export const nftMarketContractAddress_Abi = [{
     "type": "address"
   }],
   "name": "getDueAmount",
-  "outputs": [{
-    "internalType": "uint256",
-    "name": "",
-    "type": "uint256"
-  }],
-  "stateMutability": "view",
-  "type": "function"
-}, {
-  "inputs": [],
-  "name": "getListingPrice",
   "outputs": [{
     "internalType": "uint256",
     "name": "",
@@ -460,6 +492,10 @@ export const nftMarketContractAddress_Abi = [{
     "internalType": "uint256",
     "name": "bidEndTime",
     "type": "uint256"
+  }, {
+    "internalType": "bool",
+    "name": "isactive",
+    "type": "bool"
   }],
   "stateMutability": "view",
   "type": "function"
@@ -525,22 +561,7 @@ export const nftMarketContractAddress_Abi = [{
   "outputs": [],
   "stateMutability": "nonpayable",
   "type": "function"
-}, {
-  "inputs": [{
-    "internalType": "uint256",
-    "name": "itemId",
-    "type": "uint256"
-  }, {
-    "internalType": "address",
-    "name": "nftContractAddress",
-    "type": "address"
-  }],
-  "name": "withdrawYourBid",
-  "outputs": [],
-  "stateMutability": "nonpayable",
-  "type": "function"
 }]
-
 
 export const nftMarketTokenAddress =
   "0x84D1c1F7b33c70eaDCf9f8B29140A18AeC389fCB";
@@ -1337,7 +1358,7 @@ export const nftMarketToken_Abi = [{
 
 
 
-export const CreateNFT = "0x038576432600f9431572DB558AB0369e35E376aa";
+export const CreateNFT = "0x8D5030F93C7c4a2F20EbbFE3cEd4bBbdc0Fc3b4f";
 export const CreateNFT_ABI = [{
   "inputs": [{
     "internalType": "address",
@@ -1439,6 +1460,14 @@ export const CreateNFT_ABI = [{
     "internalType": "string",
     "name": "tokenURI",
     "type": "string"
+  }, {
+    "internalType": "string",
+    "name": "_name",
+    "type": "string"
+  }, {
+    "internalType": "string",
+    "name": "_symbol",
+    "type": "string"
   }],
   "name": "createToken",
   "outputs": [{
@@ -1481,7 +1510,11 @@ export const CreateNFT_ABI = [{
   "stateMutability": "view",
   "type": "function"
 }, {
-  "inputs": [],
+  "inputs": [{
+    "internalType": "uint256",
+    "name": "id",
+    "type": "uint256"
+  }],
   "name": "name",
   "outputs": [{
     "internalType": "string",
@@ -1573,7 +1606,11 @@ export const CreateNFT_ABI = [{
   "stateMutability": "view",
   "type": "function"
 }, {
-  "inputs": [],
+  "inputs": [{
+    "internalType": "uint256",
+    "name": "id",
+    "type": "uint256"
+  }],
   "name": "symbol",
   "outputs": [{
     "internalType": "string",

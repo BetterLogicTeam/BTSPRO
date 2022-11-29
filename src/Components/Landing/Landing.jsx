@@ -88,10 +88,10 @@ function Landing() {
 
                                                 return (
                                                     <>
-                                                        <div className="col-lg-6 col-sm-6"  >
+                                                        <div className="col-lg-6 col-sm-6 "  >
                                                             <div className="banner-card" style={{ marginTop: index == 1 ? "2rem" : "0rem" }}>
                                                                 <div className="banner-card-img">
-                                                                    <img src={items.url} alt="Images" style={{ height: "27rem" }} />
+                                                                    <img src={items.url} alt="Images" style={{ height: "24rem" }} />
                                                                     <div className="banner-card-content">
                                                                         {/* <div className="card-left">
                                                                             <span>{ items.isOnAuction == 1 &&  startTime2==true ?  "Sell Ended": items.status}</span>

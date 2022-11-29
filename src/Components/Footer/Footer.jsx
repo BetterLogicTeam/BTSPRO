@@ -29,7 +29,7 @@ function Footer() {
                 <button className="footer_btn_here"> Subscribe Now</button>
               </div>
             </div> */}
-            <div class="col-lg-4 col-sm-8">
+            <div class="col-lg-6 col-sm-8">
               <div class="footer-widget">
                 <div class="footer-logo">
                   <a href="/"
@@ -47,37 +47,40 @@ function Footer() {
                 </div>
               </div>
             </div>
-            {/* <div className="col-lg-2">
+            <div className="col-lg-2">
               <div className="footer_links_here">
                 <h3 className="footer_link_heading">
                   Marketplace
                 </h3>
                 <ul className="p-0 m-0">
+                  <li className="footer_list"><Link to="/market_place"><a className="footer_links_link">All NFTs</a></Link></li>
                   <li className="footer_list"><a href="#" className="footer_links_link">Art</a></li>
-                  <li className="footer_list"><a href="#" className="footer_links_link">All NFTs</a></li>
+                  <li className="footer_list"><Link to="/collection"><a  className="footer_links_link">Collectibles</a></Link></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Domain Names</a></li>
                   <li className="footer_list"><a href="#" className="footer_links_link">Music</a></li>
-                  <li className="footer_list"><a href="#" className="footer_links_link">Trending Cards</a></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Photography</a></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Sports</a></li>
+                  <li className="footer_list"><Link to="/"><a  className="footer_links_link">Trending Cards</a></Link></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Utility</a></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Virtual Worlds</a></li>
                 </ul>
 
               </div>
-            </div> */}
-            <div className="col-lg-4">
-
             </div>
+          
             <div className="col-lg-2">
               <div className="footer_links_here">
                 <h3 className="footer_link_heading">
                   My Account
                 </h3>
                 <ul className="p-0 m-0">
-                  {/* <li className="footer_list"><a href="#" className="footer_links_link">Authors</a></li> */}
-                  <li className="footer_list"> <Link to="/collection"><a href="#" className="footer_links_link">Collection</a></Link></li>
-                  <li className="footer_list">
-                    <Link to="/User_Profile">
-                      <a className="footer_links_link">Author Profile</a>
-                    </Link>
-                  </li>
-                  <li className="footer_list"> <Link to="/Create_pro"><a className="footer_links_link">Create Collection</a>    </Link></li>
+                <li className="footer_list"> <Link to="/User_Profile"><a href="#" className="footer_links_link">Profile</a></Link></li>
+                <li className="footer_list"> <Link to="#"><a href="#" className="footer_links_link">Favorites</a></Link></li>
+                <li className="footer_list"><a href="#" className="footer_links_link">Watchlist</a></li>
+                <li className="footer_list"><Link to="/collection"><a href="#" className="footer_links_link">My Collection</a></Link></li>
+                <li className="footer_list"> <Link to="/Create_pro"><a className="footer_links_link">Create</a>    </Link></li>
+                <li className="footer_list"><a href="#" className="footer_links_link">Settings</a></li>
+
                 </ul>
 
               </div>
@@ -85,11 +88,11 @@ function Footer() {
             <div className="col-lg-2">
               <div className="footer_links_here">
                 <h3 className="footer_link_heading">
-                  Resources
+                  Stats
                 </h3>
                 <ul className="p-0 m-0">
-                  <li className="footer_list"><a href="#" className="footer_links_link">Helps & Support</a></li>
-                  <li className="footer_list"><Link to="/market_place"><a href="#" className="footer_links_link">Live Auctions</a></Link></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Rankings</a></li>
+                  <li className="footer_list"><a href="#" className="footer_links_link">Activity</a></li>
 
                 </ul>
 

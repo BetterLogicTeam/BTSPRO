@@ -8,7 +8,7 @@ import { EvmChain } from '@moralisweb3/evm-utils'
 import moment from "moment";
 import Avtat from '../../Assets/Avtat.png'
 import { loadWeb3 } from '../../Api/api';
-import { nftMarketContractAddress, nftMarketContractAddress_Abi, nftMarketToken_Abi } from '../Utils/Contract';
+import { CreateNFT, CreateNFT_ABI, nftMarketContractAddress, nftMarketContractAddress_Abi, nftMarketToken_Abi } from '../Utils/Contract';
 import { toast } from 'react-toastify';
 import axios from 'axios';
 import profile_placeholder_image from '../../Assets/profile_placeholder_image.629dab34.jpg'
@@ -29,6 +29,8 @@ function Collection_next() {
   let [ownadd, setownadd] = useState();
   let [NftName, setNftName] = useState()
   let [NFTurl, setNFTurl] = useState()
+  let [symbolNFT, setsymbolNFT] = useState()
+
   const [IsSpinner, setIsSpinner] = useState(false)
   const [isActive, setIsActive] = useState(false);
 
@@ -53,10 +55,25 @@ function Collection_next() {
       chain,
     });
 
+   
+
     setCollectionArray(response.data.result[id])
     settoken_id(response.data.result[id].token_id)
     setownadd(response.data.result[id].token_address)
-    setNftName(response.data.result[id].name)
+    console.log("Name",response.data.result[id].token_address.toUpperCase() == CreateNFT.toUpperCase());
+    if (response.data.result[id].token_address.toUpperCase() == CreateNFT.toUpperCase()) {
+      let web3 = window.web3
+      
+      let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
+      let nftName = await nftContractOf.methods.name(response.data.result[id].token_id).call();
+      let nftsymbol = await nftContractOf.methods.symbol(response.data.result[id].token_id).call();
+      setsymbolNFT(nftsymbol)
+      setNftName(nftName)
+    }else{
+      setNftName(response.data.result[id].name)
+      setsymbolNFT(response.data.result[id].symbol)
+
+    }
     setNFTurl(response.data.result[id].token_uri)
     setIsSpinner(false)
 
@@ -125,10 +142,7 @@ function Collection_next() {
             setIsSpinner(false)
 
             }else{
-              if(formInput.Royalties=="null"){
-                toast.error("Please Select Royalties fee ")
-                setIsSpinner(false)
-              }else{
+             
                 value_price = web3.utils.toWei(value_price)
                 let curreny_time = Math.floor(new Date().getTime() / 1000.0)
     
@@ -147,9 +161,9 @@ function Collection_next() {
                 let selecthere = formInput.Category;
     
     
-                let getListingPrice = await getodernumberhere.methods.getListingPrice().call();
+                // let getListingPrice = await getodernumberhere.methods.getListingPrice().call(); 0.0025
     
-                console.log("getListingPrice", getListingPrice);
+                // console.log("getListingPrice", getListingPrice);
     
                 await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
                   from: acc,
@@ -160,9 +174,9 @@ function Collection_next() {
                 setIsSpinner(true)
     
                 let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-                let hash = await nftContractOf.methods.createMarketItem(tokenid, value_price, formInput.Royalties, false, curreny_time, ownadd).send({
+                let hash = await nftContractOf.methods.createMarketItem(tokenid, value_price, 5, false, curreny_time, ownadd).send({
                   from: acc,
-                  value: getListingPrice,
+              
                   feelimit: 10000000000
                 })
                 hash = hash.transactionHash
@@ -217,15 +231,6 @@ function Collection_next() {
                 window.location.reload();
   
               }
-  
-              }
-
-              
-           
-
-
-
-
 
           }
         }
@@ -299,11 +304,8 @@ function Collection_next() {
 
 
             }else{
-              if(biding_Data.Royalties=="null"){
-                toast.error("Please Select the Royalties")
-                setIsSpinner(false)
-              }else{
-                alert(value_price)
+            
+               
                 value_price = web3.utils.toWei(value_price);
                 let curreny_time = Math.floor(new Date().getTime() / 1000.0);
                 let current_time_and_days = 60 * selecthere;
@@ -317,7 +319,7 @@ function Collection_next() {
     
                 // console.log("tokenIdToItemId", getItemId);
     
-                let getListingPrice = await nftContractInstance.methods.getListingPrice().call();
+                // let getListingPrice = await nftContractInstance.methods.getListingPrice().call();
     
                 await nftContractOftoken.methods.setApprovalForAll(nftMarketContractAddress, true).send({
                   from: acc,
@@ -327,9 +329,9 @@ function Collection_next() {
     
           
     
-                let hash = await nftContractInstance.methods.createMarketItem(tokenid, value_price, biding_Data.Royalties, true, current_time_and_days, ownadd).send({
+                let hash = await nftContractInstance.methods.createMarketItem(tokenid, value_price, 5, true, current_time_and_days, ownadd).send({
                   from: acc,
-                  value: getListingPrice,
+                  // value: getListingPrice,
                 });
                 hash = hash.transactionHash
                 // console.log("hash", hash);
@@ -400,7 +402,7 @@ function Collection_next() {
 
               }
 
-            }
+            
 
 
 
@@ -497,7 +499,7 @@ function Collection_next() {
 
                         </div>
                         <ul>
-                          <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{CollectionArray.name}</span></b></li>
+                          <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{NftName}</span></b></li>
                           <li><h5>Created :</h5><b>  &nbsp;&nbsp;
                             <span className='fs-5 text_color'>
 
@@ -509,7 +511,7 @@ function Collection_next() {
 
 
                           </b></li>
-                          <li><h5>NFT Symbol :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{CollectionArray.symbol}</span></b></li>
+                          <li><h5>NFT Symbol :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{symbolNFT}</span></b></li>
 
 
                         </ul>
@@ -527,31 +529,10 @@ function Collection_next() {
 
                       <div class="preview-box">
                         <h3>Price</h3>
-                        <input type="number" name="name" id="name" class="form-control" placeholder="e. g. “0.003 BNB”" onChange={e => updateFormInput({ ...formInput, price: e.target.value })} />
+                        <input type="number" class="form-control" placeholder="e. g. “0.003 BNB”" onChange={e => updateFormInput({ ...formInput, price: e.target.value })} />
 
                       </div>
-                      <div class="collection-category">
-                        <h3>Royalties</h3>
-                        <select class="form-select" aria-label="Default select example" onChange={e => updateFormInput({ ...formInput, Royalties: e.target.value })} >
-                     
-                          <option selected >Choose Royalties</option>
-                          <option value="0">0%</option>
-                          <option value="1">1%</option>
-                          <option value="2">2%</option>
-                          <option value="3">3%</option>
-                          <option value="4">4%</option>
-                          <option value="5">5%</option>
-                          <option value="6">6%</option>
-                          <option value="7">7%</option>
-                          <option value="8">8%</option>
-                          <option value="9">9%</option>
-                          <option value="10">10%</option>
-
-                         
-
-                        </select>
-
-                      </div>
+                      
                       <div class="collection-category">
                         <h3>Choose Item Category</h3>
                         <select class="form-select" aria-label="Default select example" onChange={e => updateFormInput({ ...formInput, Category: e.target.value })} >
@@ -602,7 +583,7 @@ function Collection_next() {
 
                         </div>
                         <ul>
-                          <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{CollectionArray.name}</span></b></li>
+                          <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{NftName}</span></b></li>
                           <li><h5>Created :</h5><b>  &nbsp;&nbsp;
                             <span className='fs-5 text_color'>
 
@@ -614,7 +595,7 @@ function Collection_next() {
 
 
                           </b></li>
-                          <li><h5>NFT Symbol :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{CollectionArray.symbol}</span></b></li>
+                          <li><h5>NFT Symbol :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{symbolNFT}</span></b></li>
 
                         </ul>
                       </div>
@@ -630,31 +611,10 @@ function Collection_next() {
                       </div>
                       <div class="preview-box">
                         <h3>Price</h3>
-                        <input type="text" name="name" id="name" class="form-control" placeholder="e. g. “0.003 BNB”" onChange={e => updatebiding_Data({ ...biding_Data, price: e.target.value })} />
+                        <input type="number"  class="form-control" placeholder="e. g. “0.003 BNB”" onChange={e => updatebiding_Data({ ...biding_Data, price: e.target.value })} />
 
                       </div>
-                      <div class="collection-category">
-                        <h3>Royalties</h3>
-                        <select class="form-select" aria-label="Default select example" onChange={e => updatebiding_Data({ ...biding_Data, Royalties: e.target.value })} >
                      
-                          <option selected >Choose Royalties</option>
-                          <option value="0">0%</option>
-                          <option value="1">1%</option>
-                          <option value="2">2%</option>
-                          <option value="3">3%</option>
-                          <option value="4">4%</option>
-                          <option value="5">5%</option>
-                          <option value="6">6%</option>
-                          <option value="7">7%</option>
-                          <option value="8">8%</option>
-                          <option value="9">9%</option>
-                          <option value="10">10%</option>
-
-                         
-
-                        </select>
-
-                      </div>
 
                       <div class="collection-category">
                         <h3>Choose Bid Time</h3>

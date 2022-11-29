@@ -31,7 +31,7 @@ function Top_seller() {
 
 
         let getUserAddress = await axios.get(' https://server.nftapi.online/trending_address_marketplace');
-        console.log("Api_Data121", getUserAddress.data.data);
+        // console.log("Api_Data121", getUserAddress.data.data);
         getUserAddress = getUserAddress?.data?.data
         let get_Length = getUserAddress?.length;
         // console.log("get_Length", get_Length);

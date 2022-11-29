@@ -56,7 +56,7 @@ export default function User_Profile() {
                 <div class="container">
                     <div class="inner-title">
                         <h3> User Profile</h3>
-                        <ul><li><a href="/">Home</a></li><li> User Profile</li></ul>
+                        <ul><li><Link to='/' className='text-white'>Home</Link> </li><li><a href="#"> User Profile</a></li></ul>
                         <div class="inner-shape">
                             <img src="https://gible-nft.hibootstrap.com/images/inner-banner/inner-shape1.png" alt="Images" />
                             <img src="https://gible-nft.hibootstrap.com/images/inner-banner/inner-shape2.png" alt="Images" />

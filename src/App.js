@@ -30,7 +30,6 @@ import { useState } from 'react';
 function App() {
   const [UserAddress, setUserAddress] = useState(null)
 
-  console.log("Herader",UserAddress);
   return (
     <div className="">
       <Header setUserAddress={setUserAddress} />

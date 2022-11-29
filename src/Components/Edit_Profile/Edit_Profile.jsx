@@ -2,7 +2,7 @@ import { Avatar } from '@mui/material'
 import axios from 'axios';
 import React, { useRef, useState } from 'react'
 import { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loadWeb3 } from '../../Api/api';
 import './Edit_profile.css'
@@ -110,7 +110,8 @@ export default function Edit_Profile() {
                 <div class="container">
                     <div class="inner-title">
                         <h3>Update Profile</h3>
-                        <ul><li><a href="/">Home</a></li><li>Update Profile</li></ul>
+            
+                        <ul><li><Link to='/' className='text-white'>Home</Link> </li><li><a href="#"> Update Profile</a></li></ul>
                         <div class="inner-shape">
                             <img src="https://gible-nft.hibootstrap.com/images/inner-banner/inner-shape1.png" alt="Images" />
                             <img src="https://gible-nft.hibootstrap.com/images/inner-banner/inner-shape2.png" alt="Images" />

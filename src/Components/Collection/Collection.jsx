@@ -16,6 +16,7 @@ import { myCollection, runApp } from '../../Redux/counterSlice'
 import { loadWeb3 } from '../../Api/api'
 import axios from 'axios'
 import { toast } from 'react-toastify'
+import { CreateNFT, CreateNFT_ABI, nftMarketContractAddress, nftMarketContractAddress_Abi } from '../Utils/Contract'
 
 
 function Collection() {
@@ -26,11 +27,16 @@ function Collection() {
   const [email, setEmail] = useState("User Email")
   const [Image, setImage] = useState("")
   const [UserAddress, setUserAddress] = useState("User Addrss")
+  let [btnDisable, setbtnDisable] = useState(false);
+  const [withdrawAmount, setwithdrawAmount] = useState("0")
+  const [IsActive, setIsActive] = useState()
+
+
   // console.log("Result",count);
 
   let metaAddress = sessionStorage.getItem("meta-address");
-  if(metaAddress){
-    metaAddress=JSON.parse(metaAddress).toUpperCase()
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress).toUpperCase()
   }
 
 
@@ -44,99 +50,112 @@ function Collection() {
   const runApp = async () => {
     let imageArray = [];
     let acc = await loadWeb3()
-    console.log("UserAddress", UserAddress);
+    // console.log("UserAddress", UserAddress);
     // if (metaAddress != null) {
-      await Moralis.start({
-        apiKey: "6sSTRl3GXEZ9CZ3rZChKksJuBZS1hVkXalATDiIa8dczkYm7UbFsldAeJUbAwL02",
-        // ...and any other configuration
-      });
+    await Moralis.start({
+      apiKey: "6sSTRl3GXEZ9CZ3rZChKksJuBZS1hVkXalATDiIa8dczkYm7UbFsldAeJUbAwL02",
+      // ...and any other configuration
+    });
 
-      const address = acc;
+    const address = acc;
 
-      const chain = EvmChain.BSC_TESTNET;
-      // console.log("Chain",chain);
+    const chain = EvmChain.BSC_TESTNET;
+    // console.log("Chain",chain);
 
-      let res = await Moralis.EvmApi.nft.getWalletNFTs({
-        address,
-        chain,
-      });
+    let res = await Moralis.EvmApi.nft.getWalletNFTs({
+      address,
+      chain,
+    });
 
-      console.log("Res",res);
-
-
-      res = res.data.result
-
-      let loopLength = res.length;
-      // console.log("Length",res.length);
-
-      for (let i = 0; i < loopLength; i++) {
-        // console.log("Url", res[i].token_uri);
-        let jsonUsrl = res[i].token_uri;
-        if (jsonUsrl == null) {
-          jsonUsrl = profile_placeholder_image
-          // console.log("Image_is_null");
-        }
-        else if (jsonUsrl.endsWith(".json")) {
-          jsonUsrl = profile_placeholder_image
-          // console.log("jsonUsrl",jsonUsrl);
-        } else if (jsonUsrl.endsWith(".jpg")) {
-          jsonUsrl = jsonUsrl;
-          // console.log("jsonUsrl",jsonUsrl);
-        }
-        else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/") && jsonUsrl.endsWith(".jpg") || jsonUsrl.endsWith(".png")) {
-
-          jsonUsrl = jsonUsrl
-
-        }
-        else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/")) {
-          jsonUsrl = jsonUsrl
-          // let Response= await axios.get(jsonUsrl);
-          // Response = Response?.data?.properties?.image?.description
-          // jsonUsrl = `https://ipfs.moralis.io:2053/${Response}`
-
-          // console.log("Url",jsonUsrl);
-
-          // let Api = await axios.get(jsonUsrl)
-          // console.log("Api", Api.data.properties.image.description);
-          // Api = Api.data.properties.image.description
-          // jsonUsrl = `https://ipfs.moralis.io:2053/${Api}`
-
-        }
-        else {
-          jsonUsrl = profile_placeholder_image
-        }
+    console.log("Res", res);
 
 
+    res = res.data.result
 
+    let loopLength = res.length;
+    // console.log("Length",res.length);
+    let name
+    let symbol 
+    for (let i = 0; i < loopLength; i++) {
+      // console.log("Url", res[i].token_uri);
+      let jsonUsrl = res[i].token_uri;
+      let contractAddress = res[i].token_address
+      name = res[i].name;
+       symbol = res[i].symbol;
+       if (contractAddress.toUpperCase() == CreateNFT.toUpperCase()) {
+        let web3 = window.web3
+        let tokenid = res[i].token_id
+        let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
+        let nftName = await nftContractOf.methods.name(tokenid).call();
+        let nftsymbol = await nftContractOf.methods.symbol(tokenid).call();
+        symbol = nftsymbol;
+        name = nftName;
+      }
+      if (jsonUsrl == null) {
+        jsonUsrl = profile_placeholder_image
+        // console.log("Image_is_null");
+      }
+      else if (jsonUsrl.endsWith(".json")) {
+        jsonUsrl = profile_placeholder_image
+        // console.log("jsonUsrl",jsonUsrl);
+      } else if (jsonUsrl.endsWith(".jpg")) {
+        jsonUsrl = jsonUsrl;
+        // console.log("jsonUsrl",jsonUsrl);
+      }
+      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/") && jsonUsrl.endsWith(".jpg") || jsonUsrl.endsWith(".png")) {
 
-        // console.log("img_url",jsonUsrl);
-
-        let name = res[i].name;
-        let owner_of = res[i].owner_of;
-        let token_address = res[i].token_address;
-        let amount = res[i].amount;
-        let symbol = res[i].symbol;
-        let token_id = res[i].token_id;
-
-
-        let finalUrl;
-        // =await axios.get(jsonUsrl);
-        // finalUrl = finalUrl.data.image;
-        imageArray = [
-          ...imageArray,
-          {
-            url: finalUrl,
-            name: name,
-            owner_of: owner_of,
-            token_address: token_address,
-            amount: amount,
-            symbol: symbol,
-            token_id: token_id,
-            jsonUsrl: jsonUsrl
-          },
-        ];
+        jsonUsrl = jsonUsrl
 
       }
+      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/")) {
+        jsonUsrl = jsonUsrl
+        // let Response= await axios.get(jsonUsrl);
+        // Response = Response?.data?.properties?.image?.description
+        // jsonUsrl = `https://ipfs.moralis.io:2053/${Response}`
+
+        // console.log("Url",jsonUsrl);
+
+        // let Api = await axios.get(jsonUsrl)
+        // console.log("Api", Api.data.properties.image.description);
+        // Api = Api.data.properties.image.description
+        // jsonUsrl = `https://ipfs.moralis.io:2053/${Api}`
+
+      }
+      else {
+        jsonUsrl = jsonUsrl
+      }
+
+
+
+
+      // console.log("img_url",jsonUsrl);
+
+
+      let owner_of = res[i].owner_of;
+      let token_address = res[i].token_address;
+      let amount = res[i].amount;
+
+      let token_id = res[i].token_id;
+
+
+      let finalUrl;
+      // =await axios.get(jsonUsrl);
+      // finalUrl = finalUrl.data.image;
+      imageArray = [
+        ...imageArray,
+        {
+          url: finalUrl,
+          name: name,
+          owner_of: owner_of,
+          token_address: token_address,
+          amount: amount,
+          symbol: symbol,
+          token_id: token_id,
+          jsonUsrl: jsonUsrl
+        },
+      ];
+
+    }
     dispatch(myCollection(imageArray))
 
 
@@ -158,36 +177,100 @@ function Collection() {
 
 
     let acc = await loadWeb3()
-if(metaAddress==null){
+    if (metaAddress == null) {
 
-}else{
-  let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${metaAddress.toUpperCase()}`)
-
-
-  if (res.data.success) {
-    console.log("UserNAme", res.data.data.username);
-
-    setName(res.data.data.username)
-    setBio(res.data.data.bio)
-    setEmail(res.data.data.email)
-    setImage(res.data.data.image)
-    setUserAddress(res.data.data.address)
-
-    // setName(res.data.data.username)
+    } else {
+      let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${metaAddress.toUpperCase()}`)
 
 
-  } else {
+      if (res.data.success) {
+        // console.log("UserNAme", res.data.data.username);
 
+        setName(res.data.data.username)
+        setBio(res.data.data.bio)
+        setEmail(res.data.data.email)
+        setImage(res.data.data.image)
+        setUserAddress(res.data.data.address)
+
+        // setName(res.data.data.username)
+
+
+      } else {
+
+      }
+    }
+
+  }
+
+  const claim_Widthdraw = async () => {
+    let acc = await loadWeb3();
+    const web3 = window.web3;
+
+
+    try {
+
+      let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      let Widthdraw = await nftContractOf.methods.getDueAmount(acc).call();
+      Widthdraw= web3.utils.fromWei(Widthdraw)
+      setwithdrawAmount(Widthdraw)
+      console.log("Widthdraw", Widthdraw);
+      if (Widthdraw == 0) {
+        setbtnDisable(true)
+      } else {
+        setbtnDisable(false)
+
+      }
+
+    } catch (e) {
+
+    }
+  }
+  const WidthdrawDueAmount = async () => {
+    let acc = await loadWeb3();
+    const web3 = window.web3;
+    try {
+      let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      await nftContractOf.methods.withdrawDueAmount().send({
+        from: acc,
+
+      });
+      toast.success("Withdraw Successfully")
+      window.location.reload();
+
+
+
+    } catch (e) {
+      console.log("Error While WidthdrawDueAmount ", e);
+    }
+  }
+
+const check_condition=async(items_id,address,index)=>{
+  try{
+
+    const web3=window.web3;
+    let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+    let Get_Item_ID = await nftContractOf.methods.tokenIdToItemId(address,items_id).call();
+
+    
+    let Chek_Active = await nftContractOf.methods.idToMarketItem(Get_Item_ID).call();
+    console.log("Chek_Active",Chek_Active.isactive);
+    setIsActive(Chek_Active.isactive)
+    if(Chek_Active.isactive==true){
+      toast.error("Already Listed")
+    }else{
+     history('/Collection_next/' + index)
+    }
+
+
+  }catch(e){
+    console.log("Error While calling fuction idToMarketItem",e);
   }
 }
-    
-  }
-
-
 
 
   useEffect(() => {
     EditProfile()
+    claim_Widthdraw()
 
   }, [])
 
@@ -217,77 +300,82 @@ if(metaAddress==null){
           {/* {
             metaAddress == null ? <></> :
               <> */}
-                <div class="row">
-                  <div class="col-lg-3">
-                    <div class="author-profile-sidebar  mr-20">
-                      <div class="author-user pt-3">
-                        <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images" />
-                        <i class="fa-solid fa-check"></i>
-                      </div>
-                      <h3>
-                        <a >{name}</a>
-                      </h3>
-                      <span>{bio}</span>
-
-                      <div class="sp-title">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} <i class="fa-solid fa-folder"></i></div>
-                      <div class="author-content">
-                        <div class="content-left">
-                          <span>Followers</span>
-                          <h4>0</h4>
-                        </div>
-                        <div class="content-right">Follow<ul class="author-social">
-                          <li><a href="https://www.facebook.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-facebook-f"></i></a></li>
-                          <li><a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-square-instagram"></i></a></li>
-                          <li><a href="https://twitter.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-twitter"></i></a></li>
-                        </ul>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="col-lg-9">
-                    <div class="row justify-content-center">
-                      {
-                        count.map((items, index) => {
-                          return (
-                            <>
-                              <div class="col-lg-4 col-md-6"  style={{cursor:"pointer"}}>
-
-                                <div class="featured-card box-shadow" onClick={() => history('/Collection_next/' + index)}>
-                                  <div class="featured-card-img">
-                                    <a >
-                                      <img src={items.jsonUsrl} alt="Images" style={{ height: "20rem", width: "100%" }} />
-                                    </a>
-
-                                    {/* <button type="button" class="default-btn border-radius-5">Place Bid</button> */}
-                                  </div>
-                                  <div class="content">
-                                    <h3>
-                                      <a >{items.name}</a>
-                                    </h3>
-                                    <div class="content-in">
-                                      <div class="featured-card-left">
-                                        <span>{items.amount} BNB </span>
-
-                                      </div>
-                                      <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
-                                    </div>
-                                    <a class="featured-user-option" >
-                                      <img src={items.jsonUsrl} alt="Images" />
-                                      <span>Created by {items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span>
-                                    </a>
-                                  </div>
-                                </div>
-
-                              </div>
-                            </>
-                          )
-                        })
-                      }
-                    </div>
-                  </div>
+          <div class="row">
+            <div class="col-lg-3">
+              <div class="author-profile-sidebar  mr-20">
+                <div class="author-user pt-3">
+                  <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images"  style={{width:"15rem"}}/>
+                  <i class="fa-solid fa-check"></i>
                 </div>
+                <h3>
+                  <a >{name}</a>
+                </h3>
+                <span>{bio}</span>
 
-              {/* </>
+                <div class="sp-title">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} <i class="fa-solid fa-folder"></i></div>
+                <div class="author-content">
+                  <div class="content-left">
+                    <span> Amount</span>
+                    <h6>{withdrawAmount}</h6>
+                  </div>
+                  <button class=" btn content-right" disabled={btnDisable} onClick={()=>WidthdrawDueAmount()}>Withdraw
+                  
+                  {/* <ul class="author-social">
+                    <li><a href="https://www.facebook.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-facebook-f"></i></a></li>
+                    <li><a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-square-instagram"></i></a></li>
+                    <li><a href="https://twitter.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-twitter"></i></a></li>
+                  </ul> */}
+                  </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-lg-9">
+              <div class="row justify-content-center">
+                {
+                  count.map((items, index) => {
+                    return (
+                      <>
+                        <div class="col-lg-4 col-md-6" style={{ cursor: "pointer" }}>
+
+                          <div class="featured-card box-shadow" onClick={() => (check_condition(items.token_id,items.token_address,index))}>
+                            <div class="featured-card-img">
+                              <a >
+                                <img src={items.jsonUsrl} alt="Images" style={{ height: "20rem", width: "100%" }} />
+                              </a>
+
+                              {/* <button type="button" class="default-btn border-radius-5">Place Bid</button> */}
+                            </div>
+                            <div class="content">
+                              <h3>
+                                <a >{items.name}</a>
+                              </h3>
+                              <div class="content-in">
+                                <div class="featured-card-left">
+                                  <span>{items.amount} BNB </span>
+                                  
+
+
+                                </div>
+                                {/* <span>{items.symbol}  </span> */}
+                                <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
+                              </div>
+                              <a class="featured-user-option" >
+                                <img src={items.jsonUsrl} alt="Images" />
+                                <span>Created by {items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span>
+                              </a>
+                            </div>
+                          </div>
+
+                        </div>
+                      </>
+                    )
+                  })
+                }
+              </div>
+            </div>
+          </div>
+
+          {/* </>
 
           } */}
 

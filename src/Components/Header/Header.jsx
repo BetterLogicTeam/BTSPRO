@@ -62,7 +62,7 @@ const Header = ({ setUserAddress }) => {
 
 
     if (address) {
-      console.log(address);
+     
       let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${address}`)
 
 
@@ -182,7 +182,15 @@ const Header = ({ setUserAddress }) => {
 
 
                               <ul class="">
-                                <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
+                                {
+                                  !userData ?
+                                    <li class="nav-item Avtar_Header"><Link to="/Create_User_profile" className="Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /></Link></li>
+
+                                    :
+                                    <li class="nav-item Avtar_Header"><Link to="/User_Profile" className="Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /></Link></li>
+
+                                }
+                                {/* <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
                                   <ul class="dropdown-menu">
                                   
                                     {
@@ -195,7 +203,7 @@ const Header = ({ setUserAddress }) => {
                                     <li class="nav-item"><a class="nav-link"  ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
 
                                   </ul>
-                                </li>
+                                </li> */}
                               </ul>
 
                           }
@@ -217,7 +225,7 @@ const Header = ({ setUserAddress }) => {
         </div>
 
 
-        <div class="desktop-nav desktop-nav-one nav-area">
+        <div class="desktop-nav desktop-nav-one nav-area pt-2">
           <div class="container-fluid">
             <nav class="navbar navbar-expand-md navbar-light ">
               <a class="navbar-brand" href="/">
@@ -229,8 +237,8 @@ const Header = ({ setUserAddress }) => {
                   <li class="nav-item"><a class="nav-link" ><Link to="/">Home</Link></a></li>
                   <li class="nav-item"><a class="nav-link" > <Link to="market_place">MarketPlace</Link></a></li>
                   {
-                  
-                  !address ? null : <li class="nav-item"><a class="nav-link" ><Link to="/collection">Collection</Link></a></li>
+
+                    !address ? null : <li class="nav-item"><a class="nav-link" ><Link to="/collection">Collection</Link></a></li>
                   }
                 </ul>
                 <div class="others-options">
@@ -245,11 +253,19 @@ const Header = ({ setUserAddress }) => {
                         :
 
                         <ul class="navbar-nav m-auto">
-                          <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
+                               {
+                                  !userData ?
+                                    <li class="nav-item Avtar_Header"><Link to="/Create_User_profile" className="Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /></Link></li>
+
+                                    :
+                                    <li class="nav-item Avtar_Header"><Link to="/User_Profile" className="Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /></Link></li>
+
+                                }
+                          {/* <li class="nav-item Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /><i class="fa-sharp fa-solid fa-caret-down"></i>
                             <ul class="dropdown-menu">
-                            
+
                               {
-                              !userData ?
+                                !userData ?
                                   <li class="nav-item"><a class="nav-link  " > <Link to="/Create_User_profile"> Create Profile</Link></a></li>
                                   :
                                   null
@@ -259,7 +275,7 @@ const Header = ({ setUserAddress }) => {
                               <li class="nav-item"><a class="nav-link" ><Link to="/Edit_Profile"> Edit Profile</Link></a></li>
 
                             </ul>
-                          </li>
+                          </li> */}
                         </ul>
 
                     }

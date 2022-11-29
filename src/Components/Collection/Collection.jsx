@@ -75,14 +75,14 @@ function Collection() {
     let loopLength = res.length;
     // console.log("Length",res.length);
     let name
-    let symbol 
+    let symbol
     for (let i = 0; i < loopLength; i++) {
       // console.log("Url", res[i].token_uri);
       let jsonUsrl = res[i].token_uri;
       let contractAddress = res[i].token_address
       name = res[i].name;
-       symbol = res[i].symbol;
-       if (contractAddress.toUpperCase() == CreateNFT.toUpperCase()) {
+      symbol = res[i].symbol;
+      if (contractAddress.toUpperCase() == CreateNFT.toUpperCase()) {
         let web3 = window.web3
         let tokenid = res[i].token_id
         let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
@@ -211,7 +211,7 @@ function Collection() {
 
       let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
       let Widthdraw = await nftContractOf.methods.getDueAmount(acc).call();
-      Widthdraw= web3.utils.fromWei(Widthdraw)
+      Widthdraw = web3.utils.fromWei(Widthdraw)
       setwithdrawAmount(Widthdraw)
       console.log("Widthdraw", Widthdraw);
       if (Widthdraw == 0) {
@@ -244,28 +244,28 @@ function Collection() {
     }
   }
 
-const check_condition=async(items_id,address,index)=>{
-  try{
+  const check_condition = async (items_id, address, index) => {
+    try {
 
-    const web3=window.web3;
-    let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-    let Get_Item_ID = await nftContractOf.methods.tokenIdToItemId(address,items_id).call();
+      const web3 = window.web3;
+      let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      let Get_Item_ID = await nftContractOf.methods.tokenIdToItemId(address, items_id).call();
 
-    
-    let Chek_Active = await nftContractOf.methods.idToMarketItem(Get_Item_ID).call();
-    console.log("Chek_Active",Chek_Active.isactive);
-    setIsActive(Chek_Active.isactive)
-    if(Chek_Active.isactive==true){
-      toast.error("Already Listed")
-    }else{
-     history('/Collection_next/' + index)
+
+      let Chek_Active = await nftContractOf.methods.idToMarketItem(Get_Item_ID).call();
+      console.log("Chek_Active", Chek_Active.isactive);
+      setIsActive(Chek_Active.isactive)
+      if (Chek_Active.isactive == true) {
+        toast.error("Already Listed")
+      } else {
+        history('/Collection_next/' + index)
+      }
+
+
+    } catch (e) {
+      console.log("Error While calling fuction idToMarketItem", e);
     }
-
-
-  }catch(e){
-    console.log("Error While calling fuction idToMarketItem",e);
   }
-}
 
 
   useEffect(() => {
@@ -304,7 +304,7 @@ const check_condition=async(items_id,address,index)=>{
             <div class="col-lg-3">
               <div class="author-profile-sidebar  mr-20">
                 <div class="author-user pt-3">
-                  <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images"  style={{width:"15rem"}}/>
+                  <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images" style={{ width: "15rem" }} />
                   <i class="fa-solid fa-check"></i>
                 </div>
                 <h3>
@@ -318,9 +318,9 @@ const check_condition=async(items_id,address,index)=>{
                     <span> Amount</span>
                     <h6>{withdrawAmount}</h6>
                   </div>
-                  <button class=" btn content-right" disabled={btnDisable} onClick={()=>WidthdrawDueAmount()}>Withdraw
-                  
-                  {/* <ul class="author-social">
+                  <button class=" btn content-right" disabled={btnDisable} onClick={() => WidthdrawDueAmount()}>Withdraw
+
+                    {/* <ul class="author-social">
                     <li><a href="https://www.facebook.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-facebook-f"></i></a></li>
                     <li><a href="https://www.instagram.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-square-instagram"></i></a></li>
                     <li><a href="https://twitter.com/" target="_blank" rel="noreferrer"><i class="fa-brands fa-twitter"></i></a></li>
@@ -337,7 +337,7 @@ const check_condition=async(items_id,address,index)=>{
                       <>
                         <div class="col-lg-4 col-md-6" style={{ cursor: "pointer" }}>
 
-                          <div class="featured-card box-shadow" onClick={() => (check_condition(items.token_id,items.token_address,index))}>
+                          <div class="featured-card box-shadow" onClick={() => (check_condition(items.token_id, items.token_address, index))}>
                             <div class="featured-card-img">
                               <a >
                                 <img src={items.jsonUsrl} alt="Images" style={{ height: "20rem", width: "100%" }} />
@@ -352,7 +352,7 @@ const check_condition=async(items_id,address,index)=>{
                               <div class="content-in">
                                 <div class="featured-card-left">
                                   <span>{items.amount} BNB </span>
-                                  
+
 
 
                                 </div>
@@ -371,6 +371,84 @@ const check_condition=async(items_id,address,index)=>{
                     )
                   })
                 }
+              </div>
+            </div>
+
+            <div class="trending-area trending-area-bg-two pt-100 pb-70">
+              <div class="container">
+                <div class="row">
+                  <div class="col-lg-8 col-md-6">
+                    <div class="section-title">
+                      <h2>Trending Artwork</h2>
+                    </div>
+                  </div>
+                  <div class="col-lg-4 col-md-6">
+                    <div class="trending-btn text-end">
+                      <a class="default-btn border-radius-5" href="/item-details">Explore More</a>
+                    </div>
+                  </div>
+                </div>
+                <div class="trending-slider pt-45">
+                  <div class="owl-carousel owl-loaded">
+                    <div class="owl-stage-outer">
+                      <div class="owl-stage" style="transform: translate3d(-2088px, 0px, 0px); transition: all 0.5s ease 0s; width: 3828px;">
+                        <div class="owl-item cloned" style="width: 348px;">
+                          <div class="trending-item">
+                            <div class="trending-img">
+                              <a href="/item-details">
+                                <img src="../images/trending/trending-img8.jpg" alt="Images" />
+                              </a>
+                              <div class="trending-user">
+                                <a class="trending-user-option" href="/author-profile">
+                                  <img src="../images/trending/trending-user3.jpg" alt="Images" />
+                                  <span>Created by @Anvi</span>
+                                </a>
+                              </div>
+                              <button type="button" class="default-btn border-radius-5">Place Bid</button>
+                              <div class="trending-title">
+                                <span>120 ETH 12/14</span>
+                                <h3>Bid 70 ETH</h3>
+                              </div>
+                            </div>
+                            <div class="content"><h3><a href="/item-details">Walking on Air</a></h3><span><i class="ri-heart-line"></i> 190</span>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="owl-item cloned" style="width: 348px;">
+                          <div class="trending-item">
+                            <div class="trending-img">
+                              <a href="/item-details">
+                                <img src="../images/trending/trending-img8.jpg" alt="Images" />
+                              </a>
+                              <div class="trending-user">
+                                <a class="trending-user-option" href="/author-profile">
+                                  <img src="../images/trending/trending-user3.jpg" alt="Images" />
+                                  <span>Created by @Anvi</span>
+                                </a>
+                              </div>
+                              <button type="button" class="default-btn border-radius-5">Place Bid</button>
+                              <div class="trending-title">
+                                <span>120 ETH 12/14</span>
+                                <h3>Bid 70 ETH</h3>
+                              </div>
+                            </div>
+                            <div class="content">
+                              <h3><a href="/item-details">Walking on Air</a></h3>
+                              <span><i class="ri-heart-line"></i> 190</span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="owl-nav">
+                      <div class="owl-prev">
+                        <i class="ri-arrow-left-s-line"></i>
+                      </div>
+                      <div class="owl-next"><i class="ri-arrow-right-s-line"></i></div>
+                    </div>
+                    <div class="owl-dots disabled"></div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>

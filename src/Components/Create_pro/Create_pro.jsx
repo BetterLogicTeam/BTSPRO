@@ -31,41 +31,61 @@ function Create_pro() {
         url: "https://ipfs.infura.io:5001/api/v0",
 
         headers: {
-          authorization,
+            authorization,
         },
-      });
+    });
 
     const create_NFT = async (e) => {
-        // console.log("nftImage", process.env.REACT_APP_PROJECT_KEY);
-        const result = await ipfs.add(nftImage);
-        console.log(result);
-        console.log("result", `https://skywalker.infura-ipfs.io/ipfs/${result.path}`);
-        setIsSpinner(true)
-        await Moralis.start({
-            apiKey: "gI4QFVnQgnpOIG0CdMSUq7wLkrbEaypx8p28wx2Pohw1EWJUY6Ongt3vHIuovT4Z",
-        });
-        // let formData = new FormData();
-        // formData.append("profile", nftImage)
-        // let res = await axios.post("https://server.nftapi.online/Collection_NFT", formData)
-        let url = `https://skywalker.infura-ipfs.io/ipfs/${result.path}`
-        const abi = [
-            {
-                path: "metadata.json",
-                content: {
-                    name: formInput.name,
-                    description: formInput.description,
-                    Symbol: formInput.Symbol,
-                    image: url,
+        if (nftImage == "featured-img1.jpg") {
+            toast.error("Please Upload Image")
+            setIsSpinner(false)
 
+        } else {
+            if (nftImage.name.endsWith(".jpg") || nftImage.name.endsWith(".png") || nftImage.name.endsWith(".gif") || nftImage.name.endsWith(".mp4") || nftImage.name.endsWith(".webp") || nftImage.name.endsWith(".jpeg") || nftImage.name.endsWith(".PNG") || nftImage.name.endsWith(".JPG") || nftImage.name.endsWith(".JPEG") || nftImage.name.endsWith(".jpeg") || nftImage.name.endsWith(".GIF") || nftImage.name.endsWith(".WEBP") || nftImage.name.endsWith(".MP4") || nftImage.name.endsWith(".pjpeg") || nftImage.name.endsWith(".jfif") || nftImage.name.endsWith(".avif")
+                || nftImage.name.endsWith(".SVG") || nftImage.name.endsWith(".svg") || nftImage.name.endsWith(".apng") || nftImage.name.endsWith(".APNG") || nftImage.name.endsWith(".AVIF")
+            ) {
+
+                if (formInput.name == '' || formInput.Symbol == '' || formInput.description == '') {
+                    toast.error("Please Enter Data In Input Field")
+                    setIsSpinner(false)
+
+
+                } else {
+                    setIsSpinner(true)
+
+                    // console.log("nftImage", process.env.REACT_APP_PROJECT_KEY);
+                    const result = await ipfs.add(nftImage);
+                    console.log(result);
+                    console.log("result", `https://skywalker.infura-ipfs.io/ipfs/${result.path}`);
+                    setIsSpinner(true)
+                    await Moralis.start({
+                        apiKey: "gI4QFVnQgnpOIG0CdMSUq7wLkrbEaypx8p28wx2Pohw1EWJUY6Ongt3vHIuovT4Z",
+                    });
+                    // let formData = new FormData();
+                    // formData.append("profile", nftImage)
+                    // let res = await axios.post("https://server.nftapi.online/Collection_NFT", formData)
+                    let url = `https://skywalker.infura-ipfs.io/ipfs/${result.path}`
+                    const abi = [
+                        {
+                            path: "metadata.json",
+                            content: {
+                                name: formInput.name,
+                                description: formInput.description,
+                                Symbol: formInput.Symbol,
+                                image: url,
+
+                            }
+                        },
+                    ];
+                    let response = await Moralis.EvmApi.ipfs.uploadFolder({ abi });
+                    response = response.toJSON()
+                    response = response[0].path
+                    let resGet = await axios.get(response)
+                    setApiRes(resGet.data)
+                    create_USer_NFT(resGet.data)
                 }
-            },
-        ];
-        let response = await Moralis.EvmApi.ipfs.uploadFolder({ abi });
-        response =response.toJSON()
-        response=response[0].path
-        let resGet=await axios.get(response)
-        setApiRes(resGet.data)
-        create_USer_NFT(resGet.data)
+            }
+        }
     }
 
 
@@ -91,7 +111,7 @@ function Create_pro() {
                 const web3 = window.web3;
                 try {
                     let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
-                    await nftContractOf.methods.createToken(url.image,url.name,url.Symbol).send({
+                    await nftContractOf.methods.createToken(url.image, url.name, url.Symbol).send({
                         from: acc,
 
                     });
@@ -171,12 +191,12 @@ function Create_pro() {
                                     <div class="profile-outer">
                                         <h3>Upload File</h3>
                                         <div class="profileButton">
-                                            <input class="profileButton-input" type="file" name="attachments[]" accept="image/*, application/pdf" onChange={(e) => {
+                                            <input class="profileButton-input" required type="file" name="attachments[]" accept="image/*, application/pdf" onChange={(e) => {
                                                 e.preventDefault();
                                                 setNftImage(e.target.files[0])
 
                                             }} id="upload" multiple="" />
-                                            <label class="profileButton-button ripple-effect" for="upload">e. g. Image, Audio, Video</label>
+                                            <label class="profileButton-button ripple-effect" for="upload"> {nftImage =="featured-img1.jpg" ? "e. g. Image, Audio, Video" : nftImage.name} </label>
                                             <span class="profileButton-file-name">
                                             </span>
                                         </div>
@@ -192,13 +212,13 @@ function Create_pro() {
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label>Item Name</label>
-                                                <input type="text" name="name" id="name" class="form-control" onChange={e => updateFormInput({ ...formInput, name: e.target.value })} placeholder="e. g. “walking in the air”" />
+                                                <input type="text" name="name" id="name" required class="form-control" onChange={e => updateFormInput({ ...formInput, name: e.target.value })} placeholder="e. g. “walking in the air”" />
                                             </div>
                                         </div>
                                         <div class="col-lg-12">
                                             <div class="form-group">
                                                 <label>Item Symbol</label>
-                                                <input type="text" name="name" id="name" class="form-control" onChange={e => updateFormInput({ ...formInput, Symbol: e.target.value })} placeholder="Enter Symbol" />
+                                                <input type="text" name="name" id="name" required class="form-control" onChange={e => updateFormInput({ ...formInput, Symbol: e.target.value })} placeholder="Enter Symbol" />
                                             </div>
                                         </div>
                                         <div class="col-lg-12 col-md-12">

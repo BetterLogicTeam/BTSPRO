@@ -202,7 +202,7 @@ background-color: #fff !important;
 }
 
 .mobile-responsive-nav{
-    background-color: #14233d;
+    /* background-color: #14233d; */
 }
 
 @media only screen and (max-width: 767px){
@@ -250,5 +250,12 @@ background-color: #fff !important;
     top: 28px;
     right: 55px;
     display: none !important;
+}
+}
+
+@media only screen and (max-width: 991px){
+.navbar-area {
+    padding-top: 10px !important;
+    padding-bottom: 10px !important;
 }
 }

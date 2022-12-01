@@ -4,7 +4,7 @@ let isItConnected = false;
 
 const networks = {
   bsc: {
-    chainId: `0x${Number(97).toString(16)}`,
+    chainId: `0x${Number(56).toString(16)}`,
     chainName: "Binance smart chain",
     nativeCurrency: {
       name: "BSC",
@@ -36,7 +36,7 @@ const changeNetwork = async ({ networkName }) => {
       method: "wallet_switchEthereumChain",
       params: [
         {
-          chainId:'0x61'
+          chainId:'0x38'
         },
       ],
     });
@@ -81,7 +81,7 @@ export const loadWeb3 = async () => {
       await window.web3.eth.getChainId((err, netId) => {
         // console.log("networkId==>", netId);
         switch (netId.toString()) {
-          case "97":
+          case "56":
             isItConnected = true;
             break;
           default:

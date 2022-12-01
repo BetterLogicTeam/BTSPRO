@@ -23,6 +23,7 @@ import { Container, Nav, Navbar, NavDropdown } from "react-bootstrap";
 
 let acc;
 const Header = ({ setUserAddress }) => {
+  
   const [address, setAddress] = useState(null);
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();

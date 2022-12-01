@@ -16,7 +16,10 @@ function Market_main() {
   const [newNFTS, setnewNFTS] = useState(false)
   const [IsSpinner, setIsSpinner] = useState(false)
 
-
+  let metaAddress = sessionStorage.getItem("meta-address");
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress).toUpperCase()
+  }
   const get_All_NFT = async () => {
     try {
       // alert(isSubscribed)
@@ -128,9 +131,9 @@ function Market_main() {
                         <div className="col-lg-4">
 
                           <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
+                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress ?  "Claim Now": "Buy"}
                             isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/adddress` : `/Market_place2/${index}/1/${Marketplace}/address`}
-
+                            data={items} setIsSpinner={setIsSpinner}
 
                           />
                         </div>

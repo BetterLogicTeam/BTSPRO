@@ -19,7 +19,9 @@ import { loadWeb3 } from '../../Api/api';
 import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
-const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
+// const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
+const webSupply = new Web3("https://bsc-dataseed1.binance.org/")
+
 
 function Market_place2() {
   let { id, index, text, useradd } = useParams()
@@ -45,9 +47,9 @@ function Market_place2() {
     try {
       if (text == "sell_and_auction_history_address") {
         setIsSpinner(true)
-        console.log("Dattaa", useradd);
 
         let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${useradd}`)
+        console.log("Dattaa", res);
         let data = id;
         setAll_NFT(res.data.data[id])
         setSendAddress(res?.data?.data[id]?.useraddress)
@@ -66,6 +68,8 @@ function Market_place2() {
 
 
           let res = await axios.get(`https://server.nftapi.online/get_trending_NFTs`)
+          console.log("UU", res?.data?.data[id].useraddress);
+
           let data = id;
           setAll_NFT(res.data.data[id])
           setSendAddress(res?.data?.data[id]?.useraddress)
@@ -83,6 +87,7 @@ function Market_place2() {
             setIsSpinner(true)
 
             let res = await axios.get(' https://server.nftapi.online/sell_and_auction_history?category=All')
+            console.log("UU", res?.data?.data[id].useraddress);
 
             let data = id;
             setAll_NFT(res.data.data[id])
@@ -103,6 +108,7 @@ function Market_place2() {
 
               let res = await axios.get(' https://server.nftapi.online/sell_marketplace_history?category=All')
 
+              console.log("UU", res?.data?.data[id].useraddress);
 
               let data = id;
               setAll_NFT(res.data.data[id])
@@ -119,7 +125,7 @@ function Market_place2() {
               setIsSpinner(true)
 
               let res = await axios.get(' https://server.nftapi.online/OnAuction_marketplace_history?category=All')
-              console.log("Res", res);
+              console.log("UU", res?.data?.data[id].useraddress);
               setAll_NFT(res?.data?.data[id])
               setTimer(res?.data?.data[id].bidEndTime)
 
@@ -239,8 +245,9 @@ function Market_place2() {
 
         try {
           const web3 = window.web3;
+
           // hightbid = web3.utils.toWei(hightbid)
-          if (SendAddress !== acc) {
+          if (SendAddress.toUpperCase() !== acc.toUpperCase()) {
             // if (hightbid <= getInputdata) {
             if (base_price <= getInputdata) {
               // let getinputdata2 = web3.utils.toBN(getinputdata).toString()
@@ -264,7 +271,7 @@ function Market_place2() {
 
               let num = 0;
               let postapi = await axios.post('https://server.nftapi.online/trending_NFTs', {
-                "useraddress": acc,
+                "useraddress": All_NFT.useraddress,
                 "itemId": All_NFT.itemId,
                 "nftContract": All_NFT.nftContract,
                 "tokenId": All_NFT.tokenId,
@@ -285,6 +292,8 @@ function Market_place2() {
               console.log("postapi", postapi);
 
               setIsSpinner(false)
+              window.location.reload();
+
 
             } else {
               toast.error("Bid price must be greater than base price and highest bid")
@@ -293,17 +302,15 @@ function Market_place2() {
             }
 
 
-            // } else {
-            //   toast.error("Bid price must be greater than base price and highest bid")
 
-
-            // }
           } else {
             toast.error("Already owned")
             setIsSpinner(false)
 
 
           }
+
+
 
 
         }
@@ -336,7 +343,7 @@ function Market_place2() {
       toast.error("Wrong Newtwork please connect to test net")
       setIsSpinner(false)
 
-      
+
     } else {
 
       let metaAddress = sessionStorage.getItem("meta-address");
@@ -351,7 +358,7 @@ function Market_place2() {
       } else {
 
         try {
-          if (HighestBideradd == acc) {
+          if (HighestBideradd.toUpperCase() == acc.toUpperCase()) {
             let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
 
 
@@ -425,60 +432,60 @@ function Market_place2() {
       }
       if (metaAddress == null) {
         toast.error("Please Connect Metamask First")
-      setIsSpinner(false)
+        setIsSpinner(false)
 
       } else {
         try {
           setIsSpinner(true)
-          if (SendAddress === acc) {
+          if (SendAddress.toUpperCase() === acc.toUpperCase()) {
             toast.error("Already owned")
             setIsSpinner(false)
-  
+
           }
           else {
             setIsSpinner(true)
-  
+
             const web3 = window.web3;
             let nftContractOftoken = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-  
+
             let inputdata = web3?.utils?.toWei((base_price).toString())
-  
-  
+
+
             await nftContractOftoken.methods.createMarketSale(itemId, nftcontactadd).send({
               from: acc,
               value: (inputdata).toString()
               // value:(web3.utils.toWei(nftprice)).tostring()
               // value:(1).toString()
-  
+
             }
             );
-  
+
             let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
-  
+
               "tokenid": tokenId,
-  
+
             })
-  
+
             let udate_Tranding = await axios.post('https://server.nftapi.online/update_tranding', {
-  
+
               "tokenId": tokenId,
-  
+
             })
-  
+
             // let res = await axios.get('https://server.nftapi.online/Check_Tranding_NFTs')
             console.log("postapiPushdata", postapiPushdata);
             toast.success("Transion Compelete")
             setIsSpinner(false)
             history("/market_place");
-  
+
           }
-  
-  
+
+
         }
         catch (e) {
           console.log("Error while addOrder ", e)
           setIsSpinner(false)
-  
+
         }
       }
     }
@@ -586,7 +593,7 @@ function Market_place2() {
                             <h3>Biding Price</h3>
                             <input type="number" class="form-control" placeholder="Enter Bid Value in BNB" onChange={(e) => setgetInputdata(e.target.value)} />
                           </div>
-                          <div class="item-details-btn mt-4" style={{cursor:"pointer"}}>
+                          <div class="item-details-btn mt-4" style={{ cursor: "pointer" }}>
                             <a class="default-btn border-radius-50" onClick={() => createBidOnItem()} > {
 
                               IsSpinner == true ?
@@ -607,7 +614,7 @@ function Market_place2() {
                         </>
                         :
                         <>
-                          <div class="item-details-btn mt-4" style={{cursor:"pointer"}}>
+                          <div class="item-details-btn mt-4" style={{ cursor: "pointer" }}>
                             <a class="default-btn border-radius-50" onClick={() => claimBidItem()} >{
 
                               IsSpinner == true ?
@@ -640,7 +647,7 @@ function Market_place2() {
 
 
                     </div>
-                    <div class="item-details-btn mt-4" style={{cursor:"pointer"}}>
+                    <div class="item-details-btn mt-4" style={{ cursor: "pointer" }}>
                       <a class="default-btn border-radius-50" onClick={() => purchaseOrder()}  >
                         {
 
@@ -689,12 +696,12 @@ function Market_place2() {
                       <p><b>Creator</b></p>
                     </div>
                     <div className="col text-end downtext">
-                      <p>{All_NFT.nftContract?.substring(0, 8) + "..." + All_NFT.nftContract?.substring(All_NFT.nftContract?.length - 8)}</p>
+                      <p> <a href={`https://bscscan.com/address/${All_NFT.nftContract}`} target="_blank"> {All_NFT.nftContract?.substring(0, 8) + "..." + All_NFT.nftContract?.substring(All_NFT.nftContract?.length - 8)}</a>  </p>
                       <p>{All_NFT.tokenId}</p>
                       {/* <p>{moment(All_NFT.last_token_uri_sync).format("DD/MM/YYYY h:m:s A")}</p> */}
                       <p>image/jpeg</p>
                       <p>{All_NFT.category}</p>
-                      <p>{All_NFT.useraddress?.substring(0, 8) + "..." + All_NFT.useraddress?.substring(All_NFT.useraddress?.length - 8)}</p>
+                      <p> <a href={`https://bscscan.com/address/${All_NFT.useraddress}`} target="_blank">{All_NFT.useraddress?.substring(0, 8) + "..." + All_NFT.useraddress?.substring(All_NFT.useraddress?.length - 8)}</a></p>
                     </div>
                   </div>
                 </Typography>

@@ -47,3 +47,9 @@
 .ri-arrow-right-line:before {
     content: "\ea6c";
 }
+
+.Collection_heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

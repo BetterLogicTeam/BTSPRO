@@ -25,7 +25,7 @@ export default function Seller_Details() {
   const [Image, setImage] = useState("")
   const [UserAddress, setUserAddress] = useState("User Addrss")
   const [Userdata, setUserdata] = useState([])
-  const [isSpinner, setisSpinner] = useState(false)
+  const [IsSpinner, setIsSpinner] = useState(false)
   const [Marketplace, setMarketplace] = useState("");
   // console.log("Result",count);
 
@@ -33,6 +33,10 @@ export default function Seller_Details() {
   const [CollectionArray, setCollectionArray] = useState([])
 
   const history = useNavigate()
+  let metaAddress = sessionStorage.getItem("meta-address");
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress).toUpperCase()
+  }
 
 
   const runApp = async () => {
@@ -61,7 +65,7 @@ export default function Seller_Details() {
 
   const EditProfile = async () => {
     let acc = await loadWeb3()
-    setisSpinner(true)
+    setIsSpinner(true)
     let getUserAddress = await axios.get('https://server.nftapi.online/trending_address_marketplace');
     // console.log("Api_Data121", getUserAddress.data.data);
     getUserAddress = getUserAddress?.data?.data
@@ -77,7 +81,7 @@ export default function Seller_Details() {
       setEmail(res.data.data.email)
       setImage(res.data.data.image)
       setUserAddress(res.data.data.address)
-      setisSpinner(false)
+      setIsSpinner(false)
 
       // setName(res.data.data.username)
 
@@ -115,7 +119,7 @@ export default function Seller_Details() {
       <div class="collection-widget-area pt-100 pb-70">
         <div class="container">
           {
-            isSpinner ? <Loading /> : <></>
+            IsSpinner ? <Loading /> : <></>
 
           }
           <div class="row">
@@ -155,9 +159,9 @@ export default function Seller_Details() {
                         <div class="col-lg-4 col-md-6" >
 
                         <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
+                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress.toUpperCase() ?  "Claim Now": "Buy"  }
                             isOnAuction={items.isOnAuction } bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/${Userdata}` : `/Market_place2/${index}/1/${Marketplace}/${Userdata}`}
-
+                            data={items} setIsSpinner={setIsSpinner}
 
                           />
 

@@ -1,86 +1,110 @@
-.gool-panda{
+.gool-panda {
     border-radius: 50%;
-    
+
 }
-.gool-panda{
+
+.gool-panda {
     width: 18%;
 }
-.bt-follow{
-    background-image: linear-gradient(90deg,#29deda 0,#45aef1 51%,#8562ea)!important;
+
+.bt-follow {
+    background-image: linear-gradient(90deg, #29deda 0, #45aef1 51%, #8562ea) !important;
     border: none;
     border-radius: 50pc;
 }
 
 
-.asasasa{
+.asasasa {
     padding-top: 100px !important;
 }
-.rowss{
+
+.rowss {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr 1fr;
 }
 
 @media only screen and (max-width:400px) {
-    .rowss{
-       
+    .rowss {
+
         grid-template-columns: 1fr 1fr;
-    }  
-    .immi-border{
-       
+    }
+
+    .immi-border {
+
         width: 100% !important;
     }
-    .imi{
-        
-       
-        height: 70%!important;
+
+    .imi {
+
+
+        height: 70% !important;
+    }
+
+    .default-btn2 {
+        padding: 20px 30px 10px !important;
+        margin-top: 1rem;
+
+
+    }
+
+    .default-btn3 {
+        padding: 20px 30px 10px !important;
+        margin-top: 1rem;
+
+
     }
 }
-.info-bg{
+
+.info-bg {
     background-color: rgba(8, 153, 141, 0.67);
-    margin-left: 12px ;
+    margin-left: 12px;
     border-radius: 12px;
     /* height: 5pc; */
-    padding: 10px ;
+    padding: 10px;
     font-weight: 700;
     font-size: 14px;
     padding-top: 10px !important;
     color: white;
-   /* margin: auto; */
-   text-align:  center !important;
+    /* margin: auto; */
+    text-align: center !important;
 }
-.imi{
+
+.imi {
     float: center;
     width: 100%;
     height: 26pc;
 }
-.immi-border{
+
+.immi-border {
     border-radius: 10px;
     width: 75%;
 }
-.color-folow-btn{
+
+.color-folow-btn {
     color: black;
     border: none;
     background-color: white;
     border-radius: 4px;
     font-weight: 700;
 }
-.color-folow-btn:hover{
-  border-bottom: 3px solid ;
-  border-color:rgba(8, 153, 141, 0.67);
+
+.color-folow-btn:hover {
+    border-bottom: 3px solid;
+    border-color: rgba(8, 153, 141, 0.67);
 }
 
 .inner-bg12 {
     background-image: url('https://gible-nft.hibootstrap.com/_next/static/media/inner-banner12.ac8031e8030ced2d04ca74820458198e.jpg');
 }
 
-.main_two_btn{
+.main_two_btn {
     display: flex;
 }
 
 .default-btn2 {
     padding: 20px 50px 10px;
     text-align: center;
-    color: white!important;
+    color: white !important;
     font-size: var(--fontSize);
     font-weight: 600;
     transition: var(--transition);
@@ -94,12 +118,13 @@
     overflow: hidden;
     white-space: nowrap;
     border: 0;
-    
+
 }
+
 .default-btn3 {
     padding: 20px 50px 10px;
     text-align: center;
-    color: white!important;
+    color: white !important;
     font-size: var(--fontSize);
     font-weight: 600;
     transition: var(--transition);
@@ -109,32 +134,38 @@
     position: relative;
     border-radius: 0px;
     z-index: 0;
-     background-color: #14233d;;
+    background-color: #14233d;
+    ;
     overflow: hidden;
     white-space: nowrap;
     border: 0;
 }
 
-.default-btn3:hover{
-    background-color: #f14d5d;;
+.default-btn3:hover {
+    background-color: #f14d5d;
+    ;
 
 }
 
-.item-details-img img{
+.item-details-img img {
     width: 100%;
     height: 40rem;
 }
-.images img{
+
+.images img {
     width: 4rem;
     height: 4rem;
 }
+
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     /* display: none; <- Crashes Chrome on hover */
     -webkit-appearance: none;
-    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+    margin: 0;
+    /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 input[type=number] {
-    -moz-appearance:textfield; /* Firefox */
+    -moz-appearance: textfield;
+    /* Firefox */
 }

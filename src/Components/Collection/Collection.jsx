@@ -18,6 +18,8 @@ import axios from 'axios'
 import { toast } from 'react-toastify'
 import { CreateNFT, CreateNFT_ABI, nftMarketContractAddress, nftMarketContractAddress_Abi } from '../Utils/Contract'
 
+import Market_card from '../Market_card/Market_card'
+import Loading from '../Loading/Loading'
 
 function Collection() {
 
@@ -30,6 +32,12 @@ function Collection() {
   let [btnDisable, setbtnDisable] = useState(false);
   const [withdrawAmount, setwithdrawAmount] = useState("0")
   const [IsActive, setIsActive] = useState()
+  const [IsSpinner, setIsSpinner] = useState(false)
+  const [Address_User, setAddress_User] = useState("")
+  
+  
+
+
 
 
   // console.log("Result",count);
@@ -47,25 +55,28 @@ function Collection() {
   const history = useNavigate()
   // console.log("count",count.AllNFT[1]?.payload);
 
+
+
   const runApp = async () => {
     let imageArray = [];
     let acc = await loadWeb3()
-    // console.log("UserAddress", UserAddress);
+    setAddress_User(acc)
     // if (metaAddress != null) {
-    await Moralis.start({
-      apiKey: "6sSTRl3GXEZ9CZ3rZChKksJuBZS1hVkXalATDiIa8dczkYm7UbFsldAeJUbAwL02",
-      // ...and any other configuration
-    });
-
-    const address = acc;
-
-    const chain = EvmChain.BSC_TESTNET;
-    // console.log("Chain",chain);
-
-    let res = await Moralis.EvmApi.nft.getWalletNFTs({
-      address,
-      chain,
-    });
+      await Moralis.start({
+        apiKey: "gI4QFVnQgnpOIG0CdMSUq7wLkrbEaypx8p28wx2Pohw1EWJUY6Ongt3vHIuovT4Z",
+        // ...and any other configuration
+      });
+      
+      const address = acc;
+      
+      const chain = EvmChain.BSC;
+      // console.log("Chain",chain);
+      
+      let res = await Moralis.EvmApi.nft.getWalletNFTs({
+        address,
+        chain,
+      });
+      console.log("UserAddress");
 
     console.log("Res", res);
 
@@ -171,8 +182,6 @@ function Collection() {
 
   }, [])
 
-
-
   const EditProfile = async () => {
 
 
@@ -274,6 +283,36 @@ function Collection() {
 
   }, [])
 
+
+  const [Auction_Array, setAuction_Array] = useState()
+
+
+  const Auction_Api = async () => {
+    try {
+      let acc = await loadWeb3()
+
+      let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${acc}`)
+      res = res?.data?.data
+
+      setAuction_Array(res)
+
+    } catch (e) {
+      console.log("Error In Auction API", e);
+    }
+  }
+
+
+
+
+
+
+
+
+
+  useEffect(() => {
+    Auction_Api()
+  }, [])
+
   return (
     <>
 
@@ -297,6 +336,10 @@ function Collection() {
       <div class="collection-widget-area pt-100 pb-70">
 
         <div class="container">
+        {
+          IsSpinner ? <Loading /> : <></>
+
+        }
           {/* {
             metaAddress == null ? <></> :
               <> */}
@@ -346,22 +389,24 @@ function Collection() {
                               {/* <button type="button" class="default-btn border-radius-5">Place Bid</button> */}
                             </div>
                             <div class="content">
+                              <div className='Collection_heading'>
                               <h3>
-                                <a >{items.name}</a>
+                                <a >{items?.name}</a>
                               </h3>
+                              {items?.token_id}
+                              </div>
+                              
                               <div class="content-in">
                                 <div class="featured-card-left">
-                                  <span>{items.amount} BNB </span>
-
-
-
+                                  <span><a>Symbol</a>  </span>
                                 </div>
-                                {/* <span>{items.symbol}  </span> */}
-                                <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
+                                <span>{items?.symbol}  </span>
+                                {/* <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a> */}
                               </div>
+                              
                               <a class="featured-user-option" >
-                                <img src={items.jsonUsrl} alt="Images" />
-                                <span>Created by {items.owner_of?.substring(0, 5) + "..." + items.owner_of?.substring(items.owner_of?.length - 5)}</span>
+                                <img src={items?.jsonUsrl} alt="Images" />
+                                <span>Created by {items?.owner_of?.substring(0, 5) + "..." + items?.owner_of?.substring(items?.owner_of?.length - 5)}</span>
                               </a>
                             </div>
                           </div>
@@ -374,81 +419,44 @@ function Collection() {
               </div>
             </div>
 
-            <div class="trending-area trending-area-bg-two pt-100 pb-70">
+            <div class="trending-area trending-area-bg-two pt-3 ">
               <div class="container">
                 <div class="row">
                   <div class="col-lg-8 col-md-6">
                     <div class="section-title">
-                      <h2>Trending Artwork</h2>
+                      <h2>Your Artwork</h2>
                     </div>
                   </div>
-                  <div class="col-lg-4 col-md-6">
-                    <div class="trending-btn text-end">
-                      <a class="default-btn border-radius-5" href="/item-details">Explore More</a>
-                    </div>
-                  </div>
-                </div>
-                <div class="trending-slider pt-45">
-                  <div class="owl-carousel owl-loaded">
-                    <div class="owl-stage-outer">
-                      <div class="owl-stage" style="transform: translate3d(-2088px, 0px, 0px); transition: all 0.5s ease 0s; width: 3828px;">
-                        <div class="owl-item cloned" style="width: 348px;">
-                          <div class="trending-item">
-                            <div class="trending-img">
-                              <a href="/item-details">
-                                <img src="../images/trending/trending-img8.jpg" alt="Images" />
-                              </a>
-                              <div class="trending-user">
-                                <a class="trending-user-option" href="/author-profile">
-                                  <img src="../images/trending/trending-user3.jpg" alt="Images" />
-                                  <span>Created by @Anvi</span>
-                                </a>
-                              </div>
-                              <button type="button" class="default-btn border-radius-5">Place Bid</button>
-                              <div class="trending-title">
-                                <span>120 ETH 12/14</span>
-                                <h3>Bid 70 ETH</h3>
-                              </div>
-                            </div>
-                            <div class="content"><h3><a href="/item-details">Walking on Air</a></h3><span><i class="ri-heart-line"></i> 190</span>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="owl-item cloned" style="width: 348px;">
-                          <div class="trending-item">
-                            <div class="trending-img">
-                              <a href="/item-details">
-                                <img src="../images/trending/trending-img8.jpg" alt="Images" />
-                              </a>
-                              <div class="trending-user">
-                                <a class="trending-user-option" href="/author-profile">
-                                  <img src="../images/trending/trending-user3.jpg" alt="Images" />
-                                  <span>Created by @Anvi</span>
-                                </a>
-                              </div>
-                              <button type="button" class="default-btn border-radius-5">Place Bid</button>
-                              <div class="trending-title">
-                                <span>120 ETH 12/14</span>
-                                <h3>Bid 70 ETH</h3>
-                              </div>
-                            </div>
-                            <div class="content">
-                              <h3><a href="/item-details">Walking on Air</a></h3>
-                              <span><i class="ri-heart-line"></i> 190</span>
-                            </div>
-                          </div>
-                        </div>
+                    {/* <div class="col-lg-4 col-md-6">
+                      <div class="trending-btn text-end">
+                        <a class="default-btn border-radius-5" >Explore More</a>
                       </div>
-                    </div>
-                    <div class="owl-nav">
-                      <div class="owl-prev">
-                        <i class="ri-arrow-left-s-line"></i>
-                      </div>
-                      <div class="owl-next"><i class="ri-arrow-right-s-line"></i></div>
-                    </div>
-                    <div class="owl-dots disabled"></div>
-                  </div>
+                    </div> */}
                 </div>
+                <div className="row mt-4">
+                  {
+                    Auction_Array?.slice(0, 4)?.map((items, index) => {
+                      return (
+                        <>
+                          <div class="col-lg-3 col-md-6" >
+
+                            <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
+                              status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress.toUpperCase() ?  "Claim Now": "Buy"  }
+                              isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/sell_and_auction_history_address/${Address_User}` : `/Market_place2/${index}/1/sell_and_auction_history_address/${Address_User}`}
+                              data={items} setIsSpinner={setIsSpinner}
+
+                            />
+
+                          </div>
+
+                        </>
+                      )
+                    })
+                  }
+                </div>
+
+
+
               </div>
             </div>
           </div>

@@ -8,7 +8,12 @@ import { EvmChain } from '@moralisweb3/evm-utils'
 import { useWeb3Transfer } from "react-moralis";
 
 function Trending_main() {
+  const [IsSpinner, setIsSpinner] = useState(false)
 
+  let metaAddress = sessionStorage.getItem("meta-address");
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress).toUpperCase()
+  }
 
   const [Tranding_NFTs, setTranding_NFTs] = useState([])
 
@@ -56,9 +61,9 @@ function Trending_main() {
               <>
                 <div className="col-lg-3 col-md-6 col-sm-12">
                   <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                    status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
+                    status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress.toUpperCase() ?  "Claim Now": "Buy"  }
                     isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history/tranding` : `/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`}
-
+                    data={items} setIsSpinner={setIsSpinner}
 
                   />
                 </div>

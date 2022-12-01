@@ -4,11 +4,22 @@ import FavoriteIcon from '@mui/icons-material/Favorite';
 import "./Market_card.css"
 import Countdown from 'react-countdown';
 import { useState } from 'react';
+import { loadWeb3 } from '../../Api/api';
+import { nftMarketContractAddress, nftMarketContractAddress_Abi } from '../Utils/Contract';
+import { toast } from 'react-toastify';
+import axios from 'axios';
+import Web3 from 'web3';
+import Loading from '../Loading/Loading';
+// const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
+const webSupply = new Web3("https://bsc-dataseed1.binance.org/")
+
+
 function Market_card(props) {
 
-  let navigation=useNavigate()
+  let navigation = useNavigate()
 
-  const [startTime2, setstartTime2] = useState() 
+  const [startTime2, setstartTime2] = useState()
+  const [hightbid, sethightbid] = useState(0)
 
 
 
@@ -27,12 +38,113 @@ function Market_card(props) {
     }
   };
 
+
+
+  const withdrawYourBid = async () => {
+    let acc = await loadWeb3();
+    const web3 = window.web3;
+    try {
+      if (props.isOnAuction == 1) {
+        hightbider()
+         props.setIsSpinner(true)
+
+        if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+          if (startTime2 == true && hightbid == 0) {
+            let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+            await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+              from: acc,
+
+            });
+            toast.success("Withdraw Successfully")
+            let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+              "tokenid": props.data.tokenId,
+
+            })
+             props.setIsSpinner(false)
+
+            window.location.reload();
+          } else {
+             props.setIsSpinner(false)
+          navigation(props.history)
+
+
+            // toast.error("Only highest bidder can claim the NFT")
+          }
+
+
+        } else {
+          navigation(props.history)
+        }
+      } else {
+         props.setIsSpinner(true)
+
+        if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+
+          let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+          await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+            from: acc,
+
+          });
+          toast.success("Withdraw Successfully")
+          let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+            "tokenid": props.data.tokenId,
+
+          })
+           props.setIsSpinner(false)
+
+          window.location.reload();
+        } else {
+          navigation(props.history)
+        }
+      }
+
+
+
+
+
+    } catch (e) {
+       props.setIsSpinner(false)
+
+      console.log("Error While WidthdrawDueAmount ", e);
+    }
+  }
+
+
+
+  const hightbider = async (Data) => {
+    const web3 = window.web3;
+
+    try {
+
+
+      let nftContractOf = new webSupply.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+
+      let hightbid = await nftContractOf.methods.highestBidderMapping(props.data.itemId).call();
+
+      let bidderAdd = hightbid.bidderAddr
+      hightbid = hightbid.amount;
+      console.log("hightbid", hightbid);
+      // hightbid = webSupply.utils.fromWei(hightbid)
+
+
+
+      sethightbid(hightbid)
+
+    } catch (e) {
+      console.log("Error While HeightestBid", e);
+    }
+
+  }
+
   return (
 
     <>
 
 
       <div class="featured-card box-shadow"  >
+        
         <div class="featured-card-img">
           <a >
             <img src={props.img} alt="Images" style={{ height: "17rem", width: "100%" }} />
@@ -51,27 +163,22 @@ function Market_card(props) {
             <a >{props.name}</a>
           </h3>
           <div class="content-in">
-
             <div class="featured-card-left">
               <h4>Price : </h4>
             </div>
             <a class="last_text" >{props.amount} BNB</a>
-
-
           </div>
-          <div class="content-in " style={{ marginTop: "-2rem" }}>
+          <div class="content-in ">
 
             <div class="featured-card-left">
               <h4>Status : </h4>
             </div>
-            <a class="last_text" >{ props.isOnAuction == 1 &&  startTime2==true ?  "Sell Ended": props.status} </a>
-
-
+            <a class="last_text" >{props.isOnAuction == 1 && startTime2 == true ? "Sell Ended" : props.status} </a>
           </div>
 
 
-          <div class="item-details-btn mt-4" onClick={()=>navigation(props.history)}  style={{cursor:"pointer"}}>
-            <a class="default-btn border-radius-50"  > {props.isOnAuction == 1 &&  startTime2==true ?  "Claim Now": props.btn}</a>
+          <div class="item-details-btn mt-4" onClick={() => withdrawYourBid()} style={{ cursor: "pointer" }}>
+            <a class="default-btn border-radius-50"  > {props.isOnAuction == 1 && startTime2 == true ? "Claim Now" : props.btn}</a>
           </div>
 
         </div>

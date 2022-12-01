@@ -12,9 +12,9 @@ export default function Create_User_profile() {
     let history = useNavigate()
     const [imageAsFile, setImageAsFile] = useState(null);
 
-    const [name, setName] = useState("")
-    const [bio, setBio] = useState("")
-    const [email, setEmail] = useState("")
+    const [name, setName] = useState(null)
+    const [bio, setBio] = useState(null)
+    const [email, setEmail] = useState(null)
     const [Image, setImage] = useState("")
     const [IsSpinner, setIsSpinner] = useState(false)
 
@@ -48,23 +48,42 @@ export default function Create_User_profile() {
         let acc = await loadWeb3()
 
         try {
-            if (imageAsFile == null) {
+            if (imageAsFile == null ) {
                 toast.error("Please Select Profile Picture First")
             } else {
-                setIsSpinner(true)
-                console.log("DAta", name, email, bio, imageAsFile);
-                let formData = new FormData();
-                formData.append("profile", imageAsFile)
-                formData.append("address", acc.toUpperCase())
-                formData.append("username", name)
-                formData.append("email", email)
-                formData.append("bio", bio)
+                if (name == null) {
+                    toast.error("Please Enter Name First")
 
-                let res = await axios.post("https://server.nftapi.online/create_user_profile", formData)
+                } else {
+                    if (email === null) {
+                        toast.error("Please Enter Email First")
 
-                toast.success("Your Profile is Updated")
-                history('/')
-                setIsSpinner(false)
+                    } else {
+                        if (bio == null){
+
+                            toast.error("Please Enter Bio First")
+                        }else{
+
+                            setIsSpinner(true)
+                        console.log("DAta", name, email, bio, imageAsFile);
+                        let formData = new FormData();
+                        formData.append("profile", imageAsFile)
+                        formData.append("address", acc.toUpperCase())
+                        formData.append("username", name)
+                        formData.append("email", email)
+                        formData.append("bio", bio)
+
+                        let res = await axios.post("https://server.nftapi.online/create_user_profile", formData)
+
+                        toast.success("Your Profile is Updated")
+                        history('/')
+                        setIsSpinner(false)
+                        }
+
+                    }
+
+                }
+
             }
         } catch (e) {
             console.log("Error while fatech api", e);
@@ -134,7 +153,7 @@ export default function Create_User_profile() {
 
 
                                                     }
-                                                   </button>
+                                                </button>
                                             </div>
                                         </div>
                                         <div className="col-lg-5 mt-3">

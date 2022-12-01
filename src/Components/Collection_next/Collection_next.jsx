@@ -47,7 +47,7 @@ function Collection_next() {
 
     const address = acc;
 
-    const chain = EvmChain.BSC_TESTNET;
+    const chain = EvmChain.BSC;
     // console.log("Chain",chain);
 
     const response = await Moralis.EvmApi.nft.getWalletNFTs({

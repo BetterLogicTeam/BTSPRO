@@ -26,13 +26,18 @@ import Edit_Profile from './Components/Edit_Profile/Edit_Profile';
 import Create_User_profile from './Components/Create_User_Profile/Create_User_profile';
 import Seller_Details from './Components/Top_seller/Seller_Details';
 import { useState } from 'react';
+import NavbarNav from './Components/Header/NavbarNav';
+import About from './Components/About_Us/About';
+import TermandCondition from './Components/Term&Condition/TermandCondition';
+import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy';
+import Contact_Us from './Components/Contact_Us/Contact_Us';
 
 function App() {
   const [UserAddress, setUserAddress] = useState(null)
 
   return (
     <div className="">
-      <Header setUserAddress={setUserAddress} />
+      <NavbarNav setUserAddress={setUserAddress} />
 
       <ToastContainer/>
        <Routes>
@@ -49,6 +54,14 @@ function App() {
        <Route path='/Edit_Profile' element={<Edit_Profile/>}/>
        <Route path='/Create_User_profile' element={<Create_User_profile/>}/>
        <Route path='/Seller_Details/:id' element={<Seller_Details/>}/>
+       <Route path='/About' element={<About/>}/>
+       <Route path='/TermandCondition' element={<TermandCondition/>}/>
+       <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
+       <Route path='/Contact_Us' element={<Contact_Us/>}/>
+
+
+       
+
 
 
 

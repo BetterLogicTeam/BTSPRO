@@ -1,5 +1,5 @@
 export const nftMarketContractAddress =
-  "0x0265206a229ba4D8eF7DB20E8246dB86a552E1C2";
+  "0x5867362c8592142174C4c98bc03b867b4c1DcB3A";
 export const nftMarketContractAddress_Abi = [{
   "inputs": [],
   "stateMutability": "nonpayable",
@@ -550,7 +550,25 @@ export const nftMarketContractAddress_Abi = [{
   "stateMutability": "view",
   "type": "function"
 }, {
-  "inputs": [],
+  "inputs": [{
+    "internalType": "uint256",
+    "name": "_amount",
+    "type": "uint256"
+  }],
+  "name": "withdraw",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "inputs": [{
+    "internalType": "address",
+    "name": "_nftContractAddress",
+    "type": "address"
+  }, {
+    "internalType": "uint256",
+    "name": "tokenId",
+    "type": "uint256"
+  }],
   "name": "withdraw",
   "outputs": [],
   "stateMutability": "nonpayable",
@@ -558,6 +576,20 @@ export const nftMarketContractAddress_Abi = [{
 }, {
   "inputs": [],
   "name": "withdrawDueAmount",
+  "outputs": [],
+  "stateMutability": "nonpayable",
+  "type": "function"
+}, {
+  "inputs": [{
+    "internalType": "uint256",
+    "name": "itemId",
+    "type": "uint256"
+  }, {
+    "internalType": "address",
+    "name": "nftContractAddress",
+    "type": "address"
+  }],
+  "name": "withdrawYourBid",
   "outputs": [],
   "stateMutability": "nonpayable",
   "type": "function"
@@ -1355,10 +1387,7 @@ export const nftMarketToken_Abi = [{
     type: "function",
   },
 ];
-
-
-
-export const CreateNFT = "0x8D5030F93C7c4a2F20EbbFE3cEd4bBbdc0Fc3b4f";
+export const CreateNFT = "0x234b1FBD205bdB13Fd9F67818A5B5A3E562A9DfC";
 export const CreateNFT_ABI = [{
   "inputs": [{
     "internalType": "address",

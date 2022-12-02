@@ -58,16 +58,8 @@ function App() {
        <Route path='/TermandCondition' element={<TermandCondition/>}/>
        <Route path='/PrivacyPolicy' element={<PrivacyPolicy/>}/>
        <Route path='/Contact_Us' element={<Contact_Us/>}/>
-
-
-       
-
-
-
-
-
-
       
+
       
     </Routes>
     <Footer />

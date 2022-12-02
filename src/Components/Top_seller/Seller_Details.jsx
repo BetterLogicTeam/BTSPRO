@@ -159,7 +159,7 @@ export default function Seller_Details() {
                         <div class="col-lg-4 col-md-6" >
 
                         <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress.toUpperCase() ?  "Claim Now": "Buy"  }
+                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress?.toUpperCase() == metaAddress?.toUpperCase() ?  "Claim Now": "Buy"  }
                             isOnAuction={items.isOnAuction } bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/${Userdata}` : `/Market_place2/${index}/1/${Marketplace}/${Userdata}`}
                             data={items} setIsSpinner={setIsSpinner}
 

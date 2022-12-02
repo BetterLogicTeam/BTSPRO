@@ -6,6 +6,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import './96b37438d38568123102.css'
 // import './style.css'
 import logo_dark from '../../Assets/logo copy.png'
+import { MdOutlineAccountBalanceWallet } from 'react-icons/md'
+import { Button, Space } from 'antd';
+import Offcanvas from './OffcanvasConnect';
+import { toast } from 'react-toastify';
+import { loadWeb3 } from '../../Api/api';
 
 
 
@@ -16,10 +21,19 @@ export default function NavbarNav({ setUserAddress }) {
     const [dropdownShow, setdropdownShow] = useState(false)
     const [ModelShow, setModelShow] = useState(false)
     const [address, setAddress] = useState(null);
-    const [open, setOpen] = useState(false);
+    // const [open, setOpen] = useState(false);
     const dispatch = useDispatch();
     const [userData, setUserData] = useState(null);
     const [IsUserprofile, setIsUserprofile] = useState(true)
+    const [open, setOpen] = useState(false);
+
+    const showDrawer = () => {
+        setOpen(true);
+    };
+
+    const onClose = () => {
+        setOpen(false);
+    };
 
     const history = useNavigate();
 
@@ -31,23 +45,44 @@ export default function NavbarNav({ setUserAddress }) {
         console.log("working");
     };
 
-    const connectMetaMask = async () => {
-        if (typeof window.ethereum !== "undefined") {
-            const accounts = await window.ethereum.request({
-                method: "eth_requestAccounts",
-            });
-            const account = accounts[0];
+    const connectMetaMask = async (Id) => {
+        localStorage.setItem("NETWORKID", (Id));
+    let id = localStorage.getItem("NETWORKID");
+
+
+        let account = await loadWeb3(id)
+        if (account == "No Wallet") {
+            toast.error('Please Install MetaMask: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn')
+        }
+        else if (account == "Wrong Network") {
+            toast.error('Wrong Network')
+        } else {
+
+
             alert(`You Are Connected Now ${account}`);
             setAddress(account);
             setUserAddress(account)
             storeAddress(account.toUpperCase());
-            // window.location.reload();
-        } else {
-            alert(
-                "Please Install MetaMask: 'https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'"
-            );
+            
         }
         window.onload()
+
+        // if (typeof window.ethereum !== "undefined") {
+        //     const accounts = await window.ethereum.request({
+        //         method: "eth_requestAccounts",
+        //     });
+        //     const account = accounts[0];
+        //     alert(`You Are Connected Now ${account}`);
+        //     setAddress(account);
+        //     setUserAddress(account)
+        //     storeAddress(account.toUpperCase());
+        //     // window.location.reload();
+        // } else {
+        //     alert(
+        //         'Please Install MetaMask: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn'
+
+        //     );
+        // }
     };
 
     const fetchData = async () => {
@@ -64,7 +99,7 @@ export default function NavbarNav({ setUserAddress }) {
 
             } else {
 
-                setUserData(res?.data?.data?.image)
+                setUserData(res?.data?.data)
             }
         }
 
@@ -83,7 +118,7 @@ export default function NavbarNav({ setUserAddress }) {
                 window.location.reload();
 
             } else {
-                setUserData(res?.data?.data?.image)
+                setUserData(res?.data?.data)
                 window.location.reload();
 
             }
@@ -145,7 +180,7 @@ export default function NavbarNav({ setUserAddress }) {
                     <div className="dot2"></div>
                 </div>
             </div> */}
-            <div className="navbar-area">
+            <div className="navbar-area" style={{ zIndex: "1000000000000000000000000" }}>
                 <div className="mobile-responsive-nav">
                     <div className="container-fluid">
                         <div className="mobile-responsive-menu mean-container">
@@ -201,6 +236,7 @@ export default function NavbarNav({ setUserAddress }) {
 
                                                     </Link>
                                                 </li>
+
                                             </ul>
                                             <a className="mean-expand" href="#" style={{ fontSize: "18px" }} onClick={() => dropdownShow == false ? setdropdownShow(true) : setdropdownShow(false)} >+</a></li>
                                         <li className="nav-item" onClick={() => setThresDot(false)}>
@@ -226,10 +262,10 @@ export default function NavbarNav({ setUserAddress }) {
                                             {
                                                 !address ? (
 
-                                                    <li style={{ cursor: "pointer" }}><a className="active" onClick={() => connectMetaMask()}><span classNameName="text-white">Connect Wallet</span> </a></li>
+                                                    <li style={{ cursor: "pointer" }}><MdOutlineAccountBalanceWallet onClick={() => connectMetaMask()} /> </li>
                                                 )
                                                     :
-                                                    <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} />
+                                                    <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData?.image}` || "/static/images/avatar/1.jpg"} />
 
 
                                             }
@@ -329,6 +365,7 @@ export default function NavbarNav({ setUserAddress }) {
 
                                                 </Link>
                                             </li>
+
                                         </ul>
                                     </li>
                                     <li className="nav-item">
@@ -338,6 +375,7 @@ export default function NavbarNav({ setUserAddress }) {
                                             </a>
                                         </Link>
                                     </li>
+
                                     <li className="nav-item">
                                         <Link to="/Contact_Us">
 
@@ -353,10 +391,13 @@ export default function NavbarNav({ setUserAddress }) {
 
                                     <ul className="optional-item-list">
                                         <li> <Link to="/Create_pro">Create</Link> </li>
-                                        {
+                                        <li style={{ cursor: "pointer" }}>   <Offcanvas connectMetaMask={connectMetaMask} address={address} userData={userData} /> </li>
+
+                                        {/* {
                                             !address ? (
 
-                                                <li style={{ cursor: "pointer" }}><a className="active" onClick={() => connectMetaMask()}><span classNameName="text-white">Connect Wallet</span> </a></li>
+                                                <li style={{ cursor: "pointer" }}>   <Offcanvas connectMetaMask={connectMetaMask} address={address} /> </li>
+
                                             )
                                                 :
 
@@ -364,7 +405,7 @@ export default function NavbarNav({ setUserAddress }) {
 
                                                 null
 
-                                        }
+                                        } */}
                                         {/* <li><a className="active">Connect Wallet</a></li> */}
                                     </ul>
 
@@ -374,10 +415,10 @@ export default function NavbarNav({ setUserAddress }) {
                                             <ul className="navbar-nav ms-3">
                                                 <li className="nav-item">
                                                     {
-                                                        !userData ?
+                                                        !userData?.image ?
                                                             <Link to="/Create_User_profile" classNameName="Avtar_Header">  <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} /></Link>
                                                             :
-                                                            <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} />
+                                                            <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData?.image}` || "/static/images/avatar/1.jpg"} />
 
                                                     }
                                                     <ul className="dropdown-menu">
@@ -431,7 +472,7 @@ export default function NavbarNav({ setUserAddress }) {
                                         <ul className="optional-item-list" style={{ flexDirection: "column" }}>
                                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
 
-                                                <li onClick={()=>setModelShow(false)}> <Link to="/Create_pro">Create</Link> </li> 
+                                                <li onClick={() => setModelShow(false)}> <Link to="/Create_pro">Create</Link> </li>
                                                 {
                                                     !address ? (
 
@@ -439,8 +480,8 @@ export default function NavbarNav({ setUserAddress }) {
                                                     )
                                                         :
                                                         <>
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData}` || "/static/images/avatar/1.jpg"} />
+                                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                            <Avatar alt="" src={`https://server.nftapi.online/uploads/${userData?.image}` || "/static/images/avatar/1.jpg"} />
 
                                                         </>
 
@@ -448,14 +489,14 @@ export default function NavbarNav({ setUserAddress }) {
                                                 }
                                             </div>
                                             <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-                                                <li className="nav-item" onClick={()=>setModelShow(false)}>
+                                                <li className="nav-item" onClick={() => setModelShow(false)}>
                                                     <Link to="/User_Profile" >
 
                                                         User Profile
 
                                                     </Link>
                                                 </li>
-                                                <li className="nav-item" onClick={()=>setModelShow(false)}>
+                                                <li className="nav-item" onClick={() => setModelShow(false)}>
                                                     <Link to="/collection">
 
 

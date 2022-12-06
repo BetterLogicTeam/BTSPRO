@@ -46,9 +46,10 @@ export default function NavbarNav({ setUserAddress }) {
     };
 
     const connectMetaMask = async (Id) => {
+
+        
         localStorage.setItem("NETWORKID", (Id));
     let id = localStorage.getItem("NETWORKID");
-
 
         let account = await loadWeb3(id)
         if (account == "No Wallet") {

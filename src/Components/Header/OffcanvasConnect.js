@@ -32,11 +32,13 @@ export default function OffcanvasConnect(props) {
     }
 
 
-    useEffect( async() => {
-        await window.web3.eth.getChainId(async (err, netId) => {
+    // useEffect( async() => {
+    // let id = localStorage.getItem("NETWORKID");
+
+    //     await window.web3.eth.getChainId(async (err, netId) => {
            
-        });
-    }, [])
+    //     });
+    // }, [])
 
     return (
         <div>

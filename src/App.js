@@ -25,18 +25,23 @@ import User_Profile from './Components/User_profile/User_Profile';
 import Edit_Profile from './Components/Edit_Profile/Edit_Profile';
 import Create_User_profile from './Components/Create_User_Profile/Create_User_profile';
 import Seller_Details from './Components/Top_seller/Seller_Details';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import NavbarNav from './Components/Header/NavbarNav';
 import About from './Components/About_Us/About';
 import TermandCondition from './Components/Term&Condition/TermandCondition';
 import PrivacyPolicy from './Components/PrivacyPolicy/PrivacyPolicy';
 import Contact_Us from './Components/Contact_Us/Contact_Us';
 
-function App() {
+function App(props) {
   const [UserAddress, setUserAddress] = useState(null)
+useEffect(() => {
+  // localStorage.setItem("NETWORKID", (56));   
+  
+}, [])
 
   return (
     <div className="">
+
       <NavbarNav setUserAddress={setUserAddress} />
 
       <ToastContainer/>

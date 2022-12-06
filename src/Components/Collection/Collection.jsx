@@ -22,6 +22,7 @@ import Market_card from '../Market_card/Market_card'
 import Loading from '../Loading/Loading'
 
 function Collection() {
+  let id = localStorage.getItem("NETWORKID");
 
   const count = useSelector((state) => state.counter.myArr)
   const [name, setName] = useState("User Name")
@@ -66,10 +67,17 @@ function Collection() {
         apiKey: "gI4QFVnQgnpOIG0CdMSUq7wLkrbEaypx8p28wx2Pohw1EWJUY6Ongt3vHIuovT4Z",
         // ...and any other configuration
       });
-      
       const address = acc;
       
-      const chain = EvmChain.BSC;
+      let chain ;
+      if(id==5){
+        chain = EvmChain.GOERLI
+      }else if(id==56){
+        chain = EvmChain.BSC
+      }
+      
+
+     
       // console.log("Chain",chain);
       
       let res = await Moralis.EvmApi.nft.getWalletNFTs({

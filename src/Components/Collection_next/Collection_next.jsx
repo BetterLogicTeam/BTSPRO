@@ -18,6 +18,7 @@ import Loading from '../Loading/Loading';
 
 function Collection_next() {
   const history = useNavigate()
+  let chainID = localStorage.getItem("NETWORKID");
 
   const { id } = useParams();
   const [CollectionArray, setCollectionArray] = useState([])
@@ -47,7 +48,13 @@ function Collection_next() {
 
     const address = acc;
 
-    const chain = EvmChain.BSC;
+    let chain ;
+    if(chainID==5){
+      chain = EvmChain.GOERLI
+    }else if(chainID==56){
+      chain = EvmChain.BSC
+    }
+    
     // console.log("Chain",chain);
 
     const response = await Moralis.EvmApi.nft.getWalletNFTs({

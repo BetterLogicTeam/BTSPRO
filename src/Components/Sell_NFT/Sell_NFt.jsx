@@ -11,6 +11,7 @@ import './Sell_style.css'
 
 export default function Sell_NFt() {
     const history = useNavigate()
+    let chainID = localStorage.getItem("NETWORKID");
 
     const { id } = useParams();
     const [CollectionArray, setCollectionArray] = useState([])
@@ -24,7 +25,13 @@ export default function Sell_NFt() {
 
         const address = acc;
 
-        const chain = EvmChain.BSC;
+        let chain ;
+        if(chainID==5){
+          chain = EvmChain.GOERLI
+        }else if(chainID==56){
+          chain = EvmChain.BSC
+        }
+        
         // console.log("Chain",chain);
 
         const response = await Moralis.EvmApi.nft.getWalletNFTs({

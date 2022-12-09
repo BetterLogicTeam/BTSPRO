@@ -130,24 +130,24 @@ export default function OffcanvasConnect(props) {
                                 <div class="sc-29427738-0 sc-630fc9ab-0 sc-99655001-0 sc-4422a702-0 sc-a8df1259-1 iihyIq jSPhMX kKyBpy fYgjHJ dNyhhk">
                                     <span font-weight="700" font-size="14px" class="sc-29427738-0 sc-bdnxRM sc-a8df1259-2 gHeBAc jvVTLm">Ethereum</span>
                                 </div>
-                                <div overflow="hidden" display="flex" class="sc-29427738-0 sc-a8df1259-3 cLGxCH bSNQjW" onClick={() => props.connectMetaMask(5)}>
+                                <div overflow="hidden" display="flex" class="sc-29427738-0 sc-a8df1259-3 cLGxCH bSNQjW" onClick={() => props.connectMetaMask(1)}>
                                     <span class="sc-29427738-0 sc-bdnxRM sc-a8df1259-6 brdhhA fQDfDu">
-                                        <div class="sc-29427738-0 sc-c84c6e8e-1 dVNeWL hunypc">{id==5 ? "Connected" : "Connect"}</div>
+                                        <div class="sc-29427738-0 sc-c84c6e8e-1 dVNeWL hunypc">{id==1 ? "Connected" : "Connect"}</div>
                                     </span>
                                 </div>
                             </a>
                         </li>
                         <li>
-                            <a class="sc-1f719d57-0 fKAlPV sc-29427738-0 sc-630fc9ab-0 sc-a8df1259-0 bBUaNU jSPhMX egqDTp" href="https://metamask.io/download.html" rel="nofollow noopener" target="_blank">
+                            <a class="sc-1f719d57-0 fKAlPV sc-29427738-0 sc-630fc9ab-0 sc-a8df1259-0 bBUaNU jSPhMX egqDTp"  rel="nofollow noopener" target="_blank">
                                 <div size="24" class="sc-29427738-0 sc-630fc9ab-0 sc-99655001-0 sc-4422a702-0 sc-dada3b88-0 sc-1e4e8144-0 sc-eebcb459-0 bMZyxz jSPhMX kKyBpy fYgjHJ cmjqwQ eEreIg fcwFWy">
                                     <img alt="" height="30px" src="Ethereum-Logo.wine.png" size="24" class="sc-29427738-0 sc-1e4e8144-1 kqDcHr bEFlDl" />
                                 </div>
                                 <div class="sc-29427738-0 sc-630fc9ab-0 sc-99655001-0 sc-4422a702-0 sc-a8df1259-1 iihyIq jSPhMX kKyBpy fYgjHJ dNyhhk">
                                     <span font-weight="700" font-size="14px" class="sc-29427738-0 sc-bdnxRM sc-a8df1259-2 gHeBAc jvVTLm">Trom</span>
                                 </div>
-                                <div overflow="hidden" display="flex" class="sc-29427738-0 sc-a8df1259-3 cLGxCH bSNQjW">
+                                <div overflow="hidden" display="flex" class="sc-29427738-0 sc-a8df1259-3 cLGxCH bSNQjW" onClick={() => props.connectMetaMask(1230)}>
                                     <span class="sc-29427738-0 sc-bdnxRM sc-a8df1259-6 brdhhA fQDfDu">
-                                        <div class="sc-29427738-0 sc-c84c6e8e-1 dVNeWL hunypc">Connect</div>
+                                        <div class="sc-29427738-0 sc-c84c6e8e-1 dVNeWL hunypc">{id==1230 ? "Connected" : "Connect"}</div>
                                     </span>
                                 </div>
                             </a>

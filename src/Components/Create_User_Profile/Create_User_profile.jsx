@@ -8,6 +8,9 @@ import { loadWeb3 } from '../../Api/api';
 import './Create_user_profile.css'
 
 export default function Create_User_profile() {
+    const metaAddress = sessionStorage?.getItem("meta-address");
+    // let Address=JSON?.parse(metaAddress).toUpperCase()
+    console.log("Address",metaAddress);
     const inputRef = useRef();
     let history = useNavigate()
     const [imageAsFile, setImageAsFile] = useState(null);
@@ -41,7 +44,7 @@ export default function Create_User_profile() {
         setEmail(e.target.value);
     };
 
-
+   
 
 
     const PostData = async () => {

@@ -26,11 +26,11 @@ export default function Sell_NFt() {
         const address = acc;
 
         let chain ;
-        if(chainID==5){
-          chain = EvmChain.GOERLI
-        }else if(chainID==56){
-          chain = EvmChain.BSC
-        }
+        if(chainID==1){
+            chain = EvmChain.ETHEREUM
+          }else if(chainID==56){
+            chain = EvmChain.BSC
+          }
         
         // console.log("Chain",chain);
 

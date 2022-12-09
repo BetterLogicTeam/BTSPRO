@@ -70,11 +70,11 @@ function Collection() {
       const address = acc;
       
       let chain ;
-      if(id==5){
-        chain = EvmChain.GOERLI
-      }else if(id==56){
-        chain = EvmChain.BSC
-      }
+     if(id==1){
+      chain = EvmChain.ETHEREUM
+    }else if(id==56){
+      chain = EvmChain.BSC
+    }
       
 
      

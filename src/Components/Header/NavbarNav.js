@@ -11,6 +11,8 @@ import { Button, Space } from 'antd';
 import Offcanvas from './OffcanvasConnect';
 import { toast } from 'react-toastify';
 import { loadWeb3 } from '../../Api/api';
+import TronWeb from 'tronweb'
+
 
 
 
@@ -45,28 +47,61 @@ export default function NavbarNav({ setUserAddress }) {
         console.log("working");
     };
 
+    let mainAccount = ''
+
     const connectMetaMask = async (Id) => {
 
-        
+
         localStorage.setItem("NETWORKID", (Id));
-    let id = localStorage.getItem("NETWORKID");
-
-        let account = await loadWeb3(id)
-        if (account == "No Wallet") {
-            toast.error('Please Install MetaMask: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn')
-        }
-        else if (account == "Wrong Network") {
-            toast.error('Wrong Network')
-        } else {
-
-
-            alert(`You Are Connected Now ${account}`);
-            setAddress(account);
-            setUserAddress(account)
-            storeAddress(account.toUpperCase());
+        let id = localStorage.getItem("NETWORKID");
+        if (Id == 1230) {
+            try {
+                mainAccount = await window?.tronWeb?.defaultAddress?.base58
             
+              
+                
+                // console.log('main Account', mainAccount)
+
+                if (mainAccount) {
+                let myAcc = mainAccount?.substring(0, 4) + "..." + mainAccount?.substring(mainAccount?.length - 4);
+
+                    setAddress(myAcc);
+                    setUserAddress(myAcc)
+                    storeAddress(myAcc.toUpperCase());
+                } else {
+                    const HttpProvider = TronWeb.providers.HttpProvider
+                    const fullNode = new HttpProvider('https://api.shasta.trongrid.io')
+                    const solidityNode = new HttpProvider('https://api.shasta.trongrid.io')
+                    const eventServer = 'https://api.shasta.trongrid.io/'
+                    const gettronWeb = new TronWeb(fullNode, solidityNode, eventServer)
+                    toast.warning('Please login or install tron wallet!')
+                }
+            } catch (error) {
+                toast.error('please login tron wallet')
+
+                console.log('errorrrrr', error.message)
+            }
+
+        } else {
+            let account = await loadWeb3(id)
+            if (account == "No Wallet") {
+                toast.error('Please Install MetaMask: https://chrome.google.com/webstore/detail/metamask/nkbihfbeogaeaoehlefnkodbefgpgknn')
+            }
+            else if (account == "Wrong Network") {
+                toast.error('Wrong Network')
+            } else {
+
+
+                alert(`You Are Connected Now ${account}`);
+                setAddress(account);
+                setUserAddress(account)
+                storeAddress(account.toUpperCase());
+
+            }
+            window.onload()
         }
-        window.onload()
+
+
 
         // if (typeof window.ethereum !== "undefined") {
         //     const accounts = await window.ethereum.request({
@@ -294,7 +329,7 @@ export default function NavbarNav({ setUserAddress }) {
                                     </div>
                                 </nav></div>
                             <div className="logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="assets/images/logo-2.png" className="logo-one" alt="Logo" />
                                     <img src={logo_dark} className="logo-two" alt="Logo" />
                                 </a>
@@ -306,7 +341,7 @@ export default function NavbarNav({ setUserAddress }) {
                     <div className="container-fluid">
                         <div className="mobile-responsive-menu">
                             <div className="logo">
-                                <a href="index.html">
+                                <a href="/">
                                     <img src="assets/images/logo-2.png" className="logo-one" alt="Logo" />
                                     <img src={logo_dark} className="logo-two" alt="Logo" />
                                 </a>
@@ -317,7 +352,7 @@ export default function NavbarNav({ setUserAddress }) {
                 <div className="desktop-nav desktop-nav-one nav-area">
                     <div className="container-fluid">
                         <nav className="navbar navbar-expand-md navbar-light ">
-                            <a className="navbar-brand" href="index.html">
+                            <a className="navbar-brand" href="/">
                                 <img src={logo_dark} alt="Logo" />
                             </a>
                             <div className="nav-widget-form">

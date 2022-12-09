@@ -49,8 +49,8 @@ function Collection_next() {
     const address = acc;
 
     let chain ;
-    if(chainID==5){
-      chain = EvmChain.GOERLI
+    if(chainID==1){
+      chain = EvmChain.ETHEREUM
     }else if(chainID==56){
       chain = EvmChain.BSC
     }

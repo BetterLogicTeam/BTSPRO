@@ -20,11 +20,24 @@ import { toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 // const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
-const webSupply = new Web3("https://bsc-dataseed1.binance.org/")
 
 
 function Market_place2() {
   let { id, index, text, useradd } = useParams()
+  let chainID = sessionStorage.getItem("NETWORKID");
+  let metaAddress = sessionStorage.getItem("meta-address");
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress);
+  }
+  let webSupply
+  if(chainID==56){
+
+     webSupply = new Web3("https://bsc-dataseed1.binance.org/")
+  }else{
+    webSupply = new Web3("https://rpc.ankr.com/eth")
+
+
+  }
   let history = useNavigate()
   const [All_NFT, setAll_NFT] = useState([])
   const [Timer, setTimer] = useState(Date.now())
@@ -68,7 +81,7 @@ function Market_place2() {
 
 
           let res = await axios.get(`https://server.nftapi.online/get_trending_NFTs`)
-          console.log("UU", res?.data?.data[id].useraddress);
+          // console.log("UU", res?.data?.data[id].useraddress);
 
           let data = id;
           setAll_NFT(res.data.data[id])
@@ -167,22 +180,29 @@ function Market_place2() {
 
 
   const hightbider = async (Data) => {
-    const web3 = window.web3;
 
     try {
+      if (chainID == 1230) {
+        let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
+        let hightbid = await contractOf.highestBidderMapping(Data).call()
+        let bidderAdd = window.tronWeb.address.fromHex(hightbid.bidderAddr)
+        let hightbidAmount = parseInt(hightbid.amount)
+        console.log("hightbidhightbid", hightbidAmount, bidderAdd);
+        setHighestBideradd(bidderAdd)
+        sethightbid(hightbidAmount)
 
+      } else {
+ 
+        const web3 = window.web3;
+        let nftContractOf = new webSupply.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+        let hightbid = await nftContractOf.methods.highestBidderMapping(Data).call();
+        let bidderAdd = hightbid.bidderAddr
+        hightbid = hightbid.amount;
+        hightbid = webSupply.utils.fromWei(hightbid)
+        setHighestBideradd(bidderAdd)
+        sethightbid(hightbid)
+      }
 
-      let nftContractOf = new webSupply.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-      let hightbid = await nftContractOf.methods.highestBidderMapping(Data).call();
-
-      let bidderAdd = hightbid.bidderAddr
-      hightbid = hightbid.amount;
-      hightbid = webSupply.utils.fromWei(hightbid)
-      setHighestBideradd(bidderAdd)
-
-
-      sethightbid(hightbid)
 
     } catch (e) {
       console.log("Error While HeightestBid", e);
@@ -218,111 +238,156 @@ function Market_place2() {
 
 
   const createBidOnItem = async () => {
-    let acc = await loadWeb3();
+    if (chainID == 1230) {
+      setIsSpinner(true)
 
-    setIsSpinner(true)
-    if (acc == "No Wallet") {
-      toast.error("No Wallet Connected")
-      setIsSpinner(false)
+      if (SendAddress.toUpperCase() !== metaAddress.toUpperCase()) {
+        if (base_price <= getInputdata) {
 
-    }
-    else if (acc == "Wrong Network") {
-      toast.error("Wrong Newtwork please connect to test net")
-      setIsSpinner(false)
+          let getinputdata2 = (getInputdata * 1000000).toString()
+
+          let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
+
+          await contractOf.createBidOnItem(itemId, nftcontactadd).send({
+            callValue: getinputdata2,
+          }).then(async (hash) => {
+            if (hash != "") {
+              try {
+                let postapi = await axios.post('https://server.nftapi.online/trending_NFTs', {
+                  "useraddress": All_NFT.useraddress,
+                  "itemId": All_NFT.itemId,
+                  "nftContract": All_NFT.nftContract,
+                  "tokenId": All_NFT.tokenId,
+                  "owner": All_NFT.owner,
+                  "price": All_NFT.price,
+                  "sold": All_NFT.sold,
+                  "isOnAuction": 1,
+                  "bidEndTime": All_NFT.bidEndTime,
+                  "name": All_NFT.name,
+                  "url": All_NFT.url,
+                  "txn": All_NFT.txn,
+                  "category": All_NFT.category,
+                  "edate": new Date(),
+                  "count": 0
+
+                })
+
+                console.log("postapi", postapi);
+                setIsSpinner(false)
+                window.location.reload();
+
+
+                toast.success('Please Wait while transaction is processing...')
+              } catch (e) {
+                console.log("error", e);
+                setIsSpinner(false);
+                toast.error("Something went wrong ! ");
+              }
+            }
+            console.log("Final Output:", hash, "\n");
+            toast.success("Transaction is complete");
+            setIsSpinner(false);
+          }).catch((e) => {
+            toast.error(e.message);
+            setIsSpinner(false);
+          })
+        } else {
+          toast.error("Bid price must be greater than base price and highest bid")
+          setIsSpinner(false)
+
+        }
+      } else {
+        toast.error("Already owned")
+        setIsSpinner(false)
+      }
+
 
     } else {
+      let acc = await loadWeb3();
 
-      let metaAddress = sessionStorage.getItem("meta-address");
-      if (metaAddress) {
-        metaAddress = JSON.parse(metaAddress);
+      setIsSpinner(true)
+      if (acc == "No Wallet") {
+        toast.error("No Wallet Connected")
+        setIsSpinner(false)
 
       }
-      if (metaAddress == null) {
-        toast.error("Please Connect Metamask First")
+      else if (acc == "Wrong Network") {
+        toast.error("Wrong Newtwork please connect to test net")
         setIsSpinner(false)
 
       } else {
 
-        try {
-          const web3 = window.web3;
 
-          // hightbid = web3.utils.toWei(hightbid)
-          if (SendAddress.toUpperCase() !== acc.toUpperCase()) {
-            // if (hightbid <= getInputdata) {
-            if (base_price <= getInputdata) {
-              // let getinputdata2 = web3.utils.toBN(getinputdata).toString()
-              let getinputdata2 = web3.utils.toWei(getInputdata).toString()
-
-
-
-
-              let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-
-
-
-              await nftContractOf.methods.createBidOnItem(itemId, nftcontactadd).send({
-                from: acc,
-                value: getinputdata2
-
-              })
-              toast.success("Biding Successful")
-              setIsSpinner(false)
-
-              let num = 0;
-              let postapi = await axios.post('https://server.nftapi.online/trending_NFTs', {
-                "useraddress": All_NFT.useraddress,
-                "itemId": All_NFT.itemId,
-                "nftContract": All_NFT.nftContract,
-                "tokenId": All_NFT.tokenId,
-                "owner": All_NFT.owner,
-                "price": All_NFT.price,
-                "sold": All_NFT.sold,
-                "isOnAuction": 1,
-                "bidEndTime": All_NFT.bidEndTime,
-                "name": All_NFT.name,
-                "url": All_NFT.url,
-                "txn": All_NFT.txn,
-                "category": All_NFT.category,
-                "edate": new Date(),
-                "count": 0
-
-              })
-
-              console.log("postapi", postapi);
-
-              setIsSpinner(false)
-              window.location.reload();
-
-
-            } else {
-              toast.error("Bid price must be greater than base price and highest bid")
-              setIsSpinner(false)
-
-            }
-
-
-
-          } else {
-            toast.error("Already owned")
-            setIsSpinner(false)
-
-
-          }
-
-
-
-
-        }
-        catch (e) {
-          console.log("Create Bid Error", e);
+        if (metaAddress == null) {
+          toast.error("Please Connect Metamask First")
           setIsSpinner(false)
 
+        } else {
+
+          try {
+            const web3 = window.web3;
+
+            // hightbid = web3.utils.toWei(hightbid)
+            if (SendAddress.toUpperCase() !== acc.toUpperCase()) {
+              // if (hightbid <= getInputdata) {
+              if (base_price <= getInputdata) {
+                // let getinputdata2 = web3.utils.toBN(getinputdata).toString()
+                let getinputdata2 = web3.utils.toWei(getInputdata).toString()
+                let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+                await nftContractOf.methods.createBidOnItem(itemId, nftcontactadd).send({
+                  from: acc,
+                  value: getinputdata2
+
+                })
+                toast.success("Biding Successful")
+                setIsSpinner(false)
+
+                let num = 0;
+                let postapi = await axios.post('https://server.nftapi.online/trending_NFTs', {
+                  "useraddress": All_NFT.useraddress,
+                  "itemId": All_NFT.itemId,
+                  "nftContract": All_NFT.nftContract,
+                  "tokenId": All_NFT.tokenId,
+                  "owner": All_NFT.owner,
+                  "price": All_NFT.price,
+                  "sold": All_NFT.sold,
+                  "isOnAuction": 1,
+                  "bidEndTime": All_NFT.bidEndTime,
+                  "name": All_NFT.name,
+                  "url": All_NFT.url,
+                  "txn": All_NFT.txn,
+                  "category": All_NFT.category,
+                  "edate": new Date(),
+                  "count": 0
+
+                })
+
+                console.log("postapi", postapi);
+
+                setIsSpinner(false)
+                window.location.reload();
+
+
+              } else {
+                toast.error("Bid price must be greater than base price and highest bid")
+                setIsSpinner(false)
+
+              }
+            } else {
+              toast.error("Already owned")
+              setIsSpinner(false)
+            }
+          }
+          catch (e) {
+            console.log("Create Bid Error", e);
+            setIsSpinner(false)
+
+          }
         }
-
-
       }
     }
+
+
 
 
 
@@ -331,26 +396,51 @@ function Market_place2() {
 
 
   const claimBidItem = async () => {
-    let acc = await loadWeb3();
-    const web3 = window.web3;
-    setIsSpinner(true)
-    if (acc == "No Wallet") {
-      toast.error("No Wallet Connected")
-      setIsSpinner(false)
 
-    }
-    else if (acc == "Wrong Network") {
-      toast.error("Wrong Newtwork please connect to test net")
-      setIsSpinner(false)
+    if (chainID == 1230) {
+      if (metaAddress == null) {
+        toast.error("Please Connect Metamask First")
+        setIsSpinner(false)
+
+      } else {
+
+        if (HighestBideradd.toUpperCase() == metaAddress.toUpperCase()) {
+          let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
+           await contractOf.claimBidItem(itemId, nftcontactadd).send({
+
+          })
+          let postapiPushdata = await axios.post('https://server.nftapi.online/update_auction_status', {
+
+            "tokenid": tokenId,
+
+          })
+
+          let udate_Tranding = await axios.post('https://server.nftapi.online/update_tranding', {
+
+            "tokenId": tokenId,
+
+          })
+          console.log("postapiPushdata", postapiPushdata);
+          setIsSpinner(false)
+          toast.success("Transaction is Complete");
+
+          history("/market_place");
+        } else {
+          toast.error("Only highest bidder can claim the NFT")
+          setIsSpinner(false)
+        }
+      }
 
 
     } else {
 
-      let metaAddress = sessionStorage.getItem("meta-address");
-      if (metaAddress) {
-        metaAddress = JSON.parse(metaAddress);
+      let acc = await loadWeb3();
+      console.log("metaAddress", acc);
+      const web3 = window.web3;
+      setIsSpinner(true)
+    
 
-      }
+
       if (metaAddress == null) {
         toast.error("Please Connect Metamask First")
         setIsSpinner(false)
@@ -358,12 +448,12 @@ function Market_place2() {
       } else {
 
         try {
-          if (HighestBideradd.toUpperCase() == acc.toUpperCase()) {
-            let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-
+          if (HighestBideradd.toUpperCase() == metaAddress.toUpperCase()) {
+            let nftContractOf = new webSupply.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
             await nftContractOf.methods.claimBidItem(itemId, nftcontactadd).send({
               from: acc,
+              value:0
+
             })
 
             let postapiPushdata = await axios.post('https://server.nftapi.online/update_auction_status', {
@@ -380,24 +470,13 @@ function Market_place2() {
             console.log("postapiPushdata", postapiPushdata);
 
             setIsSpinner(false)
-            toast.success("Transion Compelete")
-            // let res = await axios.post('https://server.nftapi.online/trending_NFTs', {
-            //   "useraddress": acc,
-            //   "tokenId": tokenId,
-            //   "nftContract":nftcontactadd
-
-            // })
+            toast.success("Transaction is Complete");
             history("/market_place");
-
-
           } else {
             toast.error("Only highest bidder can claim the NFT")
             setIsSpinner(false)
 
           }
-
-
-
         } catch (e) {
           console.log("Error While Call Function claimBidItem", e)
           setIsSpinner(false)
@@ -406,90 +485,138 @@ function Market_place2() {
 
       }
     }
+    // }
+
+
   }
 
 
   const purchaseOrder = async () => {
 
 
-    let acc = await loadWeb3();
-    setIsSpinner(true)
-    if (acc == "No Wallet") {
-      toast.error("No Wallet Connected")
-      setIsSpinner(false)
+    if (chainID == 1230) {
+      setIsSpinner(true)
+      if (SendAddress.toUpperCase() === metaAddress.toUpperCase()) {
+        toast.error("Already owned")
+        setIsSpinner(false)
 
-    }
-    else if (acc == "Wrong Network") {
-      toast.error("Wrong Newtwork please connect to test net")
-      setIsSpinner(false)
+      }
+      else {
+        let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
+        let inputdata = (base_price * 1000000).toString()
+        await contractOf.createMarketSale(itemId, nftcontactadd).send({
+          callValue: inputdata,
+        }).then(async (hash) => {
+          if (hash != "") {
+            try {
+              let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+                "tokenid": tokenId,
+
+              })
+
+              let udate_Tranding = await axios.post('https://server.nftapi.online/update_tranding', {
+
+                "tokenId": tokenId,
+
+              })
+              console.log("postapiPushdata", postapiPushdata);
+
+              setIsSpinner(false)
+              // window.location.reload();
+              toast.success('Please Wait while transaction is processing...')
+            } catch (e) {
+              console.log("error", e);
+              setIsSpinner(false);
+              toast.error("Something went wrong ! ");
+            }
+          }
+          console.log("Final Output:", hash, "\n");
+          toast.success("Transaction is complete");
+          history("/market_place");
+          setIsSpinner(false);
+        }).catch((e) => {
+          toast.error(e.message);
+          setIsSpinner(false);
+        })
+      }
+
+
 
     } else {
 
-      let metaAddress = sessionStorage.getItem("meta-address");
-      if (metaAddress) {
-        metaAddress = JSON.parse(metaAddress);
+      let acc = await loadWeb3();
+      setIsSpinner(true)
+      if (acc == "No Wallet") {
+        toast.error("No Wallet Connected")
+        setIsSpinner(false)
 
       }
-      if (metaAddress == null) {
-        toast.error("Please Connect Metamask First")
+      else if (acc == "Wrong Network") {
+        toast.error("Wrong Newtwork please connect to test net")
         setIsSpinner(false)
 
       } else {
-        try {
-          setIsSpinner(true)
-          if (SendAddress.toUpperCase() === acc.toUpperCase()) {
-            toast.error("Already owned")
-            setIsSpinner(false)
-
-          }
-          else {
-            setIsSpinner(true)
-
-            const web3 = window.web3;
-            let nftContractOftoken = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-
-            let inputdata = web3?.utils?.toWei((base_price).toString())
 
 
-            await nftContractOftoken.methods.createMarketSale(itemId, nftcontactadd).send({
-              from: acc,
-              value: (inputdata).toString()
-              // value:(web3.utils.toWei(nftprice)).tostring()
-              // value:(1).toString()
-
-            }
-            );
-
-            let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
-
-              "tokenid": tokenId,
-
-            })
-
-            let udate_Tranding = await axios.post('https://server.nftapi.online/update_tranding', {
-
-              "tokenId": tokenId,
-
-            })
-
-            // let res = await axios.get('https://server.nftapi.online/Check_Tranding_NFTs')
-            console.log("postapiPushdata", postapiPushdata);
-            toast.success("Transion Compelete")
-            setIsSpinner(false)
-            history("/market_place");
-
-          }
-
-
-        }
-        catch (e) {
-          console.log("Error while addOrder ", e)
+        if (metaAddress == null) {
+          toast.error("Please Connect Metamask First")
           setIsSpinner(false)
 
+        } else {
+          try {
+            setIsSpinner(true)
+            if (SendAddress.toUpperCase() === acc.toUpperCase()) {
+              toast.error("Already owned")
+              setIsSpinner(false)
+
+            }
+            else {
+              setIsSpinner(true)
+
+              const web3 = window.web3;
+              let nftContractOftoken = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+
+              let inputdata = web3?.utils?.toWei((base_price).toString())
+
+
+              await nftContractOftoken.methods.createMarketSale(itemId, nftcontactadd).send({
+                from: acc,
+                value: (inputdata).toString()
+                // value:(web3.utils.toWei(nftprice)).tostring()
+                // value:(1).toString()
+
+              }
+              );
+
+              let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+                "tokenid": tokenId,
+
+              })
+
+              let udate_Tranding = await axios.post('https://server.nftapi.online/update_tranding', {
+
+                "tokenId": tokenId,
+
+              })
+              console.log("postapiPushdata", postapiPushdata);
+              toast.success("Transion Compelete")
+              setIsSpinner(false)
+              history("/market_place");
+
+            }
+
+
+          }
+          catch (e) {
+            console.log("Error while addOrder ", e)
+            setIsSpinner(false)
+
+          }
         }
       }
     }
-
   }
 
 
@@ -521,22 +648,6 @@ function Market_place2() {
             </div>
 
 
-            {/* second section       */}
-
-            {/* <Accordion className='dropss text-white mt-3'>
-              <AccordionSummary
-                expandIcon={<ExpandMoreIcon />}
-                aria-controls="panel1a-content"
-                id="panel1a-header"
-              >
-                <Typography variant='h5'>Properties</Typography>
-              </AccordionSummary>
-              <AccordionDetails>
-                <Typography>
-                  <h5><b>No Properties</b></h5>
-                </Typography>
-              </AccordionDetails>
-            </Accordion> */}
           </div>
           <div className="col-lg-7 col-sm-12">
 
@@ -551,16 +662,13 @@ function Market_place2() {
                 <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{All_NFT.name}</span></b></li>
                 <li><h5>Current Price :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{All_NFT.price}</span></b></li>
 
-                {/* <li><h5>Created :</h5><b>  &nbsp;&nbsp;
+                <li><h5>BlockChain :</h5><b>  &nbsp;&nbsp;
                   <span className='fs-5 text_color'>
+                    {All_NFT.Blockchain}
 
-                    {
-
-                      moment(All_NFT.last_token_uri_sync).format("DD/MM/YYYY h:m:s A")
-                    }
                   </span>
 
-                </b></li> */}
+                </b></li>
 
               </ul>
             </div>
@@ -689,19 +797,22 @@ function Market_place2() {
                   <div className="row">
                     <div className="col text-start detail-M">
                       <p><b>Contract Address</b></p>
-                      <p><b>Token IDs</b></p>
+                      <p><b>Token ID</b></p>
+                      <p><b>Item ID</b></p>
                       {/* <p><b>Date Created</b></p> */}
                       <p><b>NFT Type</b></p>
                       <p><b>NFT Category</b></p>
                       <p><b>Creator</b></p>
                     </div>
                     <div className="col text-end downtext">
-                      <p> <a href={`https://bscscan.com/address/${All_NFT.nftContract}`} target="_blank"> {All_NFT.nftContract?.substring(0, 8) + "..." + All_NFT.nftContract?.substring(All_NFT.nftContract?.length - 8)}</a>  </p>
+                      <p> <a href={chainID == 1230 ? `https://tronscan.org/#/contract/${All_NFT.nftContract}` : chainID == 56 ? `https://bscscan.com/address/${All_NFT.nftContract}` : `https://etherscan.io/address/${All_NFT.nftContract}`} target="_blank"> {All_NFT.nftContract?.substring(0, 8) + "..." + All_NFT.nftContract?.substring(All_NFT.nftContract?.length - 8)}</a>  </p>
                       <p>{All_NFT.tokenId}</p>
+                      <p>{All_NFT.itemId}</p>
+
                       {/* <p>{moment(All_NFT.last_token_uri_sync).format("DD/MM/YYYY h:m:s A")}</p> */}
                       <p>image/jpeg</p>
                       <p>{All_NFT.category}</p>
-                      <p> <a href={`https://bscscan.com/address/${All_NFT.useraddress}`} target="_blank">{All_NFT.useraddress?.substring(0, 8) + "..." + All_NFT.useraddress?.substring(All_NFT.useraddress?.length - 8)}</a></p>
+                      <p> <a href={chainID == 1230 ? `https://tronscan.org/#/contract/${All_NFT.nftContract}` : chainID == 56 ? `https://bscscan.com/address/${All_NFT.nftContract}` : `https://etherscan.io/address/${All_NFT.nftContract}`} target="_blank">{All_NFT.useraddress?.substring(0, 8) + "..." + All_NFT.useraddress?.substring(All_NFT.useraddress?.length - 8)}</a></p>
                     </div>
                   </div>
                 </Typography>

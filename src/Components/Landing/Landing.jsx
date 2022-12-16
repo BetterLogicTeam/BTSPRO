@@ -4,17 +4,15 @@ import home_1 from "../../Assets/home_1.jpg";
 import home_2 from "../../Assets/home_2.jpg";
 import author_1 from "../../Assets/author_1.jpg";
 import author_2 from "../../Assets/author_2.jpg";
-// import circle_1 from "../../Assets/circle_1.png";
-// import circle_2 from "../../Assets/circle_2.png";
-// import bg_shape from "../../Assets/bg_shape.png";
 import { BiRightArrowAlt } from "react-icons/bi";
 import { TiTick } from "react-icons/ti";
 import { Link, useNavigate } from "react-router-dom"
-import { loadWeb3 } from '../../Api/api';
+
 import axios from 'axios';
 import Market_card from '../Market_card/Market_card';
 import Countdown from 'react-countdown';
 import { style } from '@mui/system';
+import { toast } from 'react-toastify';
 
 
 function Landing() {
@@ -41,7 +39,7 @@ function Landing() {
         }
     };
     const fetchData = async () => {
-        let acc = await loadWeb3()
+
         let getUserAddress = await axios.get('https://server.nftapi.online/get_trending_NFTs');
         console.log("Trandinggg", getUserAddress.data.data)
         if (getUserAddress.data.data == null) {
@@ -53,6 +51,40 @@ function Landing() {
 
     };
 
+
+    const check_chain = async (index,Blockchain) => {
+        let chainID = sessionStorage.getItem("NETWORKID");
+        console.log("Blockchain",Blockchain);
+        if (Blockchain == "Binance") {
+            if (chainID == 56) {
+                navigation(`/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`)
+
+            } else {
+                toast.warning("Please Connect Binance Smart Chian")
+
+            }
+
+        } else if (Blockchain == "Ethereum") {
+            if (chainID == 1) {
+                navigation(`/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`)
+
+            } else {
+                toast.warning("Please Connect Ethereum Network")
+
+
+            }
+        } else if (Blockchain == "Tron") {
+            if (chainID == 1230) {
+
+                navigation(`/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`)
+
+            } else {
+                toast.warning("Please Connect Tron Network")
+
+
+            }
+        }
+    }
 
 
 
@@ -84,7 +116,7 @@ function Landing() {
                                 <div className="banner-card-area">
                                     <div className="row">
                                         {
-                                            Tranding_NFTs.slice(0,2).map((items, index) => {
+                                            Tranding_NFTs.slice(0, 2).map((items, index) => {
 
                                                 return (
                                                     <>
@@ -93,13 +125,10 @@ function Landing() {
                                                                 <div className="banner-card-img">
                                                                     <img src={items.url} alt="Images" style={{ height: "24rem" }} />
                                                                     <div className="banner-card-content">
-                                                                        {/* <div className="card-left">
-                                                                            <span>{ items.isOnAuction == 1 &&  startTime2==true ?  "Sell Ended": items.status}</span>
-                                                                            <h5>{items.price} BNB</h5>
-                                                                        </div> */}
+
                                                                         <div className="card-right " >
 
-                                                                            {/* <h3>Remaining Time</h3> */}
+
                                                                             <div className='Timer_position'>
 
                                                                                 <div className="timer-text" id="time1" data-countdown="2021/10/10">
@@ -123,86 +152,17 @@ function Landing() {
                                                                         <span>Created by <a >{items.useraddress?.substring(0, 4) + "..." + items.useraddress?.substring(items.useraddress?.length - 4)}</a></span>
                                                                     </div>
                                                                     <a className="banner-user-btn" ><BiRightArrowAlt /></a>
-                                                                    <button type="button" className="default-btn border-radius-5" onClick={() => navigation(`/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`)}>Place Bid</button>
+                                                                    <button type="button" className="default-btn border-radius-5" onClick={() => check_chain(index,items.Blockchain)}>Place Bid</button>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        {/* <div className="col-lg-6 col-sm-6">
-                  <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                    status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 0 ? "Buy" : "Bid Now"}
-                    isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/OnAuction_marketplace_history/tranding` : `/Market_place2/${index}/1/OnAuction_marketplace_history/tranding`}
 
-
-                  />
-                </div> */}
 
                                                     </>
                                                 )
                                             })
                                         }
-                                        {/* <div className="col-lg-6 col-sm-6">
-                                            <div className="banner-card">
-                                                <div className="banner-card-img">
-                                                    <img src={home_1} alt="Images" />
-                                                    <div className="banner-card-content">
-                                                        <div className="card-left">
-                                                            <span>Start Bid</span>
-                                                            <h3>15,00 ETH</h3>
-                                                        </div>
-                                                        <div className="card-right">
-                                                            <h3>Remaining Time</h3>
-                                                            <div className="timer-text" id="time1" data-countdown="2021/10/10">
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="content">
-                                                    <div className="banner-user-list">
-                                                        <div className="banner-user-list-img">
-                                                            <a href="/author-profile">
-                                                                <img src={author_1} alt="Images" />
-                                                            </a>
-                                                            <i className="ri-check-line"><TiTick /></i>
-                                                        </div>
-                                                        <h3><a href="/author-profile">Flowers in Concrete</a></h3>
-                                                        <span>Created by<a href="/author-profile">@Evelyn</a></span>
-                                                    </div>
-                                                    <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
-                                                    <button type="button" className="default-btn border-radius-5">Place Bid</button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-lg-6 col-sm-6">
-                                            <div className="banner-card banner-card-mt">
-                                                <div className="banner-card-img">
-                                                    <img src={home_2} alt="Images" />
-                                                    <div className="banner-card-content">
-                                                        <div className="card-left">
-                                                            <span>Start Bid</span>
-                                                            <h3>11,00 ETH</h3>
-                                                        </div>
-                                                        <div className="card-right">
-                                                            <h3>Remaining Time</h3>
-                                                            <div className="timer-text" id="time2" data-countdown="2021/09/09"></div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div className="content">
-                                                    <div className="banner-user-list">
-                                                        <div className="banner-user-list-img">
-                                                            <a href="/author-profile">
-                                                                <img src={author_2} alt="Images" />
-                                                            </a>
-                                                            <i className="ri-check-line"><TiTick /></i>
-                                                        </div>
-                                                        <h3><a href="/author-profile">Walking on Air</a></h3>
-                                                        <span>Created by<a href="/author-profile">@Adison</a></span>
-                                                    </div>
-                                                    <a className="banner-user-btn" href="/author-profile"><BiRightArrowAlt /></a>
-                                                    <button type="button" className="default-btn border-radius-5">Place Bid</button>
-                                                </div>
-                                            </div>
-                                        </div> */}
+
                                     </div>
                                 </div>
                             </div>

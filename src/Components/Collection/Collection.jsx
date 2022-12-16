@@ -20,9 +20,11 @@ import { CreateNFT, CreateNFT_ABI, nftMarketContractAddress, nftMarketContractAd
 
 import Market_card from '../Market_card/Market_card'
 import Loading from '../Loading/Loading'
+import CopyToClipboard from 'react-copy-to-clipboard'
+import { AiOutlineCopy } from 'react-icons/ai'
 
 function Collection() {
-  let id = localStorage.getItem("NETWORKID");
+  let id = sessionStorage.getItem("NETWORKID");
 
   const count = useSelector((state) => state.counter.myArr)
   const [name, setName] = useState("User Name")
@@ -35,8 +37,10 @@ function Collection() {
   const [IsActive, setIsActive] = useState()
   const [IsSpinner, setIsSpinner] = useState(false)
   const [Address_User, setAddress_User] = useState("")
-  
-  
+  const [copyTest, setcopyTest] = useState(false)
+
+
+
 
 
 
@@ -45,7 +49,7 @@ function Collection() {
 
   let metaAddress = sessionStorage.getItem("meta-address");
   if (metaAddress) {
-    metaAddress = JSON.parse(metaAddress).toUpperCase()
+    metaAddress = JSON.parse(metaAddress)
   }
 
 
@@ -60,122 +64,177 @@ function Collection() {
 
   const runApp = async () => {
     let imageArray = [];
-    let acc = await loadWeb3()
-    setAddress_User(acc)
-    // if (metaAddress != null) {
+
+    if (id == 1230) {
+      let address = await window.tronWeb.defaultAddress.base58
+      console.log("metaAddressmetaAddress", address);
+      if (address) {
+        setAddress_User(address)
+        
+        let contractOf = await window.tronWeb.contract().at(CreateNFT);
+        let Collection = await contractOf?.walletOfOwner(address).call()
+        if (Collection.length == 0) {
+        
+        } else {
+          
+          // let hex=Collection[1]._hex
+          for(let i=0; i < Collection?.length;i++){
+            let check = Collection[i]?._hex
+            check =parseInt(check,16)
+            console.log("Collection",check);
+            let tokenID = await contractOf.tokenURI(check).call()
+            tokenID = tokenID.replace(/^["'](.+(?=["']$))["']$/, '$1')
+            let Name = await contractOf.name(check).call()
+            Name = Name.replace(/^["'](.+(?=["']$))["']$/, '$1')
+            let ownerOf = await contractOf.owner().call()
+            ownerOf = window?.tronWeb?.address?.fromHex(ownerOf)
+            let symbol = await contractOf.symbol(check).call()
+            symbol = symbol.replace(/^["'](.+(?=["']$))["']$/, '$1')
+  
+            imageArray = [
+              ...imageArray,
+              {
+                url: tokenID, 
+                name: Name,
+                owner_of: ownerOf,
+                token_address: CreateNFT,
+                amount: "1",
+                symbol: symbol,
+                token_id: check,
+                jsonUsrl: tokenID
+              },
+            ];
+          }
+
+
+         
+          dispatch(myCollection(imageArray))
+
+
+        }
+
+      }
+    } else {
+      let acc = await loadWeb3()
+      setAddress_User(acc)
+      // if (metaAddress != null) {
       await Moralis.start({
         apiKey: "gI4QFVnQgnpOIG0CdMSUq7wLkrbEaypx8p28wx2Pohw1EWJUY6Ongt3vHIuovT4Z",
         // ...and any other configuration
       });
+      console.log("metaAddress", metaAddress);
       const address = acc;
-      
-      let chain ;
-     if(id==1){
-      chain = EvmChain.ETHEREUM
-    }else if(id==56){
-      chain = EvmChain.BSC
-    }
-      
 
-     
+      let chain;
+      if (id == 1) {
+        chain = EvmChain.ETHEREUM
+      } else if (id == 56) {
+        chain = EvmChain.BSC
+      } 
+
+
+
       // console.log("Chain",chain);
-      
+
       let res = await Moralis.EvmApi.nft.getWalletNFTs({
         address,
         chain,
       });
       console.log("UserAddress");
 
-    console.log("Res", res);
+      console.log("Res", res);
 
 
-    res = res.data.result
+      res = res?.data?.result
 
-    let loopLength = res.length;
-    // console.log("Length",res.length);
-    let name
-    let symbol
-    for (let i = 0; i < loopLength; i++) {
-      // console.log("Url", res[i].token_uri);
-      let jsonUsrl = res[i].token_uri;
-      let contractAddress = res[i].token_address
-      name = res[i].name;
-      symbol = res[i].symbol;
-      if (contractAddress.toUpperCase() == CreateNFT.toUpperCase()) {
-        let web3 = window.web3
-        let tokenid = res[i].token_id
-        let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
-        let nftName = await nftContractOf.methods.name(tokenid).call();
-        let nftsymbol = await nftContractOf.methods.symbol(tokenid).call();
-        symbol = nftsymbol;
-        name = nftName;
+      let loopLength = res.length;
+      // console.log("Length",res.length);
+      let name
+      let symbol
+      for (let i = 0; i < loopLength; i++) {
+        // console.log("Url", res[i].token_uri);
+        let jsonUsrl = res[i].token_uri;
+        let contractAddress = res[i].token_address
+        name = res[i].name;
+        symbol = res[i].symbol;
+        if (contractAddress.toUpperCase() == CreateNFT.toUpperCase()) {
+          let web3 = window.web3
+          let tokenid = res[i].token_id
+          let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
+          let nftName = await nftContractOf.methods.name(tokenid).call();
+          let nftsymbol = await nftContractOf.methods.symbol(tokenid).call();
+          symbol = nftsymbol;
+          name = nftName;
+        }
+        if (jsonUsrl == null) {
+          jsonUsrl = profile_placeholder_image
+          // console.log("Image_is_null");
+        }
+        else if (jsonUsrl.endsWith(".json")) {
+          jsonUsrl = profile_placeholder_image
+          // console.log("jsonUsrl",jsonUsrl);
+        } else if (jsonUsrl.endsWith(".jpg")) {
+          jsonUsrl = jsonUsrl;
+          // console.log("jsonUsrl",jsonUsrl);
+        }
+        else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/") && jsonUsrl.endsWith(".jpg") || jsonUsrl.endsWith(".png")) {
+
+          jsonUsrl = jsonUsrl
+
+        }
+        else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/")) {
+          jsonUsrl = jsonUsrl
+          // let Response= await axios.get(jsonUsrl);
+          // Response = Response?.data?.properties?.image?.description
+          // jsonUsrl = `https://ipfs.moralis.io:2053/${Response}`
+
+          // console.log("Url",jsonUsrl);
+
+          // let Api = await axios.get(jsonUsrl)
+          // console.log("Api", Api.data.properties.image.description);
+          // Api = Api.data.properties.image.description
+          // jsonUsrl = `https://ipfs.moralis.io:2053/${Api}`
+
+        }
+        else {
+          jsonUsrl = jsonUsrl
+        }
+
+
+
+
+        // console.log("img_url",jsonUsrl);
+
+
+        let owner_of = res[i].owner_of;
+        let token_address = res[i].token_address;
+        let amount = res[i].amount;
+
+        let token_id = res[i].token_id;
+
+
+        let finalUrl;
+        // =await axios.get(jsonUsrl);
+        // finalUrl = finalUrl.data.image;
+        imageArray = [
+          ...imageArray,
+          {
+            url: finalUrl,
+            name: name,
+            owner_of: owner_of,
+            token_address: token_address,
+            amount: amount,
+            symbol: symbol,
+            token_id: token_id,
+            jsonUsrl: jsonUsrl
+          },
+        ];
+
       }
-      if (jsonUsrl == null) {
-        jsonUsrl = profile_placeholder_image
-        // console.log("Image_is_null");
-      }
-      else if (jsonUsrl.endsWith(".json")) {
-        jsonUsrl = profile_placeholder_image
-        // console.log("jsonUsrl",jsonUsrl);
-      } else if (jsonUsrl.endsWith(".jpg")) {
-        jsonUsrl = jsonUsrl;
-        // console.log("jsonUsrl",jsonUsrl);
-      }
-      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/") && jsonUsrl.endsWith(".jpg") || jsonUsrl.endsWith(".png")) {
-
-        jsonUsrl = jsonUsrl
-
-      }
-      else if (jsonUsrl.startsWith("https://ipfs.moralis.io:2053/ipfs/")) {
-        jsonUsrl = jsonUsrl
-        // let Response= await axios.get(jsonUsrl);
-        // Response = Response?.data?.properties?.image?.description
-        // jsonUsrl = `https://ipfs.moralis.io:2053/${Response}`
-
-        // console.log("Url",jsonUsrl);
-
-        // let Api = await axios.get(jsonUsrl)
-        // console.log("Api", Api.data.properties.image.description);
-        // Api = Api.data.properties.image.description
-        // jsonUsrl = `https://ipfs.moralis.io:2053/${Api}`
-
-      }
-      else {
-        jsonUsrl = jsonUsrl
-      }
-
-
-
-
-      // console.log("img_url",jsonUsrl);
-
-
-      let owner_of = res[i].owner_of;
-      let token_address = res[i].token_address;
-      let amount = res[i].amount;
-
-      let token_id = res[i].token_id;
-
-
-      let finalUrl;
-      // =await axios.get(jsonUsrl);
-      // finalUrl = finalUrl.data.image;
-      imageArray = [
-        ...imageArray,
-        {
-          url: finalUrl,
-          name: name,
-          owner_of: owner_of,
-          token_address: token_address,
-          amount: amount,
-          symbol: symbol,
-          token_id: token_id,
-          jsonUsrl: jsonUsrl
-        },
-      ];
-
+      dispatch(myCollection(imageArray))
     }
-    dispatch(myCollection(imageArray))
+
+
 
 
     // } else {
@@ -193,7 +252,7 @@ function Collection() {
   const EditProfile = async () => {
 
 
-    let acc = await loadWeb3()
+
     if (metaAddress == null) {
 
     } else {
@@ -264,19 +323,31 @@ function Collection() {
   const check_condition = async (items_id, address, index) => {
     try {
 
-      const web3 = window.web3;
-      let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-      let Get_Item_ID = await nftContractOf.methods.tokenIdToItemId(address, items_id).call();
 
-
-      let Chek_Active = await nftContractOf.methods.idToMarketItem(Get_Item_ID).call();
-      console.log("Chek_Active", Chek_Active.isactive);
-      setIsActive(Chek_Active.isactive)
-      if (Chek_Active.isactive == true) {
-        toast.error("Already Listed")
-      } else {
+      if (id == 1230) {
         history('/Collection_next/' + index)
+
+        // let address = await window.tronWeb.defaultAddress.base58
+        // let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
+        // let Get_Item_ID = await contractOf.tokenIdToItemId(address, items_id).call()
+        // console.log("Get_Item_ID",parseInt(Get_Item_ID));
+
+
+      } else {
+        const web3 = window.web3;
+        let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+        let Get_Item_ID = await nftContractOf.methods.tokenIdToItemId(address, items_id).call();
+
+        let Chek_Active = await nftContractOf.methods.idToMarketItem(Get_Item_ID).call();
+        console.log("Chek_Active", Chek_Active.isactive)
+        setIsActive(Chek_Active.isactive)
+        if (Chek_Active.isactive == true) {
+          toast.error("Already Listed")
+        } else {
+          history('/Collection_next/' + index)
+        }
       }
+
 
 
     } catch (e) {
@@ -299,7 +370,9 @@ function Collection() {
     try {
       let acc = await loadWeb3()
 
-      let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${acc}`)
+      // console.log("metaAddress",metaAddress);
+
+      let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${metaAddress}`)
       res = res?.data?.data
 
       setAuction_Array(res)
@@ -309,18 +382,16 @@ function Collection() {
     }
   }
 
-
-
-
-
-
-
-
-
   useEffect(() => {
     Auction_Api()
   }, [])
 
+  useEffect(() => {
+    copyTest ? toast.success("Copied") : <></>
+    setTimeout(() => {
+      setcopyTest(false)
+    }, 10);
+  }, [copyTest])
   return (
     <>
 
@@ -344,10 +415,10 @@ function Collection() {
       <div class="collection-widget-area pt-100 pb-70">
 
         <div class="container">
-        {
-          IsSpinner ? <Loading /> : <></>
+          {
+            IsSpinner ? <Loading /> : <></>
 
-        }
+          }
           {/* {
             metaAddress == null ? <></> :
               <> */}
@@ -363,7 +434,15 @@ function Collection() {
                 </h3>
                 <span>{bio}</span>
 
-                <div class="sp-title">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} <i class="fa-solid fa-folder"></i></div>
+                <div class="sp-title d-flex">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)}
+                  <CopyToClipboard text={UserAddress}
+                    onCopy={() => setcopyTest(true)}  >
+                    <span class="wdg-actions copy_btn_set2">
+                      <AiOutlineCopy className='copy_Icon' />
+
+                    </span>
+                  </CopyToClipboard>
+                </div>
                 <div class="author-content">
                   <div class="content-left">
                     <span> Amount</span>
@@ -384,6 +463,7 @@ function Collection() {
               <div class="row justify-content-center">
                 {
                   count.map((items, index) => {
+
                     return (
                       <>
                         <div class="col-lg-4 col-md-6" style={{ cursor: "pointer" }}>
@@ -398,12 +478,12 @@ function Collection() {
                             </div>
                             <div class="content">
                               <div className='Collection_heading'>
-                              <h3>
-                                <a >{items?.name}</a>
-                              </h3>
-                              {items?.token_id}
+                                <h3>
+                                  <a >{items?.name}</a>
+                                </h3>
+                                {items?.token_id}
                               </div>
-                              
+
                               <div class="content-in">
                                 <div class="featured-card-left">
                                   <span><a>Symbol</a>  </span>
@@ -411,7 +491,7 @@ function Collection() {
                                 <span>{items?.symbol}  </span>
                                 {/* <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a> */}
                               </div>
-                              
+
                               <a class="featured-user-option" >
                                 <img src={items?.jsonUsrl} alt="Images" />
                                 <span>Created by {items?.owner_of?.substring(0, 5) + "..." + items?.owner_of?.substring(items?.owner_of?.length - 5)}</span>
@@ -435,7 +515,7 @@ function Collection() {
                       <h2>Your Artwork</h2>
                     </div>
                   </div>
-                    {/* <div class="col-lg-4 col-md-6">
+                  {/* <div class="col-lg-4 col-md-6">
                       <div class="trending-btn text-end">
                         <a class="default-btn border-radius-5" >Explore More</a>
                       </div>
@@ -444,14 +524,15 @@ function Collection() {
                 <div className="row mt-4">
                   {
                     Auction_Array?.slice(0, 4)?.map((items, index) => {
+                    
                       return (
                         <>
                           <div class="col-lg-3 col-md-6" >
 
                             <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                              status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress.toUpperCase() ?  "Claim Now": "Buy"  }
+                              status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now" : items.useraddress.toUpperCase() == metaAddress.toUpperCase() ? "Claim Now" : "Buy"}
                               isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/sell_and_auction_history_address/${Address_User}` : `/Market_place2/${index}/1/sell_and_auction_history_address/${Address_User}`}
-                              data={items} setIsSpinner={setIsSpinner}
+                              data={items} setIsSpinner={setIsSpinner} Blockchain={items.Blockchain}
 
                             />
 

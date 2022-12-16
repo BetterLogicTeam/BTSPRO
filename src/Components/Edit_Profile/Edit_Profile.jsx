@@ -8,6 +8,8 @@ import { loadWeb3 } from '../../Api/api';
 import './Edit_profile.css'
 
 export default function Edit_Profile() {
+    const metaAddress = sessionStorage?.getItem("meta-address");
+    let Address=JSON?.parse(metaAddress).toUpperCase()
     const inputRef = useRef();
     let history = useNavigate()
 
@@ -44,9 +46,9 @@ export default function Edit_Profile() {
 
 
     const EditProfile = async () => {
-        let acc = await loadWeb3()
+      
 
-        let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${acc.toUpperCase()}`)
+        let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${Address.toUpperCase()}`)
 
         console.log("Res", res);
 
@@ -70,7 +72,7 @@ export default function Edit_Profile() {
 
 
     const PostData = async () => {
-        let acc = await loadWeb3()
+      
         // setImageAsFile(Image)
         try {
             
@@ -82,13 +84,13 @@ export default function Edit_Profile() {
                 console.log("DAta", name, email, bio, imageAsFile);
                 let formData = new FormData();
                 formData.append("profile", imageAsFile)
-                formData.append("address", acc.toUpperCase())
+                formData.append("address", Address.toUpperCase())
                 formData.append("username", name)
                 formData.append("email", email)
                 formData.append("bio", bio)
 
 
-                let res = await axios.post(`https://server.nftapi.online/update_user_profile?address=${acc.toUpperCase()}`, formData)
+                let res = await axios.post(`https://server.nftapi.online/update_user_profile?address=${Address.toUpperCase()}`, formData)
                 console.log("Updated", res);
 
                 toast.success("Your Profile is Updated")

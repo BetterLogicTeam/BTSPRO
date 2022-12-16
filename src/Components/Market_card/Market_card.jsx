@@ -10,11 +10,19 @@ import { toast } from 'react-toastify';
 import axios from 'axios';
 import Web3 from 'web3';
 import Loading from '../Loading/Loading';
+import { SiBinance } from 'react-icons/si'
+import { FaEthereum } from 'react-icons/fa'
+import tron from '../../Assets/tron logo.png'
+
 // const webSupply = new Web3("https://data-seed-prebsc-1-s1.binance.org:8545")
 const webSupply = new Web3("https://bsc-dataseed1.binance.org/")
 
 
 function Market_card(props) {
+  let metaAddress = sessionStorage.getItem("meta-address");
+  if (metaAddress) {
+    metaAddress = JSON.parse(metaAddress).toUpperCase()
+  }
 
   let navigation = useNavigate()
 
@@ -41,71 +49,183 @@ function Market_card(props) {
 
 
   const withdrawYourBid = async () => {
-    let acc = await loadWeb3();
-    const web3 = window.web3;
     try {
-      if (props.isOnAuction == 1) {
-        hightbider()
-         props.setIsSpinner(true)
+      let chainID = sessionStorage.getItem("NETWORKID");
 
-        if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
-          if (startTime2 == true && hightbid == 0) {
-            let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-            await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
-              from: acc,
-
-            });
-            toast.success("Withdraw Successfully")
-            let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
-
-              "tokenid": props.data.tokenId,
-
-            })
-             props.setIsSpinner(false)
-
-            window.location.reload();
-          } else {
-             props.setIsSpinner(false)
+      if (props.Blockchain == "Binance") {
+        if (chainID == 56) {
           navigation(props.history)
-
-
-            // toast.error("Only highest bidder can claim the NFT")
-          }
-
 
         } else {
-          navigation(props.history)
+          toast.warning("Please Connect Binance Smart Chian")
+
         }
-      } else {
-         props.setIsSpinner(true)
 
-        if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
-
-          let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
-          await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
-            from: acc,
-
-          });
-          toast.success("Withdraw Successfully")
-          let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
-
-            "tokenid": props.data.tokenId,
-
-          })
-           props.setIsSpinner(false)
-
-          window.location.reload();
-        } else {
+      } else if (props.Blockchain == "Ethereum") {
+        if (chainID == 1) {
           navigation(props.history)
+
+        } else {
+          toast.warning("Please Connect Ethereum Network")
+
+
+        }
+      } else if (props.Blockchain == "Tron") {
+        if (chainID == 1230) {
+
+          navigation(props.history)
+
+        } else {
+          toast.warning("Please Connect Tron Network")
+
+
         }
       }
 
 
 
 
+      // let acc = await loadWeb3();
+      // const web3 = window.web3;
+
+      // if (props.isOnAuction == 1) {
+      //   if (props.Blockchain == "Binance") {
+      //     hightbider()
+      //     props.setIsSpinner(true)
+
+      //     if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+      //       if (startTime2 == true && hightbid == 0) {
+      //         let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      //         await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+      //           from: acc,
+
+      //         });
+      //         toast.success("Withdraw Successfully")
+      //         let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+      //           "tokenid": props.data.tokenId,
+
+      //         })
+      //         props.setIsSpinner(false)
+
+      //         window.location.reload();
+      //       } else {
+      //         props.setIsSpinner(false)
+      //         navigation(props.history)
+
+
+      //         // toast.error("Only highest bidder can claim the NFT")
+      //       }
+
+      //     } else {
+      //       navigation(props.history)
+      //     }
+      //   } else {
+      //     toast.error("Connect Binance Smart Chain")
+      //   }
+
+
+      //   if (props.Blockchain == "ethereum") {
+      //     hightbider()
+      //     props.setIsSpinner(true)
+
+      //     if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+      //       if (startTime2 == true && hightbid == 0) {
+      //         let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      //         await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+      //           from: acc,
+
+      //         });
+      //         toast.success("Withdraw Successfully")
+      //         let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+      //           "tokenid": props.data.tokenId,
+
+      //         })
+      //         props.setIsSpinner(false)
+
+      //         window.location.reload();
+      //       } else {
+      //         props.setIsSpinner(false)
+      //         navigation(props.history)
+
+
+      //         // toast.error("Only highest bidder can claim the NFT")
+      //       }
+
+
+      //     } else {
+      //       navigation(props.history)
+      //     }
+      //   } else {
+      //     toast.error("Connect Ethereum Smart Chain")
+      //   }
+      // } else {
+      //   if (props.Blockchain == "ethereum") {
+      //     props.setIsSpinner(true)
+
+      //     if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+
+      //       let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      //       await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+      //         from: acc,
+
+      //       });
+      //       toast.success("Withdraw Successfully")
+      //       let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+      //         "tokenid": props.data.tokenId,
+
+      //       })
+      //       props.setIsSpinner(false)
+
+      //       window.location.reload();
+
+
+      //     } else {
+      //       navigation(props.history)
+      //     }
+      //   } else {
+      //     toast.error("Connect Ethereum Smart Chain")
+      //   }
+
+      //   if (props.Blockchain == "Binance") {
+      //     props.setIsSpinner(true)
+
+      //     if (props.data.useraddress.toUpperCase() == acc.toUpperCase()) {
+
+      //       let nftContractOf = new web3.eth.Contract(nftMarketContractAddress_Abi, nftMarketContractAddress);
+      //       await nftContractOf.methods.withdrawYourBid(props.data.itemId, props.data.nftContract).send({
+      //         from: acc,
+
+      //       });
+      //       toast.success("Withdraw Successfully")
+      //       let postapiPushdata = await axios.post('https://server.nftapi.online/update_sell_status', {
+
+      //         "tokenid": props.data.tokenId,
+
+      //       })
+      //       props.setIsSpinner(false)
+
+      //       window.location.reload();
+
+
+      //     } else {
+      //       navigation(props.history)
+      //     }
+      //   } else {
+      //     toast.error("Connect Ethereum Smart Chain")
+      //   }
+
+
+      // }
+
+
+
+
 
     } catch (e) {
-       props.setIsSpinner(false)
+      props.setIsSpinner(false)
 
       console.log("Error While WidthdrawDueAmount ", e);
     }
@@ -144,14 +264,19 @@ function Market_card(props) {
 
 
       <div class="featured-card box-shadow"  >
-        
+
         <div class="featured-card-img">
           <a >
             <img src={props.img} alt="Images" style={{ height: "17rem", width: "100%" }} />
           </a>
-          {/* <p>
-            <i class="fa-regular fa-heart"></i> 122
-          </p> */}
+          <p>
+            {
+              props.Blockchain == "Binance" ? <SiBinance className='fa-brands fa-ethereum' /> : props.Blockchain == "Tron" ? <><img src={tron} alt="" width="20px" /></> : <FaEthereum />
+            }
+
+            {/*  */}
+            {/* {props.Blockchain} */}
+          </p>
           {
             props.isOnAuction == 1 ? <Countdown date={Date.now() + (((parseInt(props.bidEndTime) * 1000)) - Date.now())} renderer={renderer} /> : null
           }
@@ -160,13 +285,15 @@ function Market_card(props) {
         <div class="content">
           <h3>
             <p><small className='last_text'>{props.category}</small></p>
-            <a >{props.name}</a>
+            <a >{props.name} </a>
           </h3>
           <div class="content-in">
             <div class="featured-card-left">
               <h4>Price : </h4>
             </div>
-            <a class="last_text" >{props.amount} BNB</a>
+            <a class="last_text" >{props.amount}  {
+              props.Blockchain == "Binance" ? "BNB" : props.Blockchain == "Tron" ? "TRX" : "ETH"
+            }</a>
           </div>
           <div class="content-in ">
 
@@ -186,36 +313,6 @@ function Market_card(props) {
 
 
 
-
-
-      {/* <div className="mb-3 float-center w-100 me-0 me-md-2 mt-3 ">
-
-        <div class="card M-card  M-card-border  M-border " >
-
-          <div className="circle ">
-            <div className="img-circle w-25 float-end pe-4 ">
-              <img src={props.img2} className='w-100 circles border me-1' alt="" />
-              <span className="plus ">
-                <img src="pluus.png" className='' alt="" />
-              </span>
-            </div>
-          </div>
-          <div className='border essssss  M-border  pb-3 pt-3 px-4'>
-            <img src={props.img} className="card-img-top M-border px-1" alt="..." /></div>
-          <div className="content-1 pt-3 text-start ms-4">
-            <p className='C-1'>Kool Ape Social Club</p>
-          </div>
-          <span className='content-2 ps-4 text-start d-flex '><h5 className='C-2 pe-2 text-white'>03 Kool Ape Social Club</h5>
-            <span className='C-2-heart '><FavoriteIcon className='C2-heart ' /></span>
-          </span>
-          <div className="content-3 fs-5 ps-4">
-            <span className='fs-6 text-white '>Price :</span><span className='fs-6 text-info'> 0.04 BNB - 14.10 $</span><br />
-            <span className='fs-6 text-white '>Status :</span><span className='fs-6 text-info'> Available for buying</span><br />
-            <span className='fs-6 text-white '> Asking Price :</span><span className='fs-6 text-info'> 0.04 <img src="bnc.png" alt="" /></span>
-            <button className='Card-btn float-end fs-6 me-3 text-white '><b>Buy</b> </button>
-          </div>
-        </div>
-      </div> */}
 
 
 

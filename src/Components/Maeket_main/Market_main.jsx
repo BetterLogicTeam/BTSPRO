@@ -74,6 +74,7 @@ function Market_main() {
             setIsSpinner(true)
 
             let res = await axios.get(`https://server.nftapi.online/sell_and_auction_history?category=${category}`)
+            console.log("RES",res.data?.data);
             setAll_NFT(res?.data?.data)
             setMarketplace("sell_and_auction_history")
             setIsSpinner(false)
@@ -133,7 +134,7 @@ function Market_main() {
                           <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
                             status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress.toUpperCase() == metaAddress ?  "Claim Now": "Buy"}
                             isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/adddress` : `/Market_place2/${index}/1/${Marketplace}/address`}
-                            data={items} setIsSpinner={setIsSpinner}
+                            data={items} setIsSpinner={setIsSpinner} Blockchain={items.Blockchain}
 
                           />
                         </div>

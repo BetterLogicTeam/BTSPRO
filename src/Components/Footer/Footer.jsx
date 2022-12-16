@@ -10,6 +10,10 @@ import { BsTwitter } from "react-icons/bs";
 import { FaLinkedinIn } from "react-icons/fa";
 import "./Footer.css"
 import { Link } from "react-router-dom";
+import footerlog from '../../Assets/footer-logo.png'
+import logo from '../../Assets/logo.png'
+import bgshap from '../../Assets/shape_bg.png'
+
 
 function Footer() {
   const [Year, setYear] = useState(new Date().getFullYear())
@@ -24,8 +28,8 @@ function Footer() {
               <div className="footer-widget">
                 <div className="footer-logo">
                   <a href="/">
-                    <img src="assets/images/footer-logo.png" className="footer-logo1" alt="Footer Logo" />
-                    <img src="assets/images/logo.png" className="footer-logo2" alt="Footer Logo" />
+                    <img src={footerlog} className="footer-logo1 " style={{marginLeft:"2rem"}} alt="Footer Logo" />
+                    {/* <img src={logo} className="footer-logo2" alt="Footer Logo" /> */}
                   </a>
                 </div>
                 <p>Subscribe to our newsletter</p>
@@ -173,13 +177,13 @@ function Footer() {
         </div>
         <div className="footer-shape">
           <div className="footer-shape1">
-            <img src="assets/images/shape/shape-bg.png" alt="Images" />
+            <img src={bgshap} alt="Images" />
           </div>
           <div className="footer-shape2">
-            <img src="assets/images/shape/shape1.png" alt="Images" />
+            <img src={shape1} alt="Images" />
           </div>
           <div className="footer-shape3">
-            <img src="assets/images/shape/shape2.png" alt="Images" />
+            <img src={shape2} alt="Images" />
           </div>
         </div>
       </footer>

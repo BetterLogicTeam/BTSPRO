@@ -16,6 +16,9 @@ import download from '../../Assets/download.png'
 import axios from 'axios'
 import Loading from '../Loading/Loading';
 import Market_card from '../Market_card/Market_card';
+import { AiOutlineCopy } from 'react-icons/ai';
+import CopyToClipboard from 'react-copy-to-clipboard';
+import { toast } from 'react-toastify';
 export default function Seller_Details() {
   const { id } = useParams();
   const count = useSelector((state) => state.counter.myArr)
@@ -27,6 +30,8 @@ export default function Seller_Details() {
   const [Userdata, setUserdata] = useState([])
   const [IsSpinner, setIsSpinner] = useState(false)
   const [Marketplace, setMarketplace] = useState("");
+  const [copyTest, setcopyTest] = useState(false)
+
   // console.log("Result",count);
 
   const dispatch = useDispatch()
@@ -47,12 +52,12 @@ export default function Seller_Details() {
     // console.log("Api_Data121", getUserAddress.data.data[id].User_Address);
     getUserAddress = getUserAddress?.data?.data
     setUserdata(getUserAddress[id].User_Address)
-    
-    let Address_NFt= await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${getUserAddress[id].User_Address}`)
+
+    let Address_NFt = await axios.get(`https://server.nftapi.online/sell_and_auction_history_address?useraddress=${getUserAddress[id].User_Address}`)
     setCollectionArray(Address_NFt.data.data)
     setMarketplace("sell_and_auction_history_address")
 
-    console.log("Address_NFt",Address_NFt.data.data);
+    console.log("Address_NFt", Address_NFt.data.data);
   }
 
   useEffect(() => {
@@ -60,6 +65,13 @@ export default function Seller_Details() {
 
 
   }, [])
+
+  useEffect(() => {
+    copyTest ? toast.success("Copied") : <></>
+    setTimeout(() => {
+        setcopyTest(false)
+    }, 10);
+}, [copyTest])
 
 
 
@@ -126,7 +138,7 @@ export default function Seller_Details() {
             <div class="col-lg-3">
               <div class="author-profile-sidebar  mr-20">
                 <div class="author-user pt-3">
-                  <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images" />
+                  <img src={Image ? `https://server.nftapi.online/uploads/${Image}` : "Avtat.png"} alt="Images" style={{ width: "12rem" }} />
                   <i class="fa-solid fa-check"></i>
                 </div>
                 <h3>
@@ -134,7 +146,16 @@ export default function Seller_Details() {
                 </h3>
                 <span>{bio}</span>
 
-                <div class="sp-title">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} <i class="fa-solid fa-folder"></i></div>
+                <div class="sp-title d-flex">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} 
+                 <CopyToClipboard text={UserAddress}
+                  onCopy={() => setcopyTest(true)}  >
+                  <span class="wdg-actions copy_btn_set2">
+                    <AiOutlineCopy className='copy_Icon' />
+
+                  </span>
+                </CopyToClipboard> 
+                {/* <i class="fa-solid fa-folder"></i> */}
+                </div>
                 <div class="author-content">
                   <div class="content-left">
                     <span>Followers</span>
@@ -158,10 +179,10 @@ export default function Seller_Details() {
                       <>
                         <div class="col-lg-4 col-md-6" >
 
-                        <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
-                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now": items.useraddress?.toUpperCase() == metaAddress?.toUpperCase() ?  "Claim Now": "Buy"  }
-                            isOnAuction={items.isOnAuction } bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/${Userdata}` : `/Market_place2/${index}/1/${Marketplace}/${Userdata}`}
-                            data={items} setIsSpinner={setIsSpinner}
+                          <Market_card img={items.url} img2={items.url} name={items.name} category={items.category} amount={items.price}
+                            status={items.isOnAuction == 0 ? "Available for buying" : "Available for bidding"} btn={items.isOnAuction == 1 ? "Bid Now" : items.useraddress?.toUpperCase() == metaAddress?.toUpperCase() ? "Claim Now" : "Buy"}
+                            isOnAuction={items.isOnAuction} bidEndTime={items.bidEndTime} history={items.isOnAuction == 0 ? `/Market_place2/${index}/0/${Marketplace}/${Userdata}` : `/Market_place2/${index}/1/${Marketplace}/${Userdata}`}
+                            data={items} setIsSpinner={setIsSpinner} Blockchain={items.Blockchain}
 
                           />
 

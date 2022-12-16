@@ -11,7 +11,7 @@ import './Sell_style.css'
 
 export default function Sell_NFt() {
     const history = useNavigate()
-    let chainID = localStorage.getItem("NETWORKID");
+    let chainID = sessionStorage.getItem("NETWORKID");
 
     const { id } = useParams();
     const [CollectionArray, setCollectionArray] = useState([])

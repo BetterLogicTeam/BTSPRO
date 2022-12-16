@@ -1,4 +1,4 @@
-let id = localStorage.getItem("NETWORKID");
+let id = sessionStorage.getItem("NETWORKID");
 export let nftMarketContractAddress = ""
 export let nftMarketContractAddress_Abi = []
 export let CreateNFT = ""
@@ -1739,6 +1739,10 @@ if (id == 56) {
     "stateMutability": "nonpayable",
     "type": "function"
   }]
+} else if(id== 1230){
+  nftMarketContractAddress="TEEgwU8P8N18d4symckdFAwmpmBucxR9Lm";
+   CreateNFT = "TR65QKSgghqjZ2ZvAi2LxyCtQmiJck3W62";
+
 }
 
 

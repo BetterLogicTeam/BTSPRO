@@ -35,9 +35,11 @@ import Contact_Us from './Components/Contact_Us/Contact_Us';
 function App(props) {
   const [UserAddress, setUserAddress] = useState(null)
 useEffect(() => {
-  // localStorage.setItem("NETWORKID", (56));   
+  // sessionStorage.setItem("NETWORKID", (56));   
   
 }, [])
+
+
 
   return (
     <div className="">

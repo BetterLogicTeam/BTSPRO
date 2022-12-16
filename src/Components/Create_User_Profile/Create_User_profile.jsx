@@ -9,8 +9,8 @@ import './Create_user_profile.css'
 
 export default function Create_User_profile() {
     const metaAddress = sessionStorage?.getItem("meta-address");
-    // let Address=JSON?.parse(metaAddress).toUpperCase()
-    console.log("Address",metaAddress);
+    let Address=JSON?.parse(metaAddress).toUpperCase()
+    console.log("Address12",Address);
     const inputRef = useRef();
     let history = useNavigate()
     const [imageAsFile, setImageAsFile] = useState(null);
@@ -71,7 +71,7 @@ export default function Create_User_profile() {
                         console.log("DAta", name, email, bio, imageAsFile);
                         let formData = new FormData();
                         formData.append("profile", imageAsFile)
-                        formData.append("address", acc.toUpperCase())
+                        formData.append("address", Address.toUpperCase())
                         formData.append("username", name)
                         formData.append("email", email)
                         formData.append("bio", bio)

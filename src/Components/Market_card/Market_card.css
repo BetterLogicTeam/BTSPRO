@@ -167,3 +167,7 @@ height: 100%!important;
 .last_text{
     color: #f14d5d;
 }
+
+toast{
+   z-index: 10000000000000000000000000000000 !important; 
+}

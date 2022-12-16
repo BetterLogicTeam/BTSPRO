@@ -5,9 +5,12 @@ import { Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { loadWeb3 } from '../../Api/api';
 import './User_Profile.css'
+import { CopyToClipboard } from 'react-copy-to-clipboard';
+import { AiOutlineCopy } from 'react-icons/ai'
 
 export default function User_Profile() {
-
+    const metaAddress = sessionStorage?.getItem("meta-address");
+    let Address = JSON?.parse(metaAddress).toUpperCase()
 
     const inputRef = useRef();
     const [imageAsFile, setImageAsFile] = useState(null);
@@ -17,28 +20,28 @@ export default function User_Profile() {
     const [email, setEmail] = useState("")
     const [Image, setImage] = useState("")
     const [UserAddress, setUserAddress] = useState("")
+    const [copyTest, setcopyTest] = useState(false)
 
 
 
 
 
-    const UserProfile=async()=>{
-        let acc =await loadWeb3()
-        
-      let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${acc.toUpperCase()}`)
+    const UserProfile = async () => {
 
-      console.log("Res",res.data.data);
+        let res = await axios.get(`https://server.nftapi.online/get_user_profile?address=${Address.toUpperCase()}`)
 
-      if (res.data.success) {
-        setName(res.data.data.username)
-        setBio(res.data.data.bio)
-        setEmail(res.data.data.email)
-        setImage(res.data.data.image)
-        setUserAddress(res.data.data.address)
-        
-      } else {
-       
-      }
+        console.log("Res", res.data.data);
+
+        if (res.data.success) {
+            setName(res.data.data.username)
+            setBio(res.data.data.bio)
+            setEmail(res.data.data.email)
+            setImage(res.data.data.image)
+            setUserAddress(res.data.data.address)
+
+        } else {
+
+        }
     }
 
 
@@ -46,7 +49,12 @@ export default function User_Profile() {
         UserProfile()
 
     }, [])
-    
+    useEffect(() => {
+        copyTest ? toast.success("Copied") : <></>
+        setTimeout(() => {
+            setcopyTest(false)
+        }, 10);
+    }, [copyTest])
 
 
 
@@ -80,7 +88,7 @@ export default function User_Profile() {
                                                 <Avatar
                                                     alt=""
                                                     // src="Avtat.png"
-                                                    src={ `https://server.nftapi.online/uploads/${Image}`}
+                                                    src={`https://server.nftapi.online/uploads/${Image}`}
                                                     sx={{ width: 250, height: 250 }}
                                                 />
 
@@ -104,31 +112,48 @@ export default function User_Profile() {
                                             <div class="col-lg-12">
                                                 <div class="form-group">
                                                     <label className='fs-5 fw-1'>User Name</label> : {name}
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 ">
                                                 <div class="form-group">
                                                     <label className='fs-5 fw-1'>Email</label> : {email}
-                                                   
+
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
                                                     <label className='fs-5 fw-1'>Information</label> : {bio}
-                                         
+
                                                 </div>
                                             </div>
                                             <div class="col-12">
                                                 <div class="form-group">
-                                                    <label className='fs-5 fw-1'>Address</label> : {UserAddress}
-                                         
+                                                    <label className='fs-5 fw-1'>Address</label> :
+                                                    <span className="show_large">
+                                                    {UserAddress}
+
+                                                    </span>
+                                                    <span className="show_small">
+
+                                                    {UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)}
+                                                    </span>
+
+                                                    <CopyToClipboard text={UserAddress}
+                                                        onCopy={() => setcopyTest(true)}  >
+                                                        <span class="wdg-actions copy_btn_set2">
+                                                            <AiOutlineCopy className='copy_Icon' />
+
+                                                        </span>
+                                                    </CopyToClipboard>
+                                                    {/* {UserAddress} */}
+
                                                 </div>
                                             </div>
                                             <div class="col-lg-6 col-md-12 text-center">
                                                 <Link to="/Edit_Profile">
 
-                                                <button type="submit" class="default-btn" >Edit Profile</button>
+                                                    <button type="submit" class="default-btn" >Edit Profile</button>
 
                                                 </Link>
                                             </div>

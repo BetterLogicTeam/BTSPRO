@@ -10,6 +10,8 @@ import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { create as ipfsHttpClient } from "ipfs-http-client";
 // const ipfsClient = require('ipfs-http-client');
+import TronWeb from 'tronweb'
+
 
 const projectId = "2IBOoZHHXKmt5N3fdE1kiHWISeV";
 const projectSecretKey = "c119b93e540651a5580d99ef3b43a756";
@@ -20,6 +22,7 @@ const authorization = "Basic " + btoa(projectId + ":" + projectSecretKey);
 
 function Create_pro() {
     let history = useNavigate()
+    let chainID = sessionStorage.getItem("NETWORKID");
     const [formInput, updateFormInput] = useState({ Symbol: 'BL', name: 'NFT Name', description: '', Category: '' })
     const [nftImage, setNftImage] = useState("featured-img1.jpg")
     const [Address, setAddress] = useState("")
@@ -90,44 +93,88 @@ function Create_pro() {
 
 
     const create_USer_NFT = async (url) => {
-        setIsSpinner(true)
+        // console.log("gettronWeb",window.tronWeb);
+        if (chainID == 1230) {
+            setIsSpinner(true)
 
-        let acc = await loadWeb3();
-        if (acc == "No Wallet") {
-            toast.error("No Wallet Connected")
-        }
-        else if (acc == "Wrong Network") {
-            toast.error("Wrong Newtwork please connect to test net")
+            let mainAccount2 = await window?.tronWeb?.defaultAddress?.base58
+            let Abi = [{ "constant": true, "inputs": [{ "name": "id", "type": "uint256" }], "name": "name", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "interfaceId", "type": "bytes4" }], "name": "supportsInterface", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "name", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "getApproved", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "approve", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "totalSupply", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "transferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "uriBase", "type": "string" }], "name": "setUriBase", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "index", "type": "uint256" }], "name": "tokenOfOwnerByIndex", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "_index", "type": "uint256" }], "name": "getType", "outputs": [{ "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }, { "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }], "name": "safeTransferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "id", "type": "uint256" }], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "index", "type": "uint256" }], "name": "tokenByIndex", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }, { "name": "tokenURI", "type": "string" }], "name": "mintWithTokenURI", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "index", "type": "uint256" }], "name": "getNFT", "outputs": [{ "name": "", "type": "uint256" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }, { "name": "", "type": "uint8" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "typeId", "type": "uint256" }, { "name": "generation", "type": "uint256" }, { "name": "skills", "type": "uint8[6]" }, { "name": "energy", "type": "uint8" }, { "name": "health", "type": "uint8" }], "name": "mintWithTokenURI", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "ownerOf", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "baseURI", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }], "name": "balanceOf", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "getNumTypes", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "index", "type": "uint256" }, { "name": "generation", "type": "uint256" }, { "name": "skills", "type": "uint8[6]" }, { "name": "energy", "type": "uint8" }, { "name": "health", "type": "uint8" }], "name": "setSkills", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "owner", "outputs": [{ "name": "", "type": "address" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [], "name": "isOwner", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "tokenURI", "type": "string" }, { "name": "_name", "type": "string" }, { "name": "_symbol", "type": "string" }], "name": "createToken", "outputs": [{ "name": "", "type": "uint256" }], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [], "name": "symbol", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "account", "type": "address" }], "name": "addMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [], "name": "renounceMinter", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": false, "inputs": [{ "name": "to", "type": "address" }, { "name": "approved", "type": "bool" }], "name": "setApprovalForAll", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "account", "type": "address" }], "name": "isMinter", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "from", "type": "address" }, { "name": "to", "type": "address" }, { "name": "tokenId", "type": "uint256" }, { "name": "_data", "type": "bytes" }], "name": "safeTransferFrom", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "tokenId", "type": "uint256" }], "name": "tokenURI", "outputs": [{ "name": "", "type": "string" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": true, "inputs": [{ "name": "", "type": "uint256" }], "name": "types", "outputs": [{ "name": "id", "type": "uint256" }, { "name": "probability", "type": "uint256" }, { "name": "tokenId", "type": "uint256" }, { "name": "num", "type": "uint256" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "probability", "type": "uint256" }, { "name": "tokenId", "type": "uint256" }], "name": "addType", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "constant": true, "inputs": [{ "name": "owner", "type": "address" }, { "name": "operator", "type": "address" }], "name": "isApprovedForAll", "outputs": [{ "name": "", "type": "bool" }], "payable": false, "stateMutability": "view", "type": "function" }, { "constant": false, "inputs": [{ "name": "newOwner", "type": "address" }], "name": "transferOwnership", "outputs": [], "payable": false, "stateMutability": "nonpayable", "type": "function" }, { "inputs": [], "payable": false, "stateMutability": "nonpayable", "type": "constructor" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "MinterAdded", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "account", "type": "address" }], "name": "MinterRemoved", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "from", "type": "address" }, { "indexed": true, "name": "to", "type": "address" }, { "indexed": true, "name": "tokenId", "type": "uint256" }], "name": "Transfer", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "approved", "type": "address" }, { "indexed": true, "name": "tokenId", "type": "uint256" }], "name": "Approval", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "owner", "type": "address" }, { "indexed": true, "name": "operator", "type": "address" }, { "indexed": false, "name": "approved", "type": "bool" }], "name": "ApprovalForAll", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }], "name": "OwnershipRenounced", "type": "event" }, { "anonymous": false, "inputs": [{ "indexed": true, "name": "previousOwner", "type": "address" }, { "indexed": true, "name": "newOwner", "type": "address" }], "name": "OwnershipTransferred", "type": "event" }]
+
+            let contract = await window.tronWeb.contract().at(CreateNFT);
+
+            //  setIsSpinner(true)
+
+
+            await contract.createToken(url.image, url.name, url.Symbol).send({
+                feeLimit: 10000000000
+
+            }).then(async (hash) => {
+                if (hash != "") {
+                  try {
+                   
+                    toast.success('Please Wait while transaction is processing...')
+                  } catch (e) {
+                    console.log("error", e);
+                    setIsSpinner(false);
+                    toast.error("Something went wrong ! ");
+                  }
+                }
+                console.log("Final Output:", hash, "\n");
+                toast.success("NFT Create Successfully")
+                history("/collection")
+         
+                setIsSpinner(false);
+              }).catch((e) => {
+                toast.error(e.message);
+                setIsSpinner(false);
+              })
         } else {
+            setIsSpinner(true)
 
-            let metaAddress = sessionStorage.getItem("meta-address");
-            if (metaAddress) {
-                metaAddress = JSON.parse(metaAddress);
-
+            let acc = await loadWeb3();
+            if (acc == "No Wallet") {
+                toast.error("No Wallet Connected")
             }
-            if (metaAddress == null) {
-                toast.error("Please Connect Metamask First")
+            else if (acc == "Wrong Network") {
+                toast.error("Wrong Newtwork please connect to test net")
             } else {
-                const web3 = window.web3;
-                try {
-                    let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
-                    await nftContractOf.methods.createToken(url.image, url.name, url.Symbol).send({
-                        from: acc,
 
-                    });
-                    toast.success("NFT Create Successfully")
-                    history("/collection")
+                let metaAddress = sessionStorage.getItem("meta-address");
+                if (metaAddress) {
+                    metaAddress = JSON.parse(metaAddress);
 
-                    setIsSpinner(false)
+                }
+                if (metaAddress == null) {
+                    toast.error("Please Connect Metamask First")
+                } else {
+                    const web3 = window.web3;
+                    try {
+
+                        let nftContractOf = new web3.eth.Contract(CreateNFT_ABI, CreateNFT);
+                        await nftContractOf.methods.createToken(url.image, url.name, url.Symbol).send({
+                            from: acc,
+
+                        });
+                        toast.success("NFT Create Successfully")
+                        history("/collection")
+
+                        setIsSpinner(false)
 
 
-                } catch (e) {
-                    console.log("Errore While calling fuction Create NFT", e);
-                    setIsSpinner(false)
 
+
+
+
+                    } catch (e) {
+                        console.log("Errore While calling fuction Create NFT", e);
+                        setIsSpinner(false)
+
+                    }
                 }
             }
         }
+
+
     }
 
 
@@ -169,7 +216,11 @@ function Create_pro() {
                                     </h3>
                                     <div class="content-in">
                                         <div class="featured-card-left">
-                                            <span>{formInput.price} BNB </span>
+                                            <span>{formInput.price}
+                                                {
+                                                    chainID == 1230 ? "TRX" : chainID == 56 ? "BNB" : "Eth"
+                                                }
+                                            </span>
 
                                         </div>
                                         <a class="featured-content-btn" ><i class="fa-solid fa-arrow-right"></i></a>
@@ -196,18 +247,12 @@ function Create_pro() {
                                                 setNftImage(e.target.files[0])
 
                                             }} id="upload" multiple="" />
-                                            <label class="profileButton-button ripple-effect" for="upload"> {nftImage =="featured-img1.jpg" ? "e. g. Image, Audio, Video" : nftImage.name} </label>
+                                            <label class="profileButton-button ripple-effect" for="upload"> {nftImage == "featured-img1.jpg" ? "e. g. Image, Audio, Video" : nftImage.name} </label>
                                             <span class="profileButton-file-name">
                                             </span>
                                         </div>
                                     </div>
-                                    {/* <div class="preview-box">
-                                        <h3>Price</h3>
-                                        <input type="text" name="name" id="name" class="form-control" onChange={e => updateFormInput({ ...formInput, price: e.target.value })} placeholder="e. g. “0.003 BNB”" />
 
-                                    </div> */}
-
-                                    {/* <form> */}
                                     <div class="row">
                                         <div class="col-lg-12">
                                             <div class="form-group">
@@ -228,26 +273,7 @@ function Create_pro() {
                                                 </textarea>
                                             </div>
                                         </div>
-                                        {/* <div class="collection-category">
-                                            <h3>Choose Item Category</h3>
-                                            <select class="form-select" aria-label="Default select example" onChange={e => updateFormInput({ ...formInput, Category: e.target.value })}>
-                                                <option selected>Choose Item Category</option>
 
-                                                <option value="Sports">Sports</option>
-                                                <option value="3D">3D</option>
-                                                <option value="Cartoon">Cartoon</option>
-                                                <option value="Pixelated">Pixelated</option>
-
-                                                <option value="Tattoo">Tattoo</option>
-                                                <option value="Music">Music</option>
-                                                <option value="Domains">Domains</option>
-                                                <option value="Gaming">Gaming</option>
-                                                <option value="Videos">Videos</option>
-                                                <option value="Art">Art</option>
-
-                                            </select>
-
-                                        </div> */}
                                         <div class="col-lg-12 col-md-12 mt-3">
                                             <button type="submit" class="default-btn border-radius-5" onClick={() => create_NFT()}>Create Item</button>
                                         </div>

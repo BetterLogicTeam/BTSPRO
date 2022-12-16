@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import top_sellers1 from "../../Assets/top_sellers1.jpg";
-import top_sellers2 from "../../Assets/top_sellers2.jpg";
-import top_sellers3 from "../../Assets/top_sellers3.jpg";
-import top_sellers4 from "../../Assets/top_sellers4.jpg";
-import top_sellers5 from "../../Assets/top_sellers5.jpg";
-import top_sellers6 from "../../Assets/top_sellers6.jpg";
-import top_sellers7 from "../../Assets/top_sellers7.jpg";
-import top_sellers8 from "../../Assets/top_sellers8.jpg";
-import top_sellers9 from "../../Assets/top_sellers9.jpg";
-import top_sellers10 from "../../Assets/top_sellers10.jpg";
-import top_sellers11 from "../../Assets/top_sellers11.jpg";
-import top_sellers12 from "../../Assets/top_sellers12.jpg";
-import { TiTick } from "react-icons/ti";
 import "./Top_seller.css"
 import axios from 'axios';
-import { loadWeb3 } from '../../Api/api';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -25,11 +11,7 @@ function Top_seller() {
     const [topSeller_data, settopSeller_data] = useState([])
 
     const fetchData = async () => {
-        let acc = await loadWeb3()
-        // acc = acc.toUpperCase()
         let Array_data = []
-
-
         let getUserAddress = await axios.get(' https://server.nftapi.online/trending_address_marketplace');
         // console.log("Api_Data121", getUserAddress.data.data);
         getUserAddress = getUserAddress?.data?.data
@@ -57,7 +39,6 @@ function Top_seller() {
 
     useEffect(() => {
         fetchData()
-        // SecondArray()
     }, [])
 
 

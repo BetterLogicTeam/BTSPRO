@@ -187,6 +187,7 @@ function Market_place2() {
         let hightbid = await contractOf.highestBidderMapping(Data).call()
         let bidderAdd = window.tronWeb.address.fromHex(hightbid.bidderAddr)
         let hightbidAmount = parseInt(hightbid.amount)
+        hightbidAmount=hightbidAmount/1000000
         console.log("hightbidhightbid", hightbidAmount, bidderAdd);
         setHighestBideradd(bidderAdd)
         sethightbid(hightbidAmount)
@@ -247,7 +248,6 @@ function Market_place2() {
           let getinputdata2 = (getInputdata * 1000000).toString()
 
           let contractOf = await window.tronWeb.contract().at(nftMarketContractAddress);
-
           await contractOf.createBidOnItem(itemId, nftcontactadd).send({
             callValue: getinputdata2,
           }).then(async (hash) => {
@@ -268,7 +268,9 @@ function Market_place2() {
                   "txn": All_NFT.txn,
                   "category": All_NFT.category,
                   "edate": new Date(),
-                  "count": 0
+                  "count": 0,
+                  "Blockchain": chainID == 56 ? "Binance" : chainID == 1 ? "Ethereum" : "Tron"
+
 
                 })
 
@@ -358,7 +360,9 @@ function Market_place2() {
                   "txn": All_NFT.txn,
                   "category": All_NFT.category,
                   "edate": new Date(),
-                  "count": 0
+                  "count": 0,
+                  "Blockchain": chainID == 56 ? "Binance" : chainID == 1 ? "Ethereum" : "Tron"
+
 
                 })
 
@@ -398,6 +402,8 @@ function Market_place2() {
   const claimBidItem = async () => {
 
     if (chainID == 1230) {
+      setIsSpinner(true)
+      
       if (metaAddress == null) {
         toast.error("Please Connect Metamask First")
         setIsSpinner(false)
@@ -492,10 +498,9 @@ function Market_place2() {
 
 
   const purchaseOrder = async () => {
-
-
     if (chainID == 1230) {
       setIsSpinner(true)
+
       if (SendAddress.toUpperCase() === metaAddress.toUpperCase()) {
         toast.error("Already owned")
         setIsSpinner(false)
@@ -660,7 +665,7 @@ function Market_place2() {
 
               <ul className='mt-4'>
                 <li><h5>NFT Name :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{All_NFT.name}</span></b></li>
-                <li><h5>Current Price :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{All_NFT.price}</span></b></li>
+                <li><h5>Current Price :</h5><b>  &nbsp;&nbsp; <span className='fs-5 text_color'>{All_NFT.price} {chainID==1230 ? "TRX" : chainID==1? "ETH":"BNB"}</span></b></li>
 
                 <li><h5>BlockChain :</h5><b>  &nbsp;&nbsp;
                   <span className='fs-5 text_color'>
@@ -683,7 +688,7 @@ function Market_place2() {
                   </div>
                   <div class="item-right">
                     <h3 class="item-remaining">Highest Bid</h3>
-                    <h3 class="item-right-eth">{hightbid} BNB</h3>
+                    <h3 class="item-right-eth">{hightbid} {chainID==1230 ? "TRX" : chainID==1? "ETH":"BNB"} </h3>
                   </div>
                 </div>
                 :
@@ -699,7 +704,7 @@ function Market_place2() {
                         <>
                           <div class="preview-box">
                             <h3>Biding Price</h3>
-                            <input type="number" class="form-control" placeholder="Enter Bid Value in BNB" onChange={(e) => setgetInputdata(e.target.value)} />
+                            <input type="number" class="form-control" placeholder= {chainID==1230 ? "Enter Bid Value in TRX" : chainID==1? "Enter Bid Value in ETH":"Enter Bid Value in BNB"} onChange={(e) => setgetInputdata(e.target.value)} />
                           </div>
                           <div class="item-details-btn mt-4" style={{ cursor: "pointer" }}>
                             <a class="default-btn border-radius-50" onClick={() => createBidOnItem()} > {
@@ -751,7 +756,7 @@ function Market_place2() {
                   <>
                     <div class="preview-box2">
                       <h3>Current Price</h3>
-                      <h3 class="item-right-eth">{All_NFT.price} BNB</h3>
+                      <h3 class="item-right-eth">{All_NFT.price} {chainID==1230 ? "TRX" : chainID==1? "ETH":"BNB"}</h3>
 
 
                     </div>

@@ -489,3 +489,7 @@ background-color: #fff !important;
     transform: scaleY(1);
     margin-left: -3rem !important;
 }
+
+.navbar-brand{
+    width: 15rem;
+}

@@ -10,7 +10,7 @@ import { BsTwitter } from "react-icons/bs";
 import { FaLinkedinIn } from "react-icons/fa";
 import "./Footer.css"
 import { Link } from "react-router-dom";
-import footerlog from '../../Assets/footer-logo.png'
+import footerlog from '../../Assets/BITPRO LOGO Black.png'
 import logo from '../../Assets/logo.png'
 import bgshap from '../../Assets/shape_bg.png'
 
@@ -28,7 +28,7 @@ function Footer() {
               <div className="footer-widget">
                 <div className="footer-logo">
                   <a href="/">
-                    <img src={footerlog} className="footer-logo1 " style={{marginLeft:"2rem"}} alt="Footer Logo" />
+                    <img src={footerlog} className="footer-logo1 " style={{marginLeft:"0.5rem",width:"15rem"}} alt="Footer Logo" />
                     {/* <img src={logo} className="footer-logo2" alt="Footer Logo" /> */}
                   </a>
                 </div>

@@ -312,10 +312,10 @@ export default function NavbarNav({ setUserAddress }) {
 
                                     </div>
                                 </nav></div>
-                            <div className="logo">
-                                <a href="/">
-                                    <img src="assets/images/logo-2.png" className="logo-one" alt="Logo" />
-                                    <img src={logo_dark} className="logo-two" alt="Logo" />
+                            <div className="logo" >
+                                <a href="/" style={{width:"8rem"}} >
+                                    <img src="assets/images/BITPRO LOGO Black.png" className="logo-one" alt="Logo" width="100%"  />
+                                    <img src={logo_dark} className="logo-two" alt="Logo"  />
                                 </a>
                             </div>
                         </div>
@@ -336,8 +336,8 @@ export default function NavbarNav({ setUserAddress }) {
                 <div className="desktop-nav desktop-nav-one nav-area">
                     <div className="container">
                         <nav className="navbar navbar-expand-md navbar-light ">
-                            <a className="navbar-brand" href="/">
-                                <img src={logo_dark} alt="Logo" />
+                            <a className="navbar-brand " href="/">
+                                <img src={logo_dark} alt="Logo" width="100%" />
                             </a>
                             <div className="nav-widget-form">
                                 <div className="search-form">

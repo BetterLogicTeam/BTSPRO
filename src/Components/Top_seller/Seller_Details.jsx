@@ -11,7 +11,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import profile_placeholder_image from '../../Assets/profile_placeholder_image.629dab34.jpg'
 import { myCollection, runApp } from '../../Redux/counterSlice'
-import { loadWeb3 } from '../../Api/api'
+
 import download from '../../Assets/download.png'
 import axios from 'axios'
 import Loading from '../Loading/Loading';
@@ -45,7 +45,7 @@ export default function Seller_Details() {
 
 
   const runApp = async () => {
-    let acc = await loadWeb3()
+    // let acc = await loadWeb3()
     let imageArray = [];
 
     let getUserAddress = await axios.get('https://server.nftapi.online/trending_address_marketplace');
@@ -76,7 +76,7 @@ export default function Seller_Details() {
 
 
   const EditProfile = async () => {
-    let acc = await loadWeb3()
+  
     setIsSpinner(true)
     let getUserAddress = await axios.get('https://server.nftapi.online/trending_address_marketplace');
     // console.log("Api_Data121", getUserAddress.data.data);
@@ -146,7 +146,8 @@ export default function Seller_Details() {
                 </h3>
                 <span>{bio}</span>
 
-                <div class="sp-title d-flex">{UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} 
+                <div class="sp-title d-flex">
+                  {UserAddress.substring(0, 8) + "..." + UserAddress.substring(UserAddress.length - 8)} 
                  <CopyToClipboard text={UserAddress}
                   onCopy={() => setcopyTest(true)}  >
                   <span class="wdg-actions copy_btn_set2">
@@ -154,7 +155,7 @@ export default function Seller_Details() {
 
                   </span>
                 </CopyToClipboard> 
-                {/* <i class="fa-solid fa-folder"></i> */}
+             
                 </div>
                 <div class="author-content">
                   <div class="content-left">

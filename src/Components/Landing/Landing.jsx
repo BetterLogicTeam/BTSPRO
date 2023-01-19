@@ -181,6 +181,7 @@ function Landing() {
                     </div>
                 </div>
             </div>
+            <div id='Tranding_Card'></div>
         </div>
     )
 }

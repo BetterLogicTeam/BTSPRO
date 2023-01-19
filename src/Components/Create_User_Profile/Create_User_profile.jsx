@@ -76,7 +76,7 @@ export default function Create_User_profile() {
                         formData.append("email", email)
                         formData.append("bio", bio)
 
-                        let res = await axios.post("https://server.nftapi.online/create_user_profile", formData)
+                        let res = await axios.post("http://localhost:3344/create_user_profile", formData)
 
                         toast.success("Your Profile is Updated")
                         history('/')

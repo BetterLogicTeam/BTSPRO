@@ -13,6 +13,8 @@ import { Link } from "react-router-dom";
 import footerlog from '../../Assets/BITPRO LOGO Black.png'
 import logo from '../../Assets/logo.png'
 import bgshap from '../../Assets/shape_bg.png'
+import { HashLink } from 'react-router-hash-link';
+
 
 
 function Footer() {
@@ -48,24 +50,36 @@ function Footer() {
               <div className="footer-widget ps-5">
                 <h3>Marketplace</h3>
                 <ul className="footer-list">
-                  <li>
+                  <li onClick={() => window.onload()}>
                     <a  >
+                    <Link to="/market_place_Art/1">
+
                       Art
+                      </Link>
                     </a>
                   </li>
-                  <li>
+
+                  <li onClick={() => window.onload()}>
                     <a  >
+                    <Link to="/market_place">
+
                       All NFTs
+                      </Link>
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => window.onload()}>
                     <a  >
+                      <Link to="/market_place_Art/2">
+
                       Music
+                      </Link>
                     </a>
                   </li>
                   <li>
                     <a  >
-                      Trending Cards
+        <HashLink smooth to="/#Tranding_Card">   Trending Cards </HashLink>
+
+                   
                     </a>
                   </li>
                 </ul>
@@ -122,9 +136,12 @@ function Footer() {
                       Helps & Support
                     </a>
                   </li>
-                  <li>
+                  <li onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
                     <a >
+                      <Link to="/market_place_IsAuction/2">
+
                       Live Auctions
+                      </Link>
                     </a>
                   </li>
                   <li>

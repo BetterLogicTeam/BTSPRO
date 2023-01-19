@@ -36,7 +36,7 @@ function Trending_main() {
   }, [])
 
   return (
-    <div className='container mb-5 mt-5'>
+    <div className='container mb-5 mt-5' >
       <div className='d-flex justify-content-between'>
         <h2 className='Top_seller_main_heading'>
           Trending Artwork

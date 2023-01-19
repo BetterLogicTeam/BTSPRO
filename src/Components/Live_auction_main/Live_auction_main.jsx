@@ -59,7 +59,7 @@ function Live_auction_main() {
           </div>
           <div class="col-lg-4 col-md-4">
             <div class="auction-btn text-end">
-              <Link to="/market_place">
+              <Link to={`/market_place_IsAuction/2`} onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
 
               <a class="default-btn border-radius-5" >Explore More</a>
               </Link>

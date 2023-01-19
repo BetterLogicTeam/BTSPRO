@@ -8,13 +8,21 @@ import { Provider } from 'react-redux'
 import {
   BrowserRouter
 } from "react-router-dom";
+import {
+  QueryClient,
+  QueryClientProvider,
+  useQuery,
+} from '@tanstack/react-query'
+const queryClient = new QueryClient()
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-    <Provider store={store}>
-    <App id={'56'}/>
-    </Provider>,
+      <Provider store={store}>
+      <QueryClientProvider client={queryClient}>
+        <App id={'56'} />
+        </QueryClientProvider>
+      </Provider>,
     </BrowserRouter>
   </React.StrictMode>
 );

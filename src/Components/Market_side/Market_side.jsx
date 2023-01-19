@@ -162,6 +162,8 @@ function Market_side(props) {
 
                 }
 
+                defaultChecked={props.isSubscribed==true ? true:false}
+
               />
               <label class="form-check-label  " for="flexCheckDefault">
                 <b>On Auction</b>

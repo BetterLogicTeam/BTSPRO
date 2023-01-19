@@ -1,6 +1,6 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Loading from '../Loading/Loading'
 import Market_card from '../Market_card/Market_card'
 import Market_pip from '../Market_pip/Market_pip'
@@ -8,11 +8,37 @@ import Market_side from '../Market_side/Market_side'
 import "./Market_main.css"
 
 function Market_main() {
+  let {id}=useParams()
+  let {index}=useParams()
+  console.log("data", id);
+  let data
+
+  if(id==undefined){
+    data=false
+  }else if(id==2){
+    data=true
+  }else{
+    data=false
+
+  }
+
+  let Art
+  if(index==1){
+    Art="Art"
+  }else if(index==2){
+    Art="Music"
+  }else{
+    Art="All"
+
+  }
+  
+  console.log("data",data);
+  
   const [All_NFT, setAll_NFT] = useState([])
+  const [isSubscribed, setisSubscribed] = useState(data);
   const [onSale, setonSale] = useState(false)
-  const [isSubscribed, setisSubscribed] = useState(false);
   const [Marketplace, setMarketplace] = useState("");
-  const [category, setcategory] = useState("All")
+  const [category, setcategory] = useState(Art)
   const [newNFTS, setnewNFTS] = useState(false)
   const [IsSpinner, setIsSpinner] = useState(false)
 
@@ -59,11 +85,7 @@ function Market_main() {
 
           } else if (isSubscribed == true) {
             setIsSpinner(true)
-
-
-
             let res = await axios.get(`https://server.nftapi.online/OnAuction_marketplace_history?category=${category}`)
-
             setAll_NFT(res?.data?.data)
             setMarketplace("OnAuction_marketplace_history")
             setIsSpinner(false)
@@ -91,7 +113,7 @@ function Market_main() {
 
   useEffect(() => {
     get_All_NFT()
-  }, [onSale, isSubscribed, category, newNFTS])
+  }, [onSale, isSubscribed, category, newNFTS,index,id,Art,data])
 
 
 
@@ -120,7 +142,7 @@ function Market_main() {
           }
           <div className="row  ">
             <div className="col-lg-3 col-md-5 col-sm-12">
-              <Market_side setisSubscribed={setisSubscribed} setnewNFTS={setnewNFTS} setonSale={setonSale} setcategory={setcategory} />
+              <Market_side setisSubscribed={setisSubscribed} setnewNFTS={setnewNFTS} setonSale={setonSale} setcategory={setcategory} isSubscribed={isSubscribed} />
             </div>
             <div className="col-lg-9 col-md-7 col-sm-12  ">
               <Market_pip length={All_NFT.length} />

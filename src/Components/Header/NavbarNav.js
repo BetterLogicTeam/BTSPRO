@@ -13,6 +13,7 @@ import { toast } from 'react-toastify';
 import { loadWeb3 } from '../../Api/api';
 import TronWeb from 'tronweb'
 
+import footerlogo from '../../Assets/footer-logo.png'
 
 
 
@@ -314,25 +315,14 @@ export default function NavbarNav({ setUserAddress }) {
                                 </nav></div>
                             <div className="logo" >
                                 <a href="/" style={{width:"8rem"}} >
-                                    <img src="assets/images/BITPRO LOGO Black.png" className="logo-one" alt="Logo" width="100%"  />
-                                    <img src={logo_dark} className="logo-two" alt="Logo"  />
+                                    <img src={footerlogo} className="logo-one" alt="Logo" width="100%"  />
+                                    {/* <img src={logo_dark} className="logo-two" alt="Logo"  /> */}
                                 </a>
                             </div>
                         </div>
                     </div>
                 </div>
-                {/* <div className="mobile-responsive-nav">
-                    <div className="container-fluid">
-                        <div className="mobile-responsive-menu">
-                            <div className="logo">
-                                <a href="/">
-                                    <img src="assets/images/logo-2.png" className="logo-one" alt="Logo" />
-                                    <img src={logo_dark} className="logo-two" alt="Logo" />
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> */}
+              
                 <div className="desktop-nav desktop-nav-one nav-area">
                     <div className="container">
                         <nav className="navbar navbar-expand-md navbar-light ">
